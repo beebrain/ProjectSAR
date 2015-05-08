@@ -1,7 +1,7 @@
 <?php
-/*print_r($composition);
-print_r($indicator);
-print_r($subindicator);*/
+/* print_r($composition);
+  print_r($indicator);
+  print_r($subindicator); */
 ?>
 <div id="page-wrapper">
     <div class="row">
@@ -17,69 +17,79 @@ print_r($subindicator);*/
                     <div class="panel-heading">  <?php echo $composition->maintitle . " " . $composition->title; ?> </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-lg-2"><p>ตัวบ่งชี้<?php echo " ".$indicator->indicator_num; ?></p></div>
+                            <div class="col-lg-2"><p>ตัวบ่งชี้<?php echo " " . $indicator->indicator_num; ?></p></div>
                             <div class="col-lg-10"><p><?php echo $indicator->indicator_title; ?></p></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-2"><p>ชนิดตัวบ่งชี้ </p></div>
-                            <div class="col-lg-10"><p><?php echo $indicator->indicator_type;?></p></div>
+                            <div class="col-lg-10"><p><?php echo $indicator->indicator_type; ?></p></div>
                         </div>
-                         <div class="row">
+                        <div class="row">
                             <div class="col-lg-2"><p>ใช้กับ</p></div>
-                            <div class="col-lg-10"><p><?php if($indicator->data_use=="1"){ echo "ปีการศึกษา";}elseif ($indicator->data_use=="2") {echo "ปีงบประมาณ";} else{ echo "ปีปฏิทิน";}?></p></div>
+                            <div class="col-lg-10"><p><?php if ($indicator->data_use == "1") {
+    echo "ปีการศึกษา";
+} elseif ($indicator->data_use == "2") {
+    echo "ปีงบประมาณ";
+} else {
+    echo "ปีปฏิทิน";
+} ?></p></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-2"><p>เกณฑ์การประเมิน</p></div>
-                            <div class="col-lg-10"><p><?php echo $indicator->detail;?></p></div>
+                            <div class="col-lg-10"><p><?php echo $indicator->detail; ?></p></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-2"><p>เกณฑ์มาตรฐาน</p></div>
-                            <div class="col-lg-10"><p><?php if($indicator->citeria=="1"){ echo "ข้อ";} else{ echo "เชิงปริมาณ";}?></p></div>
+                            <div class="col-lg-10"><p><?php if ($indicator->citeria == "1") {
+    echo "ข้อ";
+} else {
+    echo "เชิงปริมาณ";
+} ?></p></div>
                         </div>
-                        
 
-                        
+
+
                     </div>
                 </div>
             </div>
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">                  
                     <div class="panel-heading">เกณฑ์การประเมิน 
-                     <span class="pull-right">
-                        <a  href ="<?php echo base_url('AdminPanel/showFormAddSubindicator/' . $indicator->indicator_id); ?>" ><i class="fa fa-plus-square fa-lg"></i></a>
-                     </span>
+                        <span class="pull-right">
+                            <a  href ="<?php echo base_url('AdminPanel/showFormAddSubindicator/' . $indicator->indicator_id); ?>" ><i class="fa fa-plus-square fa-lg"></i></a>
+                        </span>
 
                     </div>
-                   
+
                     <div class="panel-body">
-                       <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                           <th width="10%">#</th>
-                                            <th>รายละเอียด</th>
-                                            <th width="5%">แก้ไข</th>
-                                            <th width="5%">ลบ</th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php 
-                                        $i=0;
-                                        foreach ($subindicator as $value) {
-                                            $i++;
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">#</th>
+                                        <th>รายละเอียด</th>
+                                        <th width="5%">แก้ไข</th>
+                                        <th width="5%">ลบ</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 0;
+                                    foreach ($subindicator as $value) {
+                                        $i++;
                                         ?>
                                         <tr>
-                                            <td><?php echo $i;?></td>
-                                            <td><?php echo $value->detail;?></td>
+                                            <td><?php echo $i; ?></td>
+                                            <td><?php echo $value->detail; ?></td>
                                             <td><i class="fa fa-pencil fa-lg"></i></td>
                                             <td><i class="fa fa-plus-square fa-lg"></i></td>
                                         </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        
+<?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -93,5 +103,35 @@ print_r($subindicator);*/
 <!-- /.row -->
 <div class="row">
 </div>
+</div>
+
+<!-- Modal PopUP-->
+<div class="modal fade" id="myModalEdit" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">แก้ไขหัวข้อการประเมิณ</h4>
+            </div>
+
+            <form role="form" action="<?php echo base_url(); ?>AdminPanel/AddSubindicator" method="post">
+                <div class="form-group">
+                    <label>เกณฑ์การประเมิน</label>
+                    <textarea  class="ckeditor form-control" name = "detail" rows="3">
+                                
+                    </textarea>
+                    <div id="txtEditor"></div>
+
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="indicator_id" value ="<?php echo $indicator->indicator_id; ?>"> 
+
+                </div>
+                <button type="submit" class="btn btn-default right">Submit Button</button>
+                <button type="reset" class="btn btn-default right">Reset Button</button>
+            </form>
+        </div>
+    </div>
 </div>
 <script type="text/javascript" src="<?php echo base_url("assets/ckeditor/ckeditor.js"); ?>"></script></div>
