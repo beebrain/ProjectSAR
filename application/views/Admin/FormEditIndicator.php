@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">                  
-                    <div class="panel-heading"> องค์ประกอบที่ <?php echo $composition->maintitle . " " . $composition->title; ?> </div>
+                    <div class="panel-heading">  <?php echo $composition->maintitle . " " . $composition->title; ?> </div>
                     <div class="panel-body">
                         <form role="form" action="<?php echo base_url(); ?>AdminPanel/EditIndicator" method="post">
                             <div class="form-group">

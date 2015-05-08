@@ -63,8 +63,8 @@
                                                         <a  href ="<?php echo base_url('AdminPanel/showDetailIndicator/' . $value_in->indicator_id); ?>">
                                                             <i class="fa fa-money fa-fw"></i>  <?php echo $value_in->indicator_title; ?>
                                                         </a>
-                                                        <a  href ="<?php echo base_url('AdminPanel/showFormEditIndicator/' . $value_in->indicator_id); ?>" ><i class="pull-right fa fa-trash-o fa-lg"></i></a>
-                                                        <a  href ="<?php echo base_url('AdminPanel/DeleteIndicator/' . $value_in->indicator_id); ?>" ><i class="pull-right fa fa-pencil-square-o fa-lg"></i></a>
+                                                        <a  href ="<?php echo base_url('AdminPanel/DeleteIndicator/' . $value_in->indicator_id); ?>" ><i class="pull-right fa fa-trash-o fa-lg"></i></a>
+                                                        <a  href ="<?php echo base_url('AdminPanel/showFormEditIndicator/' . $value_in->indicator_id); ?>" ><i class="pull-right fa fa-pencil-square-o fa-lg"></i></a>
                                                     </div>
 
 
