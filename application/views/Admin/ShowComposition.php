@@ -37,7 +37,7 @@
                                             <h4 class="panel-title">
                                                 <a id = 'title<?php echo $composit->id ?>' aria-expanded="false" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#<?php echo $composit->id ?>"><?php echo $composit->maintitle . " - " . $composit->title; ?></a>
                                                 <span class="pull-right">
-                                                    <a  href ="<?php echo base_url('AdminPanel/showFormAddIndicator/' . $composit->id); ?>" ><i class="fa fa-plus-square fa-lg"></i></a>
+                                                    <a  href ="<?php echo base_url('index.php/AdminPanel/showFormAddIndicator/' . $composit->id); ?>" ><i class="fa fa-plus-square fa-lg"></i></a>
 
                                                     <a  href ="#" data-toggle="modal" data-target="#confirmDelete"
                                                         onclick="DeleteFunction(<?php echo "'" . $composit->id . "','" . $composit->maintitle . "','" . $composit->title . "'"; ?>)">
@@ -60,11 +60,11 @@
                                                 foreach ($indicator as &$value_in) {
                                                     ?>
                                                     <div class="list-group-item" href="#">
-                                                        <a  href ="<?php echo base_url('AdminPanel/showDetailIndicator/' . $value_in->indicator_id); ?>">
+                                                        <a  href ="<?php echo base_url('index.php/AdminPanel/showDetailIndicator/' . $value_in->indicator_id); ?>">
                                                             <i class="fa fa-money fa-fw"></i>  <?php echo $value_in->indicator_title; ?>
                                                         </a>
-                                                        <a  href ="<?php echo base_url('AdminPanel/DeleteIndicator/' . $value_in->indicator_id); ?>" ><i class="pull-right fa fa-trash-o fa-lg"></i></a>
-                                                        <a  href ="<?php echo base_url('AdminPanel/showFormEditIndicator/' . $value_in->indicator_id); ?>" ><i class="pull-right fa fa-pencil-square-o fa-lg"></i></a>
+                                                        <a  href ="<?php echo base_url('index.php/AdminPanel/DeleteIndicator/' . $value_in->indicator_id); ?>" ><i class="pull-right fa fa-trash-o fa-lg"></i></a>
+                                                        <a  href ="<?php echo base_url('index.php/AdminPanel/showFormEditIndicator/' . $value_in->indicator_id); ?>" ><i class="pull-right fa fa-pencil-square-o fa-lg"></i></a>
                                                     </div>
 
 
@@ -105,7 +105,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">เพิ่มหัวข้อองค์ประเมิน</h4>
                     </div>
-                    <form role="form" action="<?php echo base_url('/AdminPanel/AddComposition'); ?>" method="post">
+                    <form role="form" action="<?php echo base_url('index.php/AdminPanel/AddComposition'); ?>" method="post">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>องค์ประกอบที่</label>
@@ -136,7 +136,7 @@
                         <h4 class="modal-title" id="myModalLabel">แก้ไขหัวข้อการประเมิณ</h4>
                     </div>
 
-                    <form id="updateform" role="form" action="<?php echo base_url('/AdminPanel/UpdateComposition'); ?>" method="post">
+                    <form id="updateform" role="form" action="<?php echo base_url('index.php/AdminPanel/UpdateComposition'); ?>" method="post">
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>องค์ประกอบที่</label>
@@ -215,7 +215,7 @@
             function DeleteFunction(vid, main, title) {
                 $('#confirmDelete .modal-body').html(main + " - " + title);
                 $('#confirmDelete').find('.modal-footer #confirm').on('click', function () {
-                    $.post("<?php echo base_url('/AdminPanel/DeleteComposition'); ?>",
+                    $.post("<?php echo base_url('index.php/AdminPanel/DeleteComposition'); ?>",
                                                         {id: vid, check: "true"},
                                         function (data, textStatus, jqXHR)
                                             {

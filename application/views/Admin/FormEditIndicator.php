@@ -11,7 +11,7 @@
                 <div class="panel panel-default">                  
                     <div class="panel-heading">  <?php echo $composition->maintitle . " " . $composition->title; ?> </div>
                     <div class="panel-body">
-                        <form role="form" action="<?php echo base_url(); ?>AdminPanel/EditIndicator" method="post">
+                        <form role="form" action="<?php echo base_url("index.php/AdminPanel/EditIndicator"); ?>" method="post">
                             <div class="form-group">
                                 <label>ใช้กับ</label>
                                 <select class="form-control" name = "used">
@@ -69,4 +69,4 @@
 <div class="row">
 </div>
 </div>
-<script type="text/javascript" src="<?php echo base_url("assets/ckeditor/ckeditor.js"); ?>"></script></div>
+<script type="text/javascript" src="<?php echo base_url("assets/CKeditor/ckeditor.js"); ?>"></script></div>

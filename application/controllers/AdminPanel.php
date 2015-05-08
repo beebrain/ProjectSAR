@@ -69,7 +69,7 @@ class AdminPanel extends CI_Controller {
         $data['maintitle'] = $this->input->post('maintitle');
         $data['title'] = $this->input->post('title');
         $this->composition->addComposition($data);
-        redirect('/AdminPanel/showCompositAll');
+        redirect('index.php/AdminPanel/showCompositAll');
     }
 
     public function AddIndicator() {
@@ -86,7 +86,7 @@ class AdminPanel extends CI_Controller {
         if ($number == 0) {
             show_404();
         }
-        redirect('/AdminPanel/showCompositAll');
+        redirect('index.php/AdminPanel/showCompositAll');
     }
 
     /**
@@ -131,7 +131,7 @@ class AdminPanel extends CI_Controller {
         $data['citeria'] = $this->input->post('citeria');
         $data['indicator_id'] = $this->input->post('indicator_id');
         $number = $this->indicator->editIndicator($data);
-        redirect('/AdminPanel/showCompositAll');
+        redirect('index.php/AdminPanel/showCompositAll');
     }
 
     /*
@@ -147,7 +147,7 @@ class AdminPanel extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navigationbar');
         $this->load->view('template/sidebar');
-        $this->load->view('Admin/FormAddSubIndicator', $data);
+        $this->load->view('Admin/FormAddSubindicator', $data);
         $this->load->view('template/footer');
     }
 
@@ -163,7 +163,7 @@ class AdminPanel extends CI_Controller {
         if ($number == 0) {
             show_404();
         }
-        redirect('/AdminPanel/ShowDetailIndicator/'.$data['indicator_id']);
+        redirect('index.php/AdminPanel/ShowDetailIndicator/'.$data['indicator_id']);
     }
 
     /**

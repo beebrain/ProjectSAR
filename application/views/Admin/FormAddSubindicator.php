@@ -12,7 +12,7 @@
                 <div class="panel panel-default">                  
                     <div class="panel-heading">
                      
-                        <form role="form" action="<?php echo base_url(); ?>AdminPanel/AddSubindicator" method="post">
+                        <form role="form" action="<?php echo base_url("index.php/AdminPanel/AddSubindicator"); ?>" method="post">
                             <div class="form-group">
                                 <label>เกณฑ์การประเมิน</label>
                                 <textarea  class="ckeditor form-control" name = "detail" rows="3">
@@ -42,7 +42,5 @@
 <!-- /.panel-body -->
 </div>
 <!-- /.row -->
-<div class="row">
 </div>
-</div>
-<script type="text/javascript" src="<?php echo base_url("assets/ckeditor/ckeditor.js"); ?>"></script></div>
+<script type="text/javascript" src="<?php echo base_url("assets/CKeditor/ckeditor.js"); ?>"></script></div>

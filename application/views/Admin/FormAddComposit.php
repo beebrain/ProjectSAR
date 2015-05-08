@@ -10,7 +10,7 @@
             <div class="row">
   
                 <div class="col-md-6 col-md-offset-3">
-                    <form role="form" action="<?php echo base_url('/AdminController/AddComposition'); ?>" method="post">
+                    <form role="form" action="<?php echo base_url('index.php/AdminController/AddComposition'); ?>" method="post">
                         <div class="form-group">
                             <label>องค์ประกอบที่</label>
                             <input class="form-control" name="maintitle">

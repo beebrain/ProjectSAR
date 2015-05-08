@@ -26,13 +26,15 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-2"><p>ใช้กับ</p></div>
-                            <div class="col-lg-10"><p><?php if ($indicator->data_use == "1") {
-    echo "ปีการศึกษา";
-} elseif ($indicator->data_use == "2") {
-    echo "ปีงบประมาณ";
-} else {
-    echo "ปีปฏิทิน";
-} ?></p></div>
+                            <div class="col-lg-10"><p><?php
+                                    if ($indicator->data_use == "1") {
+                                        echo "ปีการศึกษา";
+                                    } else if ($indicator->data_use == "2") {
+                                        echo "ปีงบประมาณ";
+                                    } else {
+                                        echo "ปีปฏิทิน";
+                                    }
+                                    ?></p></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-2"><p>เกณฑ์การประเมิน</p></div>
@@ -40,11 +42,13 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-2"><p>เกณฑ์มาตรฐาน</p></div>
-                            <div class="col-lg-10"><p><?php if ($indicator->citeria == "1") {
-    echo "ข้อ";
-} else {
-    echo "เชิงปริมาณ";
-} ?></p></div>
+                            <div class="col-lg-10"><p><?php
+                                    if ($indicator->citeria == "1") {
+                                        echo "ข้อ";
+                                    } else {
+                                        echo "เชิงปริมาณ";
+                                    }
+                                    ?></p></div>
                         </div>
 
 
@@ -56,7 +60,7 @@
                 <div class="panel panel-default">                  
                     <div class="panel-heading">เกณฑ์การประเมิน 
                         <span class="pull-right">
-                            <a  href ="<?php echo base_url('AdminPanel/showFormAddSubindicator/' . $indicator->indicator_id); ?>" ><i class="fa fa-plus-square fa-lg"></i></a>
+                            <a  href ="#" data-target="#myModal" data-toggle="modal" ><i class="fa fa-plus-square fa-lg"></i></a>
                         </span>
 
                     </div>
@@ -82,10 +86,10 @@
                                         <tr>
                                             <td><?php echo $i; ?></td>
                                             <td><?php echo $value->detail; ?></td>
-                                            <td><i class="fa fa-pencil fa-lg"></i></td>
+                                            <td><i  class="fa fa-pencil fa-lg"></i></td>
                                             <td><i class="fa fa-plus-square fa-lg"></i></td>
                                         </tr>
-<?php } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -101,37 +105,38 @@
 <!-- /.panel-body -->
 </div>
 <!-- /.row -->
-<div class="row">
-</div>
-</div>
 
 <!-- Modal PopUP-->
-<div class="modal fade" id="myModalEdit" role="dialog"  aria-hidden="true">
+<div id="myModal" class="modal fade" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span></button>
+                <button class="close" aria-hidden="true" data-dismiss="modal" type="button">×</button>
                 <h4 class="modal-title" id="myModalLabel">แก้ไขหัวข้อการประเมิณ</h4>
             </div>
+            <form role="form" action="<?php echo base_url("index.php/AdminPanel/AddSubindicator"); ?>" method="post">
+                <div class="modal-body">
 
-            <form role="form" action="<?php echo base_url(); ?>AdminPanel/AddSubindicator" method="post">
-                <div class="form-group">
-                    <label>เกณฑ์การประเมิน</label>
-                    <textarea  class="ckeditor form-control" name = "detail" rows="3">
-                                
-                    </textarea>
-                    <div id="txtEditor"></div>
 
-                </div>
-                <div class="form-group">
-                    <input type="hidden" name="indicator_id" value ="<?php echo $indicator->indicator_id; ?>"> 
+                    <div class="form-group">
+                        <label>เกณฑ์การประเมิน</label>
+                        <textarea  class="ckeditor form-control" name = "detail" rows="3">
+                        </textarea>
+                        <div id="txtEditor"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" name="indicator_id" value ="<?php echo $indicator->indicator_id; ?>"> 
 
-                </div>
-                <button type="submit" class="btn btn-default right">Submit Button</button>
-                <button type="reset" class="btn btn-default right">Reset Button</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default right">Submit Button</button>
+                        <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+
+                    </div>
             </form>
+
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo base_url("assets/ckeditor/ckeditor.js"); ?>"></script></div>
+
+<script type="text/javascript" src="<?php echo base_url("assets/CKeditor/ckeditor.js"); ?>"></script></div>
