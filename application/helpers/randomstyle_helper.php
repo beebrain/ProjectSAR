@@ -11,7 +11,7 @@ if (!defined('BASEPATH'))
 
 /** for style panel */
 function randomstyle($num = NULL) {
-    $color_array = array('panel-green', 'panel-red', 'panel-yellow', 'panel-blue','panel-pink');
+    $color_array = array('panel-green', 'panel-red', 'panel-yellow', ' panel-primary');
     if ($num == NULL) {
         $color_array = array_shuffle($color_array);
         return $color_array[0];

@@ -6,6 +6,11 @@ class indicator extends CI_Model {
         parent::__construct();
     }
 
+    /**
+     * 
+     * @param type $id
+     * @return Dataset
+     */
     public function getAllIndicatorBycomposit($id) {
         $this->db->where('composition_id', $id);
         $this->db->order_by('indicator_num');
@@ -36,10 +41,25 @@ class indicator extends CI_Model {
         return $num_updates;
     }
 
+    /**
+     * 
+     * @param type $data
+     * @return int
+     * @author Pisit Nakjai
+     */
     public function addIndicator($data) {
         $this->db->insert('indicator', $data);
         $num_inserts = $this->db->affected_rows();
         return $num_inserts;
+    }
+
+    /**
+     * Delete indicator by id
+     * @author Pisit Nakjai
+     */
+     public function DeleteIndicator($id){
+        $this->db->where('indicator_id',$id);
+        $this->db->delete('indicator');
     }
 
 }

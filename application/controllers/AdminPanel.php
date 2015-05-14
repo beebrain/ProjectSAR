@@ -17,16 +17,10 @@ class AdminPanel extends CI_Controller {
         $this->load->model('indicator');
 
         $result = $this->composition->getAllComposition();
-        // $data['composit'] = $result->result();
-        // fetch All Conposit key
         $dataJson['allData'] = array();
         foreach ($result->result() as $row) {
             $result_indicator = $this->indicator->getAllIndicatorBycomposit($row->id);
-            //foreach ($result_indicator->result() as $row_indicator) {
-            //   print_r($row_indicator);
             array_push($dataJson['allData'], array($row, $result_indicator->result()));
-            // }
-            //array_push($dataJson, $row);
         }
 
         $this->load->view('template/header');
@@ -55,8 +49,6 @@ class AdminPanel extends CI_Controller {
         $query = $this->composition->getCompositionById($composition_id);
         $result = $query->result();
         $data['result'] = $result[0];
-
-
         $this->load->view('template/header');
         $this->load->view('template/navigationbar');
         $this->load->view('template/sidebar');
@@ -143,7 +135,7 @@ class AdminPanel extends CI_Controller {
         $query = $this->indicator->getIndicatorById($indicator_id);
         $result = $query->result();
         $data['indicator'] = $result[0];
-     
+
         $this->load->view('template/header');
         $this->load->view('template/navigationbar');
         $this->load->view('template/sidebar');
@@ -163,7 +155,7 @@ class AdminPanel extends CI_Controller {
         if ($number == 0) {
             show_404();
         }
-        redirect('index.php/AdminPanel/ShowDetailIndicator/'.$data['indicator_id']);
+        redirect('index.php/AdminPanel/ShowDetailIndicator/' . $data['indicator_id']);
     }
 
     /**
@@ -189,7 +181,7 @@ class AdminPanel extends CI_Controller {
         $data['composition'] = $composition[0];
         $data['indicator'] = $result[0];
         $data['subindicator'] = $subindicator;
-        
+
         $this->load->view('template/header');
         $this->load->view('template/navigationbar');
         $this->load->view('template/sidebar');
@@ -210,6 +202,21 @@ class AdminPanel extends CI_Controller {
         $this->composition->UpdateComposition($data);
     }
 
+    /**
+     * Delete Indicator
+     * @author Pisit
+     */
+    public function DeleteIndicator() {
+      
+        $this->load->model('indicator');
+        $id = $this->input->post('id');
+        $check = $this->input->post('check');
+        if ($check == "true") {
+            $this->indicator->DeleteIndicator($id);
+        }
+
+    }
+
     public function DeleteComposition() {
         $this->load->model('composition');
         $id = $this->input->post('id');
@@ -224,7 +231,29 @@ class AdminPanel extends CI_Controller {
         $this->load->view('login');
         $this->load->view('template/footer');
     }
-
+    
+    public function ShowAllMaster(){
+        $this->load->model("master_sar");
+        $query = $this->master_sar->getAllmaster_sar();
+        $result = $query->result();
+        $data["master_sar"] = $result;
+        
+        // Call View
+        $this->load->view('template/header');
+        $this->load->view('template/navigationbar');
+        $this->load->view('template/sidebar');
+        $this->load->view('Admin/ManageComposit', $data);
+        $this->load->view('template/footer');
+    }
+    
+     public function AddMaster_sar(){
+         
+        $this->load->model("master_sar");
+        $data['desc'] = $this->input->post('desc');
+        $num_inserts = $this->master_sar->addmaster_sar($data);
+       echo $num_inserts;
+    }
+    
 }
 
 ?>

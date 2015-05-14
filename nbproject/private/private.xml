@@ -3,10 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/SAR/application/models/indicator.php</file>
-            <file>file:/C:/xampp/htdocs/SAR/application/views/Admin/ShowComposition.php</file>
+            <file>file:/C:/xampp/htdocs/SAR/application/controllers/UserPanel.php</file>
             <file>file:/C:/xampp/htdocs/SAR/application/controllers/AdminPanel.php</file>
-            <file>file:/C:/xampp/htdocs/SAR/application/views/Admin/ShowDetailindicator.php</file>
+            <file>file:/C:/xampp/htdocs/SAR/application/views/Admin/ManageComposit.php</file>
+            <file>file:/C:/xampp/htdocs/SAR/application/models/master_sar.php</file>
+            <file>file:/C:/xampp/htdocs/SAR/application/views/UserPanel.php</file>
+            <file>file:/C:/xampp/htdocs/SAR/application/helpers/randomstyle_helper.php</file>
+            <file>file:/C:/xampp/htdocs/SAR/application/models/subindicator.php</file>
         </group>
     </open-files>
 </project-private>

@@ -63,7 +63,10 @@
                                                         <a  href ="<?php echo base_url('index.php/AdminPanel/showDetailIndicator/' . $value_in->indicator_id); ?>">
                                                             <i class="fa fa-money fa-fw"></i>  <?php echo $value_in->indicator_title; ?>
                                                         </a>
-                                                        <a  href ="<?php echo base_url('index.php/AdminPanel/DeleteIndicator/' . $value_in->indicator_id); ?>" ><i class="pull-right fa fa-trash-o fa-lg"></i></a>
+                                                        <a  href ="#" data-toggle="modal" data-target="#confirmDelete"
+                                                            onclick="DeleteindicatorFunction(<?php echo "'" . $value_in->indicator_id . "','" . $value_in->indicator_title . "'"; ?>)">
+                                                            <i class="pull-right fa fa-trash-o fa-lg"></i>
+                                                        </a>
                                                         <a  href ="<?php echo base_url('index.php/AdminPanel/showFormEditIndicator/' . $value_in->indicator_id); ?>" ><i class="pull-right fa fa-pencil-square-o fa-lg"></i></a>
                                                     </div>
 
@@ -225,6 +228,25 @@
                          $('.modal').modal('hide');
                         $('#info_data').addClass("alert alert-danger");
                         $('#info_data').html("Delete Fail");
+                        $('#info').modal('show');
+                    });
+                });
+
+            }
+
+            function DeleteindicatorFunction(vid, title) {
+                $('#confirmDelete .modal-body').html("หัวข้อ - "+title);
+                $('#confirmDelete').find('.modal-footer #confirm').on('click', function () {
+                    $.post("<?php echo base_url('index.php/AdminPanel/DeleteIndicator'); ?>",
+                                                        {id: vid, check: "true"},
+                                        function (data, textStatus, jqXHR)
+                                            {
+                        location.reload();
+                                            }).fail(function (jqXHR, textStatus, errorThrown)
+                        {
+                        $('.modal').modal('hide');
+                        $('#info_data').addClass("alert alert-danger");
+                        $('#info_data').html("Delete Fail".textStatis);
                         $('#info').modal('show');
                     });
                 });
