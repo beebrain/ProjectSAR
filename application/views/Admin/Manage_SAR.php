@@ -41,14 +41,14 @@
                                                 </div>
                                                 <div class="col-xs-9 text-right">
 
-                                                    <div ><?php echo $row->desc; ?></div> <!-- ชื่อห้วข้อ -->
+                                                    <div ><a href="<?php echo base_url('index.php/AdminPanel/showCompositAll/').'/'.$row->id ?>"><?php echo $row->desc; ?></a></div> <!-- ชื่อห้วข้อ -->
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="panel-footer">
-                                            <span class="pull-right"><a href="#" ><i class="fa fa-trash"></i></a></span>
-                                            <span class="pull-left"><a href="#" ><i class="fa fa-edit"></i></a></span>
+                                            <span class="pull-right"><a href="#" data-toggle="modal" data-target="#confirmDelete" onclick="confirmDelete('<?php echo $row->id; ?>', '<?php echo $row->desc; ?>')"><i class="fa fa-trash"></i></a></span>
+                                            <span class="pull-left"><a href="#"   onclick="onedit('<?php echo $row->id; ?>', '<?php echo $row->desc; ?>')"><i class="fa fa-edit"></i></a></span>
                                             <div class="clearfix"></div>
                                         </div>
 
@@ -103,6 +103,34 @@
         </div>
 
 
+        <!-- Modal PopUP-->
+        <div class="modal fade" id="EditModal" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">แก้ไขการประกันคุณภาพ</h4>
+                    </div>
+                    <form id="UpdateForm" role="form" action="<?php echo base_url('index.php/AdminPanel/UpdateMaster_sar'); ?>" method="post">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>รายละเอียด (ตัวอย่าง ปีการศึกษา 2557)</label>
+                                <input class="form-control" name="updesc" id="updesc">
+                                <input type="hidden" class="form-control" name="upid" id="upid" >
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" onclick="sendUpdateData()" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
         <div class="modal fade" id="info" >
             <div class="modal-dialog">
                 <div class="alert alert-info" id="info_data">
@@ -134,6 +162,65 @@
         <?php echo js_asset("jquery.min.js"); ?>
 
         <script>
+
+            $('form').on("keyup keypress", function (e) {
+                var code = e.keyCode || e.which;
+                if (code == 13) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+
+            function confirmDelete(vid, title) {
+                $('#confirmDelete .modal-body').html("หัวข้อ - " + title);
+                $('#confirmDelete').find('.modal-footer #confirm').on('click', function () {
+                    $.post("<?php echo base_url('index.php/AdminPanel/deleteMaster_sar'); ?>",
+                                                        {id: vid, check: "true"},
+                                        function (data, textStatus, jqXHR)
+                                            {
+                        location.reload();
+                                            }).fail(function (jqXHR, textStatus, errorThrown)
+                        {
+                        $('.modal').modal('hide');
+                        $('#info_data').addClass("alert alert-danger");
+                        $('#info_data').html("Delete Fail".textStatis);
+                        $('#info').modal('show');
+                    });
+                });
+
+            }
+
+
+            function onedit(id, desc) {
+                $('#updesc').val(desc);
+                $('#upid').val(id);
+                $('#EditModal').modal('show');
+            }
+
+            function sendUpdateData() {
+
+                var formData = $("#UpdateForm").serializeArray();
+                var URL = $("#UpdateForm").attr("action");
+                $.post(URL,
+                            formData,
+                            function (data, textStatus, jqXHR)
+                            {
+
+                            location.reload();
+
+                            }).fail(function (jqXHR, textStatus, errorThrown)
+                    {
+                    $('.modal').modal('hide');
+                    $('#info_data').addClass("alert alert-danger");
+                    $('#info_data').html("Delete Fail".textStatis);
+                    $('#info').modal('show');
+                    });
+
+
+            }
+
+
             function sendData() {
 
                 var formData = $("#testForm").serializeArray();

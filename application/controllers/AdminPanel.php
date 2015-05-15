@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -8,15 +10,28 @@
 class AdminPanel extends CI_Controller {
 
     public function index() {
-        
+      
     }
 
-    public function showCompositAll() {
+    public function showCompositAll($id = NULL) {
 
+        if ($id != NULL) {
+            $master_id = $id ;
+            $this->session->set_userdata('master_id', $master_id);
+        }else{
+            
+            if($this->session->userdata('master_id')){
+                $master_id = $this->session->userdata('master_id');
+            }else{
+                redirect('index.php/AdminPanel/index');
+            }
+            
+        }
+        
         $this->load->model('composition');
         $this->load->model('indicator');
 
-        $result = $this->composition->getAllComposition();
+        $result = $this->composition->getAllCompositionByMaster($master_id);
         $dataJson['allData'] = array();
         foreach ($result->result() as $row) {
             $result_indicator = $this->indicator->getAllIndicatorBycomposit($row->id);
@@ -60,6 +75,7 @@ class AdminPanel extends CI_Controller {
         $this->load->model('composition');
         $data['maintitle'] = $this->input->post('maintitle');
         $data['title'] = $this->input->post('title');
+        $data['master_id'] = $this->session->userdata('master_id');
         $this->composition->addComposition($data);
         redirect('index.php/AdminPanel/showCompositAll');
     }
@@ -207,14 +223,13 @@ class AdminPanel extends CI_Controller {
      * @author Pisit
      */
     public function DeleteIndicator() {
-      
+
         $this->load->model('indicator');
         $id = $this->input->post('id');
         $check = $this->input->post('check');
         if ($check == "true") {
             $this->indicator->DeleteIndicator($id);
         }
-
     }
 
     public function DeleteComposition() {
@@ -231,29 +246,60 @@ class AdminPanel extends CI_Controller {
         $this->load->view('login');
         $this->load->view('template/footer');
     }
-    
-    public function ShowAllMaster(){
+
+    public function ShowAllMaster() {
         $this->load->model("master_sar");
         $query = $this->master_sar->getAllmaster_sar();
         $result = $query->result();
         $data["master_sar"] = $result;
-        
+
         // Call View
         $this->load->view('template/header');
         $this->load->view('template/navigationbar');
         $this->load->view('template/sidebar');
-        $this->load->view('Admin/ManageComposit', $data);
+        $this->load->view('Admin/Manage_SAR', $data);
         $this->load->view('template/footer');
     }
-    
-     public function AddMaster_sar(){
-         
+
+    /**
+     * Update Master SAR
+     */
+    public function AddMaster_sar() {
+
         $this->load->model("master_sar");
         $data['desc'] = $this->input->post('desc');
-        $num_inserts = $this->master_sar->addmaster_sar($data);
-       echo $num_inserts;
+        $num_inserts = $this->master_sar->addMaster_sar($data);
+        echo $num_inserts;
     }
-    
+
+    /*
+     * Update Master SAR
+     * 
+     */
+
+    public function deleteMaster_sar() {
+        $this->load->model("master_sar");
+        $data['id'] = $this->input->post('id');
+        $num_insert = $this->master_sar->deleteMaster_sar($data);
+
+        $this->load->model("composition");
+        $num_insert = $this->composition->DeleteCompositionbyMaster_sar($data);
+        echo $num_insert;
+    }
+
+    /*
+     * Delete Master SAR
+     * 
+     */
+
+    public function UpdateMaster_sar() {
+        $this->load->model("master_sar");
+        $data['id'] = $this->input->post('upid');
+        $data['desc'] = $this->input->post('updesc');
+        $num_insert = $this->master_sar->updateMaster_sar($data);
+        echo $num_insert;
+    }
+
 }
 
 ?>

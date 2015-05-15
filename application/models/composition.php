@@ -6,7 +6,8 @@ class composition extends CI_Model {
         parent::__construct();
     }
 
-    public function getAllComposition() {
+    public function getAllCompositionByMaster($master_id) {
+        $this->db->where('master_id',$master_id);
         $this->db->order_by('id');
         $query = $this->db->get('composition');
         return $query;
@@ -33,14 +34,19 @@ class composition extends CI_Model {
      * @author  Pisit Nakjai
      */
     public function UpdateComposition($data) {
-        $this->db->where('id',$data['id']);
+        $this->db->where('id', $data['id']);
         $this->db->update('composition', $data);
         return $this->db->affected_rows();
-        
     }
-    
-    public function DeleteComposition($id){
-        $this->db->where('id',$id);
+
+    public function DeleteComposition($id) {
+        $this->db->where('id', $id);
+        $this->db->delete('composition');
+        return $this->db->affected_rows();
+    }
+
+    public function DeleteCompositionbyMaster_sar($data) {
+        $this->db->where('Master_id', $data['id']);
         $this->db->delete('composition');
         return $this->db->affected_rows();
     }

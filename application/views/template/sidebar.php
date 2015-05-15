@@ -9,7 +9,7 @@
                     <!-- /input-group -->
                 </li>
                 <li>
-                    <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> จัดการหัวข้อองค์ประเมิณ</a>
+                    <a href="<?php echo base_url("index.php/AdminPanel/ShowAllMaster"); ?>"><i class="fa fa-dashboard fa-fw"></i> จัดการหัวข้อองค์ประเมิณ</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
