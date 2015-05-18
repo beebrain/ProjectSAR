@@ -8,7 +8,7 @@
         </div>
         <div class="panel-body">
             <div class="row">
-  
+
                 <div class="col-md-6 col-md-offset-3">
                     <form role="form" action="<?php echo base_url('index.php/AdminController/AddComposition'); ?>" method="post">
                         <div class="form-group">
@@ -23,7 +23,7 @@
                         <button type="reset" class="btn btn-default right">Reset Button</button>
                     </form>
                 </div>
-  
+
                 <!-- /.col-lg-6 (nested) -->
             </div>
             <!-- /.row (nested) -->

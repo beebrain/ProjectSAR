@@ -12,20 +12,22 @@ class subindicator extends CI_Model {
         return $num_inserts;
     }
 
-    public function updateSubindicator($data) {
-        $this->db->insert('subindicator', $data['id']);
+    public function deleteSubindicator($data) {
+        $this->db->where('id',$data['id']);
+        $this->db->delete('subindicator', $data);
         $num_inserts = $this->db->affected_rows();
         return $num_inserts;
     }
 
-    public function DeleteSubindicator($data) {
-        $this->db->insert('subindicator', $data['id']);
+    public function updateSubindicator($data) {
+        $this->db->where('subindicator_id',$data['subindicator_id']);
+        $this->db->update('subindicator', $data);
         $num_inserts = $this->db->affected_rows();
         return $num_inserts;
     }
 
     public function getSubindicatorById($subindicator_id) {
-        $this->db->where('$subindicator_id', $subindicator_id);
+        $this->db->where('subindicator_id', $subindicator_id);
         $query = $this->db->get('subindicator');
         return $query;
     }

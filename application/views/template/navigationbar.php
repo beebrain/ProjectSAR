@@ -6,7 +6,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">ESAR Version </a>
+        <a class="navbar-brand" href="index.html">ESAR Version 2.0</a>
     </div>
     <!-- /.navbar-header -->
 

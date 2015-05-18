@@ -300,6 +300,15 @@ class AdminPanel extends CI_Controller {
         echo $num_insert;
     }
 
+    
+    public function updateSubindicator(){
+        $this->load->model('subindicator');
+        $data['subindicator_id'] = $this->input->post('subindicator_id');
+        $data['indicator_id'] = $this->input->post('indicator_id');
+        $data['detail'] = $this->input->post('textedit');
+        //echo $data['detail']." ".$data['indicator_id']." ".$data['subindicator_id'];
+        $num = $this->subindicator->updateSubindicator($data);
+    }
 }
 
 ?>

@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>SB Admin 2 - Bootstrap Admin Theme</title>
+        <title>ESAR</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="<?php echo other_asset_url("bower_components/bootstrap/dist/css/bootstrap.min.css"); ?>" rel="stylesheet">

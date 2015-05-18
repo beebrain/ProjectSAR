@@ -15,19 +15,19 @@
             ?>
             <div class="col-md-6">
                 <div class="panel <?php echo randomstyle($index); ?>">
-                    <a href="<?php echo base_url().'/PanelUser/indicatorAll/'.$row['id']; ?>"> <!-- insert Link -->
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <i class="fa <?php echo randomIcon($index); ?> fa-5x"></i>
-                            </div>
-                            <div class="col-xs-9 text-right">
+                    <a href="<?php echo base_url() . '/PanelUser/indicatorAll/' . $row['id']; ?>"> <!-- insert Link -->
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <i class="fa <?php echo randomIcon($index); ?> fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
 
-                                <div class="lage"><?php echo $row['maintitle']; ?></div> <!-- ชื่อห้วข้อ -->
+                                    <div class="lage"><?php echo $row['maintitle']; ?></div> <!-- ชื่อห้วข้อ -->
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
+
                         <div class="panel-footer">
                             <span class="pull-left"><?php echo $row['title']; ?></span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
