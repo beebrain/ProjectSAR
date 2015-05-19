@@ -10,29 +10,44 @@ if (!defined('BASEPATH'))
 class AdminPanel extends CI_Controller {
 
     public function index() {
-      
+        $this->load->model("master_sar");
+        $query = $this->master_sar->getAllmaster_sar();
+        $result = $query->result();
+        $data["master_sar"] = $result;
+
+        // Call View
+        $this->load->view('template/header');
+        $this->load->view('template/navigationbar');
+        $this->load->view('template/sidebar');
+        $this->load->view('Admin/Manage_SAR', $data);
+        $this->load->view('template/footer');
     }
 
     public function showCompositAll($id = NULL) {
-
+        $this->load->model('master_sar');
         if ($id != NULL) {
-            $master_id = $id ;
+            $master_id = $id;
             $this->session->set_userdata('master_id', $master_id);
-        }else{
-            
-            if($this->session->userdata('master_id')){
+            $result = $this->master_sar->getmaster_sarById($master_id);
+            $data_master = $result->result();
+            $this->session->set_userdata('data_master', $data_master);
+        } else {
+            if ($this->session->userdata('master_id')) {
                 $master_id = $this->session->userdata('master_id');
-            }else{
+                $result = $this->master_sar->getmaster_sarById($master_id);
+                $data_master = $result->result();
+                $this->session->set_userdata('data_master', $data_master);
+            } else {
                 redirect('index.php/AdminPanel/index');
             }
-            
         }
-        
+
         $this->load->model('composition');
         $this->load->model('indicator');
 
         $result = $this->composition->getAllCompositionByMaster($master_id);
         $dataJson['allData'] = array();
+        $dataJson['master'] = $data_master;
         foreach ($result->result() as $row) {
             $result_indicator = $this->indicator->getAllIndicatorBycomposit($row->id);
             array_push($dataJson['allData'], array($row, $result_indicator->result()));
@@ -248,17 +263,7 @@ class AdminPanel extends CI_Controller {
     }
 
     public function ShowAllMaster() {
-        $this->load->model("master_sar");
-        $query = $this->master_sar->getAllmaster_sar();
-        $result = $query->result();
-        $data["master_sar"] = $result;
-
-        // Call View
-        $this->load->view('template/header');
-        $this->load->view('template/navigationbar');
-        $this->load->view('template/sidebar');
-        $this->load->view('Admin/Manage_SAR', $data);
-        $this->load->view('template/footer');
+        
     }
 
     /**
@@ -300,8 +305,7 @@ class AdminPanel extends CI_Controller {
         echo $num_insert;
     }
 
-    
-    public function updateSubindicator(){
+    public function updateSubindicator() {
         $this->load->model('subindicator');
         $data['subindicator_id'] = $this->input->post('subindicator_id');
         $data['indicator_id'] = $this->input->post('indicator_id');
@@ -309,6 +313,13 @@ class AdminPanel extends CI_Controller {
         //echo $data['detail']." ".$data['indicator_id']." ".$data['subindicator_id'];
         $num = $this->subindicator->updateSubindicator($data);
     }
+
+    public function DeleteSubIndicator() {
+        $this->load->model('subindicator');
+        $data['subindicator_id'] = $this->input->post('subindicator_id');
+        $this->subindicator->deleteSubindicator($data);
+    }
+
 }
 
 ?>

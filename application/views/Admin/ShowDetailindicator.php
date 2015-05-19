@@ -86,8 +86,11 @@
                                         <tr>
                                             <td><?php echo $i; ?></td>
                                             <td id='detail_sub<?php echo $i ?>'><?php echo $value->detail; ?></td>
-                                            <td><a href="#" data-target="#EditUpdate" data-toggle="modal" onclick="editupdate('<?php echo $i ?>','<?php echo $value->subindicator_id ?>')"><i  class="fa fa-pencil fa-lg"></i></a></td>
-                                            <td><a href="#" data-target="#EditUpdate" data-toggle="modal" ><i class="fa fa-plus-square fa-lg"></i></a></td>
+                                            <td><a href="#" data-target="#EditUpdate" data-toggle="modal" onclick="editupdate('<?php echo $i ?>', '<?php echo $value->subindicator_id ?>')"><i  class="fa fa-pencil fa-lg"></i></a></td>
+                                            <td><a  href ="#" data-toggle="modal" data-target="#confirmDelete"
+                                                    onclick="DeleteindicatorFunction(<?php echo $value->subindicator_id ?>)">
+                                                    <i class="pull-right fa fa-trash-o fa-lg"></i>
+                                                </a></td>
                                         </tr>
                                     <?php } ?>
                                 </tbody>
@@ -160,7 +163,7 @@
                     </div>
                     <div class="form-group">
                         <input type="hidden" name="indicator_id" value ="<?php echo $indicator->indicator_id; ?>"> 
-                         <input type="hidden" name ="subindicator_id" id="subindicator_id" value =""> 
+                        <input type="hidden" name ="subindicator_id" id="subindicator_id" value =""> 
 
                     </div>
                     <div class="modal-footer">
@@ -168,33 +171,54 @@
                         <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
 
                     </div>
+                </div>
             </form>
 
         </div>
     </div>
+</div>
 
 
-    <div class="modal fade" id="info" >
-        <div class="modal-dialog">
-            <div class="alert alert-info" id="info_data">
-                Data Update.
+
+<div id="confirmDelete" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="close">×</a>
+                <h3>คำเตือน คุณกำลังพยายามลบ</h3>
+            </div>
+            <div class="modal-body">
+                <p>ต้องการจะลบใช่หรือไม่</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" id="confirm" class="btn confirm">ใช่</a>
+                <a href="#" data-dismiss="modal" aria-hidden="true" class="btn secondary">ไม่</a>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="<?php echo base_url("assets/js/jquery.min.js") ?>"></script>
-    <script src="<?php echo base_url("assets/CKeditor/ckeditor.js") ?>"></script>
-    <script src="<?php echo base_url("assets/CKeditor/adapters/jquery.js") ?>"></script>
-    <script >
+<div class="modal fade" id="info" >
+    <div class="modal-dialog">
+        <div class="alert alert-info" id="info_data">
+            Data Update.
+        </div>
+    </div>
+</div>
+
+<script src="<?php echo base_url("assets/js/jquery.min.js") ?>"></script>
+<script src="<?php echo base_url("assets/CKeditor/ckeditor.js") ?>"></script>
+<script src="<?php echo base_url("assets/CKeditor/adapters/jquery.js") ?>"></script>
+<script >
                             $('#textedit').ckeditor();
                             $('#addtext').ckeditor();
-                            function editupdate(id,sub_id) {
+                            function editupdate(id, sub_id) {
                                 text = $('#detail_sub' + id).html();
                                 CKEDITOR.instances.textedit.insertHtml(text);
                                 $('#subindicator_id').val(sub_id);
-                                
+
                             }
-                            
+
                             function UpdateData() {
                                 $('#info_data').removeClass();
                                 CKEDITOR.instances.textedit.updateElement();
@@ -215,7 +239,25 @@
 
 
                             }
-    </script>
+                            function DeleteindicatorFunction(vid) {
+                                $('#confirmDelete').find('.modal-footer #confirm').on('click', function () {
+                                    $.post("<?php echo base_url('index.php/AdminPanel/DeleteSubIndicator'); ?>",
+                                                                        {subindicator_id: vid, check: "true"},
+                                                        function (data, textStatus, jqXHR)
+                                                            {
+                                        location.reload();
+                                        //alert("x");
+                                                            }).fail(function (jqXHR, textStatus, errorThrown)
+                                        {
+                                        $('.modal').modal('hide');
+                                        $('#info_data').addClass("alert alert-danger");
+                                        $('#info_data').html("Delete Fail".textStatis);
+                                        $('#info').modal('show');
+                                    });
+
+                                });
+                            }
+</script>
 </div>
 
 

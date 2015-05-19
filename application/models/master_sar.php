@@ -27,12 +27,14 @@ class master_sar extends CI_Model {
     }
 
     public function getmaster_sarById($id) {
+        $this->db->order_by("id");
         $this->db->where('id', $id);
         $query = $this->db->get('master_sar');
         return $query;
     }
 
     public function getAllmaster_sar() {
+        $this->db->order_by("id");
         $query = $this->db->get('master_sar');
         return $query;
     }

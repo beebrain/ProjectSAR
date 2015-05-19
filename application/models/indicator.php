@@ -24,6 +24,7 @@ class indicator extends CI_Model {
 
     public function getIndicatorById($indicator_id) {
         $this->db->where('indicator_id', $indicator_id);
+        $this->db->order_by('indicator_id');
         $query = $this->db->get('indicator');
         return $query;
     }
