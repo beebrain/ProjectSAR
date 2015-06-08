@@ -16,13 +16,13 @@
                     <a href="tables.html"><i class="fa fa-table fa-fw"></i> ระบบจัดการองค์ประเมิณ</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> จัดการผู้ใช้<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="flot.html">Flot Charts</a>
+                            <a href="<?php echo base_url("index.php/AdminControl/ShowFormAdduser"); ?>">เพิ่มผู้ใช้</a>
                         </li>
                         <li>
-                            <a href="morris.html">Morris.js Charts</a>
+                            <a href="<?php echo base_url("index.php/AdminControl/ShowAllUser"); ?>">แสดงผู้ใช้งาน</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
@@ -55,7 +55,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-sitemap fa-fw"></i> จัดการผู้ใช้ <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="#">Second Level Item</a>

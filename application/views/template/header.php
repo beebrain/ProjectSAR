@@ -29,10 +29,15 @@
         <!-- Morris Charts CSS 
         <link href="../bower_components/morrisjs/morris.css" rel="stylesheet">-->
         <link href="<?php echo other_asset_url("bower_components/morrisjs/morris.css"); ?>" rel="stylesheet">
+        <link rel="stylesheet" href="<?php echo other_asset_url("bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css"); ?>" >
+        <link rel="stylesheet" href="<?php echo other_asset_url("bower_components/datatables-responsive/css/dataTables.responsive.css"); ?>" >
+
 
         <!-- Custom Fonts 
         <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
         <link href="<?php echo other_asset_url("bower_components/font-awesome/css/font-awesome.min.css"); ?>" rel="stylesheet">
+
+
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
