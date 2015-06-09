@@ -16,6 +16,29 @@ class user extends CI_Model {
         $this->db->insert('user', $data);
         return $this->db->affected_rows();
     }
+    
+    
+    public function UpdateUser($data){
+        $this->db->where('user_id',$data["user_id"]);
+        $this->db->update('user',$data);
+        return $this->db->affected_rows();
+        
+    }
+    
+    /**
+     * Get user by ID if get user_id
+     * get all user if not send user_id
+     * @param type $user_id
+     * @return type
+     */
+    public function getUser($user_id = NULL){
+        if($user_id <> NULL){
+            $this->db->where('user_id',$user_id);
+        }
+        $this->db->where_not_in('status',"-1");
+        $query = $this->db->get('user');
+        return $query;
+    }
 
 }
 

@@ -18,6 +18,7 @@ class AdminControl extends CI_Controller {
         $this->load->view('Admin/FormAddUser');
         $this->load->view('template/footer');
     }
+
     /**
      * For Adduser Ajax Method
      */
@@ -28,12 +29,45 @@ class AdminControl extends CI_Controller {
         echo $this->user->AddUser($data);
     }
 
-    public function ShowAllUser(){
-          $this->load->view('template/header');
+    /**
+     * Ajax Method UpdateUser
+     */
+    public function UpdateUser() {
+        $this->load->model('user');
+        $data = $this->input->post();
+        echo $this->user->UpdateUser($data);
+    }
+
+    /**
+     * For Json data
+     */
+    public function getAllUser() {
+        $level_detail = array("ระดับมหาวิทยาลัย", "ระดับคณะ", "ระดับภาควิชา");
+        $this->load->model('user');
+        $this->load->model('user');
+        $result = $this->user->getUser();
+        $data = $result->result();
+
+        for ($i = 0; $i < sizeof($data); $i++) {
+            $data[$i]->level = $level_detail[$data[$i]->level];
+        }
+        //print_r($data);
+        $output = array(
+            "Data" => array()
+        );
+        $output["Data"] = $data;
+        echo json_encode($output);
+    }
+
+    /**
+     * Display function
+     */
+    public function ShowAllUser() {
+        $this->load->view('template/header');
         $this->load->view('template/navigationbar');
         $this->load->view('template/sidebar');
         $this->load->view('Admin/ShowAllUser');
         $this->load->view('template/footer');
-        
     }
+
 }
