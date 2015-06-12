@@ -18,6 +18,15 @@ class AdminControl extends CI_Controller {
         $this->load->view('Admin/FormAddUser');
         $this->load->view('template/footer');
     }
+    
+    public function ShowFormAddRef() {
+        // Call View
+        $this->load->view('template/header');
+        $this->load->view('template/navigationbar');
+        $this->load->view('template/sidebar');
+        $this->load->view('Admin/FormAddRef');
+        $this->load->view('template/footer');
+    }
 
     /**
      * For Adduser Ajax Method
@@ -35,6 +44,10 @@ class AdminControl extends CI_Controller {
     public function UpdateUser() {
         $this->load->model('user');
         $data = $this->input->post();
+        if ($data["password2"] <> "") {
+            $data["password"] = md5($data["password2"]);
+        }
+        unset($data["password2"]);
         echo $this->user->UpdateUser($data);
     }
 
@@ -42,14 +55,13 @@ class AdminControl extends CI_Controller {
      * For Json data
      */
     public function getAllUser() {
-        $level_detail = array("ระดับมหาวิทยาลัย", "ระดับคณะ", "ระดับภาควิชา");
-        $this->load->model('user');
+        $level_detail = array("ระดับมหาวิทยาลัย", "ระดับคณะ", "ระดับหลักสูตร");
         $this->load->model('user');
         $result = $this->user->getUser();
         $data = $result->result();
 
         for ($i = 0; $i < sizeof($data); $i++) {
-            $data[$i]->level = $level_detail[$data[$i]->level];
+            $data[$i]->level_detail = $level_detail[$data[$i]->level];
         }
         //print_r($data);
         $output = array(
@@ -59,6 +71,14 @@ class AdminControl extends CI_Controller {
         echo json_encode($output);
     }
 
+    
+    public function getListLevel(){
+         $this->load->model('user');
+         $data = $this->input->post();
+         $result = $this->user->getUserLevel($data);
+         $data = $result->result();
+         echo json_encode($data);
+    }
     /**
      * Display function
      */

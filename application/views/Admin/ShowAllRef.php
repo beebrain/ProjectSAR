@@ -12,7 +12,7 @@
     <div class="row">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">รายชื่อผู้ใช้งาน</h1>
+                <h1 class="page-header">รายชื่อผู้ประเมิณ</h1>
 
             </div>
 
@@ -21,7 +21,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        รายชื่อผู้ใช้งาน
+                        รายชื่อผู้ประเมิณ
                         <span class="pull-right" >
                             <a href="<?= base_url("index.php/AdminControl/ShowFormAdduser") ?> ">
                                 <i class="fa fa-plus-square fa-2x"></i>
@@ -38,7 +38,7 @@
                                     <tr>
 
                                         <th>#</th>
-                                        <th style="width: 15%">ชื่อผู้ใช้</th>
+                                        <th style="width: 15%">ชื่อผู้ประเมิณ</th>
                                         <th>รายละเอียด</th>
                                         <th>สังกัด</th>
                                         <th style="width: 15%">ระดับ</th>

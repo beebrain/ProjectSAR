@@ -11,18 +11,14 @@
                 <li>
                     <a href="<?php echo base_url("index.php/AdminPanel/index"); ?>"><i class="fa fa-dashboard fa-fw"></i> จัดการหัวข้อองค์ประเมิณ</a>
                 </li>
-
-                <li>
-                    <a href="tables.html"><i class="fa fa-table fa-fw"></i> ระบบจัดการองค์ประเมิณ</a>
-                </li>
                 <li>
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> จัดการผู้ใช้<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="<?php echo base_url("index.php/AdminControl/ShowFormAdduser"); ?>">เพิ่มผู้ใช้</a>
+                            <a href="<?php echo base_url("index.php/AdminControl/ShowAllUser"); ?>">รายชื่อผู้ถูกประเมิณ</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url("index.php/AdminControl/ShowAllUser"); ?>">แสดงผู้ใช้งาน</a>
+                            <a href="<?php echo base_url("index.php/AdminControl/ShowAllRef"); ?>">รายชื่อกรรมการ</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->

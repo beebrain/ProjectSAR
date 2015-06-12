@@ -225,6 +225,7 @@
 
                 var formData = $("#testForm").serializeArray();
                 var URL = $("#testForm").attr("action");
+                console.log(formData);
                 $.post(URL,
                             formData,
                             function (data, textStatus, jqXHR)

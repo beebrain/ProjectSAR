@@ -25,6 +25,12 @@ class user extends CI_Model {
         
     }
     
+    public function getUserLevel($data){
+        $this->db->where('level',$data['level']);
+        $query = $this->db->get('user');
+        return $query;
+    }
+    
     /**
      * Get user by ID if get user_id
      * get all user if not send user_id
@@ -36,7 +42,8 @@ class user extends CI_Model {
             $this->db->where('user_id',$user_id);
         }
         $this->db->where_not_in('status',"-1");
-        $query = $this->db->get('user');
+        $query = $this->db->get('user_ref');
+        //echo $this->db->last_query();
         return $query;
     }
 

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">เพิ่มผู้ใช้</h1>
+                <h1 class="page-header">เพิ่มผู้ประเมิณ</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -11,7 +11,7 @@
                 <div class="col-md-6 col-md-offset-3">
                     <div id='message' class="alert alert-success alert-dismissable" >
                         <button class="close" onclick="$('.alert').hide()" type="button">×</button>
-                        <p id="info_insert">asdfasdfafd</p>
+                        <p id="info_insert">info</p>
                     </div>  
                 </div>
 
@@ -20,40 +20,25 @@
 
                 <div class="col-md-6 col-md-offset-3">
 
-                    <div class="panel panel-green">
+                    <div class="panel panel-yellow">
 
-                        <div class="panel-heading"> เพิ่มผู้ใช้งาน </div>
+                        <div class="panel-heading"> เพิ่มผู้ประเมิณ </div>
                         <div class="panel-body">
                             <form role="form" id = "Adduser" action="<?php echo base_url('index.php/AdminControl/AddUser'); ?>" method="post">
-                                <div class="form-group">
-                                    <label>รายละเอียดผู้ใช้งาน</label>
-                                    <input class="form-control" name="detail" required>
-                                </div>
+
                                 <div class="form-group">
                                     <label>Username</label>
                                     <input class="form-control" name="username" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input class="form-control" name = "password" required>
+                                    <input type="password" class="form-control" name = "password" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>ระดับการเข้าใช้งาน</label>
-                                    <select class="form-control" name="level"  id="level" required>
-                                        <option >กรุณาเลือกระดับการเข้าใช้งาน</option>
-                                        <option value="0">ระดับมหาวิทยาลัย</option>
-                                        <option value="1">ระดับคณะ</option>
-                                        <option value="2">ระดับหลักสูตร</option>
-                                    </select>
+                                    <label>รายละเอียดผู้ประเมิณ</label>
+                                    <input class="form-control" name="detail" required>
                                 </div>
-                                <div class="form-group" id="user_ref_div">
-                                    <label>สังกัด</label>
-                                    <select class="form-control" name="user_ref" >
-                                        <option value="-1">กรุณาเลือกระดับการเข้าใช้งาน</option>
-
-                                    </select>
-                                </div>
-                                <span style="alignment-adjust: central">
+                                <span style="flex-align: auto">
                                     <button type="button" onclick="sendData()" class="btn btn-default ">บันทึก</button>
                                     <button type="reset" class="btn btn-default" style="alignment-adjust: central">ยกเลิก</button>
                                 </span>
@@ -107,7 +92,7 @@
         $("#Adduser")[0].reset();
     }
 
-  
+
 
     $("#user_ref_div").hide();
 
