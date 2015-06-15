@@ -1,13 +1,3 @@
-
-<style>
-    td.details-control {
-        background: red;
-        cursor: pointer;
-    }
-    tr.shown td.details-control {
-        background: black;
-    }
-</style>
 <div id="page-wrapper">
     <div class="row">
         <div class="row">
@@ -19,7 +9,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-default">
+                <div class="panel panel-green">
                     <div class="panel-heading">
                         รายชื่อผู้ใช้งาน
                         <span class="pull-right" >
@@ -70,7 +60,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">แก้ไขการประกันคุณภาพ</h4>
+                <h4 class="modal-title" id="myModalLabel">แก้ไขรายละเอียดผู้ใช้งาน</h4>
             </div>
             <form role="form" id = "formUpdateUser" action="<?php echo base_url('index.php/AdminControl/UpdateUser'); ?>" method="post">
                 <div class="modal-body">

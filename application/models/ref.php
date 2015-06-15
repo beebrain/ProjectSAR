@@ -19,7 +19,7 @@ class ref extends CI_Model {
     
     
     public function UpdateRef($data){
-        $this->db->where('ref_id',$data["ref_id"]);
+        $this->db->where('user_id',$data["user_id"]);
         $this->db->update('ref',$data);
         return $this->db->affected_rows();
         
@@ -34,7 +34,7 @@ class ref extends CI_Model {
     
     public function getRef($user_id = NULL){
         if($user_id <> NULL){
-            $this->db->where('ref_id',$user_id);
+            $this->db->where('user_id',$user_id);
         }
         $this->db->where_not_in('status',"-1");
         $query = $this->db->get('ref');

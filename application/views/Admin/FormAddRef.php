@@ -24,7 +24,7 @@
 
                         <div class="panel-heading"> เพิ่มผู้ประเมิณ </div>
                         <div class="panel-body">
-                            <form role="form" id = "Adduser" action="<?php echo base_url('index.php/AdminControl/AddUser'); ?>" method="post">
+                            <form role="form" id = "Adduser" action="<?php echo base_url('index.php/AdminControl/AddRef'); ?>" method="post">
 
                                 <div class="form-group">
                                     <label>Username</label>

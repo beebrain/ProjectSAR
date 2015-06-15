@@ -18,13 +18,21 @@ class AdminControl extends CI_Controller {
         $this->load->view('Admin/FormAddUser');
         $this->load->view('template/footer');
     }
-    
+
     public function ShowFormAddRef() {
         // Call View
         $this->load->view('template/header');
         $this->load->view('template/navigationbar');
         $this->load->view('template/sidebar');
         $this->load->view('Admin/FormAddRef');
+        $this->load->view('template/footer');
+    }
+
+    public function ShowRefToUser() {
+        $this->load->view('template/header');
+        $this->load->view('template/navigationbar');
+        $this->load->view('template/sidebar');
+        $this->load->view('Admin/ShowRefToUser');
         $this->load->view('template/footer');
     }
 
@@ -39,6 +47,16 @@ class AdminControl extends CI_Controller {
     }
 
     /**
+     * For Adduser Ajax Method
+     */
+    public function AddRef() {
+        $this->load->model('ref');
+        $data = $this->input->post();
+        $data['password'] = md5($data['password']);
+        echo $this->ref->AddRef($data);
+    }
+
+    /**
      * Ajax Method UpdateUser
      */
     public function UpdateUser() {
@@ -49,6 +67,19 @@ class AdminControl extends CI_Controller {
         }
         unset($data["password2"]);
         echo $this->user->UpdateUser($data);
+    }
+
+    /**
+     * Ajax Method UpdateRef
+     */
+    public function UpdateRef() {
+        $this->load->model('ref');
+        $data = $this->input->post();
+        if ($data["password2"] <> "") {
+            $data["password"] = md5($data["password2"]);
+        }
+        unset($data["password2"]);
+        echo $this->ref->UpdateRef($data);
     }
 
     /**
@@ -71,14 +102,32 @@ class AdminControl extends CI_Controller {
         echo json_encode($output);
     }
 
-    
-    public function getListLevel(){
-         $this->load->model('user');
-         $data = $this->input->post();
-         $result = $this->user->getUserLevel($data);
-         $data = $result->result();
-         echo json_encode($data);
+    /**
+     * For Json data Ger All Ref
+     */
+    public function getAllRef() {
+        $this->load->model('ref');
+        $result = $this->ref->getRef();
+        $data = $result->result();
+        //print_r($data);
+        $output = array(
+            "Data" => array()
+        );
+        $output["Data"] = $data;
+        echo json_encode($output);
     }
+
+    /**
+     * List All level for user
+     */
+    public function getListLevel() {
+        $this->load->model('user');
+        $data = $this->input->post();
+        $result = $this->user->getUserLevel($data);
+        $data = $result->result();
+        echo json_encode($data);
+    }
+
     /**
      * Display function
      */
@@ -87,6 +136,17 @@ class AdminControl extends CI_Controller {
         $this->load->view('template/navigationbar');
         $this->load->view('template/sidebar');
         $this->load->view('Admin/ShowAllUser');
+        $this->load->view('template/footer');
+    }
+
+    /**
+     * Display function
+     */
+    public function ShowAllRef() {
+        $this->load->view('template/header');
+        $this->load->view('template/navigationbar');
+        $this->load->view('template/sidebar');
+        $this->load->view('Admin/ShowAllRef');
         $this->load->view('template/footer');
     }
 

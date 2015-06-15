@@ -18,7 +18,10 @@
                             <a href="<?php echo base_url("index.php/AdminControl/ShowAllUser"); ?>">รายชื่อผู้ถูกประเมิณ</a>
                         </li>
                         <li>
-                            <a href="<?php echo base_url("index.php/AdminControl/ShowAllRef"); ?>">รายชื่อกรรมการ</a>
+                            <a href="<?php echo base_url("index.php/AdminControl/ShowAllRef"); ?>">รายชื่อผู้ประเมิณ</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url("index.php/AdminControl/ShowRefToUser"); ?>">จัดการผู้ประเมิณ</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
