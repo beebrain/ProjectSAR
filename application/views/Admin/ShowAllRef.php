@@ -38,7 +38,7 @@
                                     <tr>
 
                                         <th>#</th>
-                                        <th style="width: 15%">ชื่อผู้ประเมิณ</th>
+                                        <th style="width: 15%">username</th>
                                         <th>รายละเอียด</th>
                                         <th style="width: 7%">ใช้งาน</th>
                                         <th style="width: 10%">แก้ไข/ลบ</th>
@@ -74,7 +74,7 @@
                     <div class="form-group">
                         <label>Username</label>
                         <input class="form-control " disabled=""  id = "username" name = "username" value="aaa"> 
-                        <input type="hidden" class="form-control" id = "user_id" name = "user_id">
+                        <input type="hidden" class="form-control" id = "ref_id" name = "ref_id">
                     </div>
                     <div class="form-group">
                         <label>รายละเอียดผู้ใช้งาน</label>
@@ -109,7 +109,7 @@
                                     "sAjaxSource": "<?php echo base_url('index.php/AdminControl/getAllRef'); ?>", //datasource
                                     "sAjaxDataProp": "Data", //menentukan array/json dibaca dari mana
                                     "columns": [
-                                        {"data": "user_id"},
+                                        {"data": "ref_id"},
                                         {"data": "username"},
                                         {"data": "detail"},
                                         {"data": "status"}
@@ -124,6 +124,12 @@
                                             "width": "5px",
                                             "searchable": false,
                                             "orderable": false
+                                        },
+                                        {
+                                            "render": function (data, type, row) {
+                                                return "<a href='#'>" + data + "</a>";
+                                            },
+                                            "targets": 2
                                         }
                                     ]
                                 });
@@ -149,11 +155,22 @@
                                     var data = row.data()
                                     //console.log(data);
 
-                                    $("#user_id").val(data.user_id);
+                                    $("#ref_id").val(data.ref_id);
                                     $("#username").val(data.username);
                                     $("#detail").val(data.detail);
                                     $("#password").val(data.password);
                                     $('#EditModal').modal('show');
+                                });
+
+                                table.on('click', 'a', function () {
+                                    /* get data onclick */
+                                    var tr = $(this).closest('tr');
+                                    var row = table.row(tr);
+                                    var data = row.data()
+                                    console.log(data);
+                                    var url = "<?php echo base_url('index.php/AdminControl/ShowRefToUser/') ?>/"+data.ref_id;
+                                    $(location).attr('href', url);
+                                    return false;
                                 });
 
                                 // update status
@@ -168,7 +185,7 @@
                                     console.log(status);
                                     //console.log(status);
                                     $.post("<?php echo base_url("/index.php/AdminControl/UpdateRef") ?>",
-                                            {"user_id": data.user_id, "status": status},
+                                            {"ref_id": data.ref_id, "status": status},
                                     function (data, textStatus, jqXHR) {
 
                                         location.reload();
@@ -186,7 +203,7 @@
                                     var r = confirm("คุณ ยืนยันที่จะลบ " + data.username);
                                     if (r == true) {
                                         $.post("<?php echo base_url("/index.php/AdminControl/UpdateRef") ?>",
-                                                {"user_id": data.user_id, "status": "-1"},
+                                                {"ref_id": data.ref_id, "status": "-1"},
                                         function (data, textStatus, jqXHR) {
                                             //console.log(data);
                                             location.reload();

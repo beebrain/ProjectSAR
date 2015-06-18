@@ -28,12 +28,97 @@ class AdminControl extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function ShowRefToUser() {
+    /**
+     * Set Ref to user
+     */
+    public function ShowRefToUser($ref_id) {
+        // get all User
+        $this->load->model('user');
+        $query = $this->user->getUser();
+        $result = $query->result();
+        $data['user_all'] = $result;
+
+        // get list of user in map user
+        $this->load->model('map_user_to_ref');
+        $query = $this->map_user_to_ref->searchByref($ref_id);
+        $result = $query->result();
+        $newdata = array();
+        foreach ($result as $key => $value) {
+            array_push($newdata, $value->user_id);
+        }
+        $data['user_check'] = $newdata;
+
+        $this->load->model('ref');
+        $query = $this->ref->getRef($ref_id);
+        $result = $query->result();
+        $data['ref'] = $result;
+
         $this->load->view('template/header');
         $this->load->view('template/navigationbar');
         $this->load->view('template/sidebar');
-        $this->load->view('Admin/ShowRefToUser');
+        $this->load->view('Admin/ShowRefToUser', $data);
         $this->load->view('template/footer');
+    }
+
+    /**
+     * Set user to ref
+     */
+    public function ShowUserToRef($user_id) {
+        // get all User
+        $this->load->model('ref');
+        $query = $this->ref->getRef();
+        $result = $query->result();
+        $data['ref_all'] = $result;
+
+        // get list of user in map user
+        $this->load->model('map_user_to_ref');
+        $query = $this->map_user_to_ref->searchByUser($user_id);
+        $result = $query->result();
+        $newdata = array();
+        foreach ($result as $key => $value) {
+            array_push($newdata, $value->ref_id);
+        }
+        $data['ref_check'] = $newdata;
+
+        $this->load->model('user');
+        $query = $this->user->getUser($user_id);
+        $result = $query->result();
+        $data['user'] = $result;
+
+        $this->load->view('template/header');
+        $this->load->view('template/navigationbar');
+        $this->load->view('template/sidebar');
+        $this->load->view('Admin/ShowUserToRef', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function AddRefToUser() {
+        $data = $this->input->post();
+        $this->load->model('map_user_to_ref');
+        $this->map_user_to_ref->DeleteByRef($data['ref_id']);
+        $newData = array();
+        if (array_key_exists('user_id', $data)) { // if have value in user
+            foreach ($data['user_id'] as $key => $value) {
+                $newData['user_id'] = $value;
+                $newData['ref_id'] = $data['ref_id'];
+                $this->map_user_to_ref->AddMap($newData);
+            }
+        }
+    }
+
+    public function AddUserToRef() {
+        $data = $this->input->post();
+        $this->load->model('map_user_to_ref');
+        $this->map_user_to_ref->DeleteByUser($data['user_id']);
+        $newData = array();
+        if (array_key_exists('ref_id', $data)) { // if have value in ref
+            foreach ($data['ref_id'] as $key => $value) {
+                $newData['ref_id'] = $value;
+                $newData['user_id'] = $data['user_id'];
+                
+                $this->map_user_to_ref->AddMap($newData);
+            }
+        }
     }
 
     /**

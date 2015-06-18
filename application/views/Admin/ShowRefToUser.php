@@ -1,143 +1,28 @@
-<style>
-
-/* Overlays */
-.ui-widget-overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-
-.ui-autocomplete {
-	position: absolute;
-	top: 0;
-	left: 0;
-	cursor: default;
-}
-
-.ui-menu {
-	list-style: none;
-	padding: 0;
-	margin: 0;
-	display: block;
-	outline: none;
-}
-.ui-menu .ui-menu {
-	position: absolute;
-}
-.ui-menu .ui-menu-item {
-	position: relative;
-	margin: 0;
-	padding: 3px 1em 3px .4em;
-	cursor: pointer;
-	min-height: 0; /* support: IE7 */
-	/* support: IE10, see #8844 */
-	list-style-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
-}
-.ui-menu .ui-menu-divider {
-	margin: 5px 0;
-	height: 0;
-	font-size: 0;
-	line-height: 0;
-	border-width: 1px 0 0 0;
-}
-.ui-menu .ui-state-focus,
-.ui-menu .ui-state-active {
-	margin: -1px;
-}
-
-/* icon support */
-.ui-menu-icons {
-	position: relative;
-}
-.ui-menu-icons .ui-menu-item {
-	padding-left: 2em;
-}
-
-/* left-aligned */
-.ui-menu .ui-icon {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: .2em;
-	margin: auto 0;
-}
-
-/* right-aligned */
-.ui-menu .ui-menu-icon {
-	left: auto;
-	right: 0;
-}
-
-/* Component containers
-----------------------------------*/
-.ui-widget {
-	font-family: Verdana,Arial,sans-serif;
-	font-size: 1.1em;
-}
-.ui-widget .ui-widget {
-	font-size: 1em;
-}
-.ui-widget-content {
-	border: 1px solid #aaaaaa;
-	background: #ffffff  50% 50% repeat-x;
-	color: #222222;
-}
-
-
-.ui-state-hover,
-.ui-widget-content .ui-state-hover,
-.ui-widget-header .ui-state-hover,
-.ui-state-focus,
-.ui-widget-content .ui-state-focus,
-.ui-widget-header .ui-state-focus {
-	border: 1px solid #999999;
-	background: #dadada 50% 50% repeat-x;
-	font-weight: normal;
-	color: #212121;
-}
-
-.ui-state-active,
-.ui-widget-content .ui-state-active,
-.ui-widget-header .ui-state-active {
-	border: 1px solid #aaaaaa;
-	background: #ffffff 50% 50% repeat-x;
-	font-weight: normal;
-	color: #212121;
-}
-
-
-
-</style>
 
 <div id="page-wrapper">
-    
-    
+
+
     <div class="row">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">จัดการผู้รับผิดชอบผู้ถูกประเมิน</h1>
+                <h1 class="page-header">กำหนดผู้ถูกประเมิน</h1>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-10 col-lg-offset-1">
-                <div class="panel panel-green">
-                    <div class="panel-heading">
-                        ค้นหาผู้ประเมิน
-                    </div>
 
+        <div class="row">
+            <div class="col-lg-5 col-lg-offset-1">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        รายละเอียดผู้ประเมิน
+                    </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
-
-                        <div class="form-group">
-                            <label>ค้นหาผู้ประเมิน</label>
-                            <div class="form-group input-group">
-                                <input type="text" class="form-control" id="tags">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button"><i class="fa fa-search"></i>
-                                    </button>
-                                </span>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title">ชื่อผู้ประเมิน</h4>
+                            </div>
+                            <div class="timeline-body">
+                                <h4><p><?php echo $ref[0]->detail; ?></p></h4>
                             </div>
                         </div>
                     </div>
@@ -147,20 +32,174 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
+
+        <!-- message -->
+
+
+        <div class="row" >
+            <div class="col-md-6 col-md-offset-3">
+                <div id='message' class="alert alert-success alert-dismissable" >
+                    <button class="close" onclick="$('.alert').hide()" type="button">×</button>
+                    <p id="info">กำลังบันทึกข้อมูล...</p>
+                </div>  
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1">
-                <div class="panel panel-green">
+                <div class="panel panel-info">
                     <div class="panel-heading">
-                        เลือกผู้ถูกประเมิณ
-
+                        กำหนดผู้ถูกประเมิณ 
+                        <span class="pull-right" ><button class="btn btn-info btn-xs" id="saveuser">บันทึก</button></span>
                     </div>
 
                     <!-- /.panel-heading -->
                     <div class="panel-body">
 
+                        <!-- .panel-heading -->
+                        <div class="panel-body">
 
 
-                        <!-- /.table-responsive -->
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">ระดับมหาวิทยาลัย</a>
+                                            <span class="pull-right" >
+                                                <button class="btn btn-info btn-xs" id ='selectAllLV1' value="check">เลือกทั้งหมด</button>
+                                            </span>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse ">
+                                        <div class="panel-body">
+                                            <table class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ชื่อผู้ถูกประเมิน</th>
+                                                        <th>รับผิดชอบการประเมิน</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    foreach ($user_all as $key => $value) {
+                                                        if ($value->level == 0) {
+                                                            ?>
+                                                            <tr>
+                                                                <td><?= $value->detail; ?></td>
+                                                                <td>
+                                                                    <input type="checkbox" 
+                                                                           value="<?= $value->user_id ?>" 
+                                                                           <?php
+                                                                           if (in_array($value->user_id, $user_check)) {
+                                                                               echo "checked";
+                                                                           }
+                                                                           ?> 
+                                                                           name="lv1" > 
+                                                                </td>
+                                                            </tr>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">ระดับคณะ</a>
+                                            <span class="pull-right" >
+                                                <button class="btn btn-info btn-xs" id ='selectAllLV2' value="check">เลือกทั้งหมด</button>
+
+                                            </span>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ชื่อผู้ถูกประเมิน</th>
+                                                        <th>รับผิดชอบการประเมิน</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    foreach ($user_all as $key => $value) {
+                                                        if ($value->level == 1) {
+                                                            ?>
+                                                            <tr>
+                                                                <td><?= $value->detail; ?></td>
+                                                                <td> 
+                                                                    <input type="checkbox" 
+                                                                           value="<?= $value->user_id ?>" 
+                                                                           <?php
+                                                                           if (in_array($value->user_id, $user_check)) {
+                                                                               echo "checked";
+                                                                           }
+                                                                           ?> 
+                                                                           name="lv2" >
+                                                            </tr>
+
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">ระดับหลักสูตร</a>
+                                            <span class="pull-right" >
+                                                <button class="btn btn-info btn-xs" id ='selectAllLV3' value="check">เลือกทั้งหมด</button>
+
+                                            </span>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseThree" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <table class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ชื่อผู้ถูกประเมิน</th>
+                                                        <th>รับผิดชอบการประเมิน</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    foreach ($user_all as $key => $value) {
+                                                        if ($value->level == 2) {
+                                                            ?>
+                                                            <tr>
+                                                                <td><?= $value->detail; ?></td>
+                                                                <td> 
+                                                                    <input type="checkbox" 
+                                                                           value="<?= $value->user_id ?>" 
+                                                                           <?php
+                                                                           if (in_array($value->user_id, $user_check)) {
+                                                                               echo "checked";
+                                                                           }
+                                                                           ?> 
+                                                                           name="lv3" > 
+                                                                </td>
+                                                            </tr>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </tbody>
+                                            </table> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -181,40 +220,75 @@
 
 <script src="<?php echo base_url("/assets/js/jquery.js"); ?>"></script>
 <script src="<?php echo base_url("/assets/js/jquery-ui.js"); ?>"></script>
-  
+
 <script>
-    $(document).ready(function () {
-        var availableTags = [
-            "ActionScript",
-            "AppleScript",
-            "Asp",
-            "BASIC",
-            "C",
-            "C++",
-            "Clojure",
-            "COBOL",
-            "ColdFusion",
-            "Erlang",
-            "Fortran",
-            "Groovy",
-            "Haskell",
-            "Java",
-            "JavaScript",
-            "Lisp",
-            "Perl",
-            "PHP",
-            "Python",
-            "Ruby",
-            "Scala",
-            "Scheme"
-        ];
-        var $searchBox = $('#tags');
-        $searchBox.autocomplete({
-            source: availableTags
-        });
-    });
+                        $(document).ready(function () {
+                            $('#message').hide();
+                        });
 
 
+                        $('#saveuser').click(function () {
+                            $('#info').html("กำลังบันทึกข้อมูล...");
+                            $('#message').removeClass().addClass("alert alert-info alert-dismissable");
+                            $('#message').show();
+                            var searchIDs = $(':checkbox:checked').map(function () {
+                                return $(this).val();
+                            }).get();
+                            var URL = "<?php echo base_url('index.php/AdminControl/AddRefToUser/') ?> ";
+                            var DATA = {"user_id": searchIDs, "ref_id": <?= $ref[0]->ref_id ?>};
+                            $.post(URL, DATA, function (data, textStatus, jqXHR) {
+                                console.log(data);
+                                $('#info').html("บันทึกข้อมูลเรียบร้อยแล้ว");
+                                $('#message').removeClass().addClass("alert alert-success alert-dismissable");
+                                //$('#message').removeClass("alert-danger").addClass("alert-success");
+                                $("#message").show();
+                                $("#message").fadeOut(3000);
+
+                            }).fail(function (data, textStatus, jqXHR) {
+                                console.log(data);
+                                $('#info').html("พบข้อผิดพลาดกรุณาติดต่อ ผู้พัฒนา");
+                                $('#message').removeClass().addClass("alert alert-danger alert-dismissable");
+                                //$('#message').removeClass("alert-success").addClass("alert-danger");
+                                $("#message").show();
+                                $("#message").fadeOut(3000);
+                            });
+                        });
+                        $('#selectAllLV3').click(function () {
+                            $value = $('#selectAllLV3');
+                            if ($value.val() == 'check') {
+                                $("input[name='lv3']").prop('checked', true);
+                                $('#selectAllLV3').val("uncheck");
+                                $('#selectAllLV3').text("ยกเลิกทั้งหมด");
+                            } else {
+                                $("input[name='lv3']").prop('checked', false);
+                                $('#selectAllLV3').val("check");
+                                $('#selectAllLV3').text("เลือกทั้งหมด");
+                            }
+                        });
+                        $('#selectAllLV2').click(function () {
+                            $value = $('#selectAllLV2').val();
+                            if ($value == 'check') {
+                                $("input[name='lv2']").prop('checked', true);
+                                $('#selectAllLV2').val("uncheck");
+                                $('#selectAllLV2').text("ยกเลิกทั้งหมด");
+                            } else {
+                                $("input[name='lv2']").prop('checked', false);
+                                $('#selectAllLV2').val("check");
+                                $('#selectAllLV2').text("เลือกทั้งหมด");
+                            }
+                        });
+                        $('#selectAllLV1').click(function () {
+                            $value = $('#selectAllLV1').val();
+                            if ($value == 'check') {
+                                $("input[name='lv1']").prop('checked', true);
+                                $('#selectAllLV1').val("uncheck");
+                                $('#selectAllLV1').text("ยกเลิกทั้งหมด");
+                            } else {
+                                $("input[name='lv1']").prop('checked', false);
+                                $('#selectAllLV1').val("check");
+                                $('#selectAllLV1').text("เลือกทั้งหมด");
+                            }
+                        });
 </script>
 
 

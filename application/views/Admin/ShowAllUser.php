@@ -9,7 +9,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <div class="panel panel-green">
+                <div class="panel panel-success">
                     <div class="panel-heading">
                         รายชื่อผู้ใช้งาน
                         <span class="pull-right" >
@@ -119,6 +119,12 @@
                                             "width": "5px",
                                             "searchable": false,
                                             "orderable": false
+                                        },
+                                        {
+                                            "render": function (data, type, row) {
+                                                return "<a href='#'>" + data + "</a>";
+                                            },
+                                            "targets": 2
                                         }
                                     ]
                                 });
@@ -150,6 +156,17 @@
                                     $('#EditModal').modal('show');
                                 });
 
+                                table.on('click', 'a', function () {
+                                    /* get data onclick */
+                                    var tr = $(this).closest('tr');
+                                    var row = table.row(tr);
+                                    var data = row.data();
+                                    console.log(data);
+                                    var url = "<?php echo base_url('index.php/AdminControl/ShowUserToRef/') ?>/" + data.user_id;
+                                    $(location).attr('href', url);
+                                    return false;
+                                });
+                                
                                 // update status
                                 table.on('click', '#status', function () {
                                     var tr = $(this).closest('tr');
@@ -203,7 +220,7 @@
                                 });
 
                             }
-                            
+
 </script>
 
 

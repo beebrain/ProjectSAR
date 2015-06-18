@@ -92,35 +92,8 @@
         $("#Adduser")[0].reset();
     }
 
+    
 
-
-    $("#user_ref_div").hide();
-
-    $("#level").change(function () {
-        if ($("#level").val() == 1 || $("#level").val() == 2) {
-            var URL = "<?php echo base_url("index.php/AdminControl/getListLevel") ?>";
-            $.post(URL, {"level": $("#level").val() - 1}, function (data, textStatus, jqXHR)
-                {
-                $("#user_ref_div").show();
-                var obj = JSON.parse(data);
-                var i = 0
-                var len = obj.length;
-                console.log(obj);
-                $("select[name=user_ref]").html("<option value='-1'>กรุณาเลือก</option>");
-                for (; i < len; i++) {
-                    $("select[name=user_ref]").append("<option value='" + obj[i].user_id + "'>" + obj[i].detail + "</option>");
-                }
-
-
-                }).fail(function (data) {
-                alert("ไม่พบข้อมูล กรุณาติดต่อผู้พัฒนา");
-            });
-        } else {
-            $("#user_ref_div").hide();
-        }
-
-
-    });
 
 </script>
 
