@@ -56,7 +56,7 @@
                     <!-- /.panel-heading -->
                     <div class="panel-body">
 
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table table-striped table-bordered table-hover" id="usertoref">
                             <thead>
                                 <tr>
                                     <th>ชื่อผู้ประเมิน</th>
@@ -111,6 +111,9 @@
 <script>
                         $(document).ready(function () {
                             $('#message').hide();
+                            var table = $('#usertoref').DataTable({
+                                "ordering": false
+                            });
                         });
 
 
@@ -124,7 +127,7 @@
                             var URL = "<?php echo base_url('index.php/AdminControl/AddUserToRef/') ?> ";
                             var DATA = {"ref_id": searchIDs, "user_id": <?= $user[0]->user_id ?>};
                             $.post(URL, DATA, function (data, textStatus, jqXHR) {
-                                console.log(data);
+                               // console.log(data);
                                 $('#info').html("บันทึกข้อมูลเรียบร้อยแล้ว");
                                 $('#message').removeClass().addClass("alert alert-success alert-dismissable");
                                 //$('#message').removeClass("alert-danger").addClass("alert-success");

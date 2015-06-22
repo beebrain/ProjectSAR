@@ -92,81 +92,8 @@ class AdminControl extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-    public function AddRefToUser() {
-        $data = $this->input->post();
-        $this->load->model('map_user_to_ref');
-        $this->map_user_to_ref->DeleteByRef($data['ref_id']);
-        $newData = array();
-        if (array_key_exists('user_id', $data)) { // if have value in user
-            foreach ($data['user_id'] as $key => $value) {
-                $newData['user_id'] = $value;
-                $newData['ref_id'] = $data['ref_id'];
-                $this->map_user_to_ref->AddMap($newData);
-            }
-        }
-    }
 
-    public function AddUserToRef() {
-        $data = $this->input->post();
-        $this->load->model('map_user_to_ref');
-        $this->map_user_to_ref->DeleteByUser($data['user_id']);
-        $newData = array();
-        if (array_key_exists('ref_id', $data)) { // if have value in ref
-            foreach ($data['ref_id'] as $key => $value) {
-                $newData['ref_id'] = $value;
-                $newData['user_id'] = $data['user_id'];
-                
-                $this->map_user_to_ref->AddMap($newData);
-            }
-        }
-    }
-
-    /**
-     * For Adduser Ajax Method
-     */
-    public function AddUser() {
-        $this->load->model('user');
-        $data = $this->input->post();
-        $data['password'] = md5($data['password']);
-        echo $this->user->AddUser($data);
-    }
-
-    /**
-     * For Adduser Ajax Method
-     */
-    public function AddRef() {
-        $this->load->model('ref');
-        $data = $this->input->post();
-        $data['password'] = md5($data['password']);
-        echo $this->ref->AddRef($data);
-    }
-
-    /**
-     * Ajax Method UpdateUser
-     */
-    public function UpdateUser() {
-        $this->load->model('user');
-        $data = $this->input->post();
-        if ($data["password2"] <> "") {
-            $data["password"] = md5($data["password2"]);
-        }
-        unset($data["password2"]);
-        echo $this->user->UpdateUser($data);
-    }
-
-    /**
-     * Ajax Method UpdateRef
-     */
-    public function UpdateRef() {
-        $this->load->model('ref');
-        $data = $this->input->post();
-        if ($data["password2"] <> "") {
-            $data["password"] = md5($data["password2"]);
-        }
-        unset($data["password2"]);
-        echo $this->ref->UpdateRef($data);
-    }
-
+    
     /**
      * For Json data
      */
@@ -233,6 +160,81 @@ class AdminControl extends CI_Controller {
         $this->load->view('template/sidebar');
         $this->load->view('Admin/ShowAllRef');
         $this->load->view('template/footer');
+    }
+
+    public function AddRefToUser() {
+        $data = $this->input->post();
+        $this->load->model('map_user_to_ref');
+        $this->map_user_to_ref->DeleteByRef($data['ref_id']);
+        $newData = array();
+        if (array_key_exists('user_id', $data)) { // if have value in user
+            foreach ($data['user_id'] as $key => $value) {
+                $newData['user_id'] = $value;
+                $newData['ref_id'] = $data['ref_id'];
+                $this->map_user_to_ref->AddMap($newData);
+            }
+        }
+    }
+
+    public function AddUserToRef() {
+        $data = $this->input->post();
+        $this->load->model('map_user_to_ref');
+        $this->map_user_to_ref->DeleteByUser($data['user_id']);
+        $newData = array();
+        if (array_key_exists('ref_id', $data)) { // if have value in ref
+            foreach ($data['ref_id'] as $key => $value) {
+                $newData['ref_id'] = $value;
+                $newData['user_id'] = $data['user_id'];
+
+                $this->map_user_to_ref->AddMap($newData);
+            }
+        }
+    }
+
+    /**
+     * For Adduser Ajax Method
+     */
+    public function AddUser() {
+        $this->load->model('user');
+        $data = $this->input->post();
+        $data['password'] = md5($data['password']);
+        echo $this->user->AddUser($data);
+    }
+
+    /**
+     * For Adduser Ajax Method
+     */
+    public function AddRef() {
+        $this->load->model('ref');
+        $data = $this->input->post();
+        $data['password'] = md5($data['password']);
+        echo $this->ref->AddRef($data);
+    }
+
+    /**
+     * Ajax Method UpdateUser
+     */
+    public function UpdateUser() {
+        $this->load->model('user');
+        $data = $this->input->post();
+        if ($data["password2"] <> "") {
+            $data["password"] = md5($data["password2"]);
+        }
+        unset($data["password2"]);
+        echo $this->user->UpdateUser($data);
+    }
+
+    /**
+     * Ajax Method UpdateRef
+     */
+    public function UpdateRef() {
+        $this->load->model('ref');
+        $data = $this->input->post();
+        if ($data["password2"] <> "") {
+            $data["password"] = md5($data["password2"]);
+        }
+        unset($data["password2"]);
+        echo $this->ref->UpdateRef($data);
     }
 
 }

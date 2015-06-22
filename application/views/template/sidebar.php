@@ -9,7 +9,16 @@
                     <!-- /input-group -->
                 </li>
                 <li>
-                    <a href="<?php echo base_url("index.php/AdminPanel/index"); ?>"><i class="fa fa-dashboard fa-fw"></i> จัดการหัวข้อองค์ประเมิณ</a>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>จัดการองค์ประเมิณ<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="<?php echo base_url("index.php/AdminPanel/ShowMaster");?>"> สร้างหัวข้อองค์ประเมิณ</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo base_url("index.php/AdminPanel/MasToLevel");?>"> กำหนดองค์ประเมิณ</a>
+                        </li> 
+                   </ul>
+                    <!-- /.nav-second-level -->
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> จัดการผู้ใช้<span class="fa arrow"></span></a>
@@ -20,14 +29,11 @@
                         <li>
                             <a href="<?php echo base_url("index.php/AdminControl/ShowAllRef"); ?>">รายชื่อผู้ประเมิณ</a>
                         </li>
-                        <li>
-                            <a href="<?php echo base_url("index.php/AdminControl/ShowRefToUser"); ?>">จัดการผู้ประเมิณ</a>
-                        </li>
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                    <a href="forms.html"><i class="fa fa-edit fa-fw"></i>กำหนดองค์ประเมิน</a>
                 </li>
                 <li>
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>

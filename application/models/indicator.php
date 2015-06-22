@@ -13,7 +13,7 @@ class indicator extends CI_Model {
      */
     public function getAllIndicatorBycomposit($id) {
         $this->db->where('composition_id', $id);
-        $this->db->order_by('indicator_num');
+        $this->db->order_by('indicator_id');
         $query = $this->db->get('indicator');
         return $query;
     }
@@ -42,6 +42,20 @@ class indicator extends CI_Model {
         return $num_updates;
     }
 
+    public function updateIndicatorWithComposition($data) {
+        $this->db->where('composition_id', $data['composition_id']);
+        $this->db->update('indicator', $data);
+        $num_updates = $this->db->affected_rows();
+        return $num_updates;
+    }
+
+    public function updateIndicatorWithIndicatorId($data) {
+        $this->db->where('indicator_id', $data['indicator_id']);
+        $this->db->update('indicator', $data);
+        $num_updates = $this->db->affected_rows();
+        return $num_updates;
+    }
+
     /**
      * 
      * @param type $data
@@ -58,8 +72,8 @@ class indicator extends CI_Model {
      * Delete indicator by id
      * @author Pisit Nakjai
      */
-     public function DeleteIndicator($id){
-        $this->db->where('indicator_id',$id);
+    public function DeleteIndicator($id) {
+        $this->db->where('indicator_id', $id);
         $this->db->delete('indicator');
     }
 

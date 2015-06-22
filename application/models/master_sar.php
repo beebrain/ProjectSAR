@@ -38,6 +38,8 @@ class master_sar extends CI_Model {
         $query = $this->db->get('master_sar');
         return $query;
     }
+    
+    
 
 }
 

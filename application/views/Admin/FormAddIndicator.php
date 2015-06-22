@@ -78,3 +78,5 @@
 
 </div>
 <script type="text/javascript" src="<?php echo base_url("assets/CKeditor/ckeditor.js"); ?>"></script></div>
+<script src="<?php echo base_url("/assets/js/jquery.js"); ?>"></script>
+<script src="<?php echo base_url("/assets/js/jquery-ui.js"); ?>"></script>

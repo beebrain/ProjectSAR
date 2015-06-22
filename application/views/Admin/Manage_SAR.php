@@ -14,7 +14,7 @@
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h4 class="panel-title">ประกันคุณภาพ
+                            <h4 class="panel-title">ชุดการประกันคุณภาพ
                                 <span class="pull-right" data-toggle="modal" data-target="#myModal">
                                     <a href ="#" >
                                         <i class="fa fa-plus-square fa-lg" title="เพิ่มการประเมิณ"></i>
@@ -84,7 +84,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">เพิ่มการประกันคุณภาพ</h4>
+                        <h4 class="modal-title" id="myModalLabel">เพิ่มชุดการประกันคุณภาพ</h4>
                     </div>
                     <form id="testForm" role="form" action="<?php echo base_url('index.php/AdminPanel/AddMaster_sar'); ?>" method="post">
                         <div class="modal-body">

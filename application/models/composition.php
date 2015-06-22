@@ -12,6 +12,18 @@ class composition extends CI_Model {
         $query = $this->db->get('composition');
         return $query;
     }
+    
+    /**
+     * get group of composition which same master id
+     * @param type $master_id
+     * @return type
+     */
+    public function getCompositByMaster_id($master_id){
+        $this->db->where('master_id',$master_id);
+        $this->db->order_by('id');
+        $query = $this->db->get('composition');
+        return $query;
+    }
 
     public function getCompositionById($id) {
         if ($id == NULL) {
