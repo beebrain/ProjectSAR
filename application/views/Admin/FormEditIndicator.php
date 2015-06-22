@@ -11,7 +11,7 @@
                 <div class="panel panel-default">                  
                     <div class="panel-heading">  <?php echo $composition->maintitle . " " . $composition->title; ?> </div>
                     <div class="panel-body">
-                        <form role="form" action="<?php echo base_url("index.php/AdminPanel/EditIndicator"); ?>" method="post">
+                        <form id="editindicator" role="form" action="<?php echo base_url("index.php/AdminPanel/EditIndicator"); ?>" method="post">
                             <div class="form-group">
                                 <label>ใช้กับ</label>
                                 <select class="form-control" name = "used">
@@ -70,3 +70,24 @@
 </div>
 </div>
 <script type="text/javascript" src="<?php echo base_url("assets/CKeditor/ckeditor.js"); ?>"></script></div>
+<script src="<?php echo base_url("/assets/js/jquery.js"); ?>"></script>
+<script src="<?php echo base_url("/assets/js/jquery-ui.js"); ?>"></script>
+<?php echo js_asset("jquery.validate.js"); ?>
+<script>
+
+    $("document").ready(function () {
+        $("#editindicator").validate({
+            rules: {
+                number: "required",
+                title: "required",
+                type: "required",
+            },
+            messages: {
+                number: "<p class='text-danger'>กรุณากรอกเลขที่ตัวชี้วัด</p>",
+                title: "<p class='text-danger'>กรุณากรอกชื่อตัวชี้วัด</p>",
+                type: "<p class='text-danger'>กรุณากรอกชนิดตัวชี้วัด</p>"
+            }
+        });
+
+
+    });</script>

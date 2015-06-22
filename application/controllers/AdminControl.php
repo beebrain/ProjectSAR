@@ -104,7 +104,7 @@ class AdminControl extends CI_Controller {
         $data = $result->result();
 
         for ($i = 0; $i < sizeof($data); $i++) {
-            $data[$i]->level_detail = $level_detail[$data[$i]->level];
+            $data[$i]->level_detail = $level_detail[$data[$i]->level-1];
         }
         //print_r($data);
         $output = array(

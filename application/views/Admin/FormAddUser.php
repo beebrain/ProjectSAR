@@ -35,21 +35,21 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input class="form-control" name = "password" required>
+                                    <input class="form-control" type="password" name = "password" required>
                                 </div>
                                 <div class="form-group">
                                     <label>ระดับการเข้าใช้งาน</label>
                                     <select class="form-control" name="level"  id="level" required>
                                         <option >กรุณาเลือกระดับการเข้าใช้งาน</option>
-                                        <option value="0">ระดับมหาวิทยาลัย</option>
-                                        <option value="1">ระดับคณะ</option>
-                                        <option value="2">ระดับหลักสูตร</option>
+                                        <option value="1">ระดับมหาวิทยาลัย</option>
+                                        <option value="2">ระดับคณะ</option>
+                                        <option value="3">ระดับหลักสูตร</option>
                                     </select>
                                 </div>
                                 <div class="form-group" id="user_ref_div">
                                     <label>สังกัด</label>
-                                    <select class="form-control" name="user_ref" >
-                                        <option value="-1">กรุณาเลือกระดับการเข้าใช้งาน</option>
+                                    <select class="form-control" name="user_ref" id="user_ref" >
+                                        <option value="x">กรุณาเลือกระดับการเข้าใช้งาน</option>
 
                                     </select>
                                 </div>
@@ -82,10 +82,41 @@
 <!-- /#page-wrapper -->
 
 <?php echo js_asset("jquery.min.js"); ?>
+<?php echo js_asset("jquery.validate.js"); ?>
 
 <script>
+
+    $("document").ready(function () {
+        $("#Adduser").validate({
+            rules: {
+                detail: "required",
+                username: "required",
+                password: "required",
+                level: {
+                    required: true,
+                    number: true
+                },
+                user_ref: {
+                    required: true,
+                    number: true
+                }
+            },
+            messages: {
+                detail: "<p class='text-danger'>กรุณากรอกรายละเอียดผู้ใช้</p>",
+                username: "<p class='text-danger'>กรุณากรอก Username</p>",
+                password: "<p class='text-danger'>กรุณากรอก password</p>",
+                level: "<p class='text-danger'>กรุณาเลือกระดับการเข้าใช้งาน</p>",
+                user_ref: "<p class='text-danger'>กรุณาเลือกสังกัด</p>"
+            }
+        });
+    });
     $("#message").hide();
+    $("#user_ref_div").hide();
     function sendData() {
+        if (!$("#Adduser").valid()) {
+            return false;
+        }
+
         var formData = $("#Adduser").serializeArray();
         var URL = $("#Adduser").attr("action");
         $.post(URL,
@@ -103,16 +134,13 @@
             $("#message").show();
             $("#message").fadeOut(3000);
             });
-
         $("#Adduser")[0].reset();
     }
 
-  
 
-    $("#user_ref_div").hide();
 
     $("#level").change(function () {
-        if ($("#level").val() == 1 || $("#level").val() == 2) {
+        if ($("#level").val() == 2 || $("#level").val() == 3) {
             var URL = "<?php echo base_url("index.php/AdminControl/getListLevel") ?>";
             $.post(URL, {"level": $("#level").val() - 1}, function (data, textStatus, jqXHR)
                 {
@@ -121,7 +149,7 @@
                 var i = 0
                 var len = obj.length;
                 console.log(obj);
-                $("select[name=user_ref]").html("<option value='-1'>กรุณาเลือก</option>");
+                $("select[name=user_ref]").html("<option>กรุณาเลือก</option>");
                 for (; i < len; i++) {
                     $("select[name=user_ref]").append("<option value='" + obj[i].user_id + "'>" + obj[i].detail + "</option>");
                 }
@@ -130,7 +158,11 @@
                 }).fail(function (data) {
                 alert("ไม่พบข้อมูล กรุณาติดต่อผู้พัฒนา");
             });
-        } else {
+        } else if($("#level").val() == 1) {
+            $("select[name=user_ref]").html("<option value='1'>มหาวิทยาลัยราชภัฏอุตรดิตถ์</option>");
+            $("#user_ref_div").show();
+            // $("#user_ref_div").hide();
+        }else{
             $("#user_ref_div").hide();
         }
 

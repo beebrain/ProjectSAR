@@ -108,14 +108,14 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">เพิ่มหัวข้อองค์ประเมิน</h4>
                     </div>
-                    <form role="form" action="<?php echo base_url('index.php/AdminPanel/AddComposition'); ?>" method="post">
+                    <form role="form" id="form_addcomposit" action="<?php echo base_url('index.php/AdminPanel/AddComposition'); ?>" method="post">
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>องค์ประกอบที่</label>
+                                <label>องค์ประเมินที่</label>
                                 <input class="form-control" name="maintitle">
                             </div>
                             <div class="form-group">
-                                <label>ชื่อองค์ประกอบ</label>
+                                <label>ชื่อองค์ประเมิน</label>
                                 <input class="form-control" name = "title">
                             </div>
 
@@ -142,11 +142,11 @@
                     <form id="updateform" role="form" action="<?php echo base_url('index.php/AdminPanel/UpdateComposition'); ?>" method="post">
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>องค์ประกอบที่</label>
+                                <label>องค์ประเมินที่</label>
                                 <input id="maintitleEdit" class="form-control" name="maintitle" value="">
                             </div>
                             <div class="form-group">
-                                <label>ชื่อองค์ประกอบ</label>
+                                <label>ชื่อองค์ประเมิน</label>
                                 <input id="titleEdit" class="form-control" name = "title" value="" >
                                 <input type="hidden" class="form-control" id="composit_id" name="composit_id" value="">
                             </div>
@@ -191,9 +191,36 @@
         </div>
 
         <?php echo js_asset("jquery.min.js"); ?>
+        <?php echo js_asset("jquery.validate.js"); ?>
         <script>
+            $("document").ready(function () {
+                $("#form_addcomposit").validate({
+                    rules: {
+                        maintitle: "required",
+                        title: "required",
+                    },
+                    messages: {
+                        maintitle: "<p class='text-danger'>กรุณากรอกเลขที่องค์ประเมิน</p>",
+                        title: "<p class='text-danger'>กรุณากรอกชื่อองค์ประเมิน</p>",
+                    }
+                });
 
+                $("#updateform").validate({
+                    rules: {
+                        maintitle: "required",
+                        title: "required",
+                    },
+                    messages: {
+                        maintitle: "<p class='text-danger'>กรุณากรอกเลขที่องค์ประเมิน</p>",
+                        title: "<p class='text-danger'>กรุณากรอกชื่อองค์ประเมิน</p>",
+                    }
+                });
+            });
             function sendData() {
+
+                if (!$("#updateform").valid()) {
+                    return false;
+                }
                 $('#info_data').removeClass();
                 var formData = $("#updateform").serializeArray();
                 var URL = $("#updateform").attr("action");
@@ -235,7 +262,7 @@
             }
 
             function DeleteindicatorFunction(vid, title) {
-                $('#confirmDelete .modal-body').html("หัวข้อ - "+title);
+                $('#confirmDelete .modal-body').html("หัวข้อ - " + title);
                 $('#confirmDelete').find('.modal-footer #confirm').on('click', function () {
                     $.post("<?php echo base_url('index.php/AdminPanel/DeleteIndicator'); ?>",
                                                         {id: vid, check: "true"},

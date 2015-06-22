@@ -41,7 +41,7 @@
                                                 </div>
                                                 <div class="col-xs-9 text-right">
 
-                                                    <div ><a href="<?php echo base_url('index.php/AdminPanel/showCompositAll/').'/'.$row->id ?>"><?php echo $row->desc; ?></a></div> <!-- ชื่อห้วข้อ -->
+                                                    <div ><a href="<?php echo base_url('index.php/AdminPanel/showCompositAll/') . '/' . $row->id ?>"><?php echo $row->desc; ?></a></div> <!-- ชื่อห้วข้อ -->
                                                 </div>
                                             </div>
                                         </div>
@@ -90,7 +90,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>รายละเอียด (ตัวอย่าง ปีการศึกษา 2557)</label>
-                                <input class="form-control" name="desc">
+                                <input class="form-control" type= "text" name="desc" id="desc">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -160,8 +160,18 @@
         </div>
 
         <?php echo js_asset("jquery.min.js"); ?>
-
+        <?php echo js_asset("jquery.validate.js"); ?>
         <script>
+            $("document").ready(function () {
+                $("#testForm").validate({
+                    rules: {
+                        desc: "required",
+                    },
+                    messages: {
+                        desc: "<p class='text-danger'>กรุณากรอกข้อมูล</p>",
+                    }
+                });
+            });
 
             $('form').on("keyup keypress", function (e) {
                 var code = e.keyCode || e.which;
@@ -175,20 +185,18 @@
             function confirmDelete(vid, title) {
                 $('#confirmDelete .modal-body').html("หัวข้อ - " + title);
                 $('#confirmDelete').find('.modal-footer #confirm').on('click', function () {
-                    $.post("<?php echo base_url('index.php/AdminPanel/deleteMaster_sar'); ?>",
-                                                        {id: vid, check: "true"},
-                                        function (data, textStatus, jqXHR)
-                                            {
+                    $.post(
+                            "<?php echo base_url('index.php/AdminPanel/deleteMaster_sar'); ?>",
+                            {id: vid, check: "true"},
+                    function (data, textStatus, jqXHR) {
                         location.reload();
-                                            }).fail(function (jqXHR, textStatus, errorThrown)
-                        {
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
                         $('.modal').modal('hide');
                         $('#info_data').addClass("alert alert-danger");
                         $('#info_data').html("Delete Fail".textStatis);
                         $('#info').modal('show');
                     });
                 });
-
             }
 
 
@@ -208,7 +216,6 @@
                             {
 
                             location.reload();
-
                             }).fail(function (jqXHR, textStatus, errorThrown)
                     {
                     $('.modal').modal('hide');
@@ -216,12 +223,13 @@
                     $('#info_data').html("Delete Fail".textStatis);
                     $('#info').modal('show');
                     });
-
-
             }
 
 
             function sendData() {
+                if (!$("#testForm").valid()) {
+                    return false;
+                }
 
                 var formData = $("#testForm").serializeArray();
                 var URL = $("#testForm").attr("action");
@@ -232,7 +240,6 @@
                             {
 
                             location.reload();
-
                             }).fail(function (jqXHR, textStatus, errorThrown)
                     {
                     $('.modal').modal('hide');
@@ -240,7 +247,5 @@
                     $('#info_data').html("Delete Fail".textStatis);
                     $('#info').modal('show');
                     });
-
-
             }
         </script>

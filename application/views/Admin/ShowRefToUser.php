@@ -82,7 +82,7 @@
                                                 <tbody>
                                                     <?php
                                                     foreach ($user_all as $key => $value) {
-                                                        if ($value->level == 0) {
+                                                        if ($value->level == 1) {
                                                             ?>
                                                             <tr>
                                                                 <td><?= $value->detail; ?></td>
@@ -128,7 +128,7 @@
                                                 <tbody>
                                                     <?php
                                                     foreach ($user_all as $key => $value) {
-                                                        if ($value->level == 1) {
+                                                        if ($value->level == 2) {
                                                             ?>
                                                             <tr>
                                                                 <td><?= $value->detail; ?></td>
@@ -174,7 +174,7 @@
                                                 <tbody>
                                                     <?php
                                                     foreach ($user_all as $key => $value) {
-                                                        if ($value->level == 2) {
+                                                        if ($value->level == 3) {
                                                             ?>
                                                             <tr>
                                                                 <td><?= $value->detail; ?></td>

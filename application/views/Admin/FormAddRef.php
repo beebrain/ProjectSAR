@@ -28,15 +28,15 @@
 
                                 <div class="form-group">
                                     <label>Username</label>
-                                    <input class="form-control" name="username" required>
+                                    <input class="form-control" name="username"  id="username">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" class="form-control" name = "password" required>
+                                    <input type="password" class="form-control" name = "password"  id = "password" >
                                 </div>
                                 <div class="form-group">
                                     <label>รายละเอียดผู้ประเมิณ</label>
-                                    <input class="form-control" name="detail" required>
+                                    <input class="form-control" name="detail" id="detail">
                                 </div>
                                 <span style="flex-align: auto">
                                     <button type="button" onclick="sendData()" class="btn btn-default ">บันทึก</button>
@@ -67,10 +67,34 @@
 <!-- /#page-wrapper -->
 
 <?php echo js_asset("jquery.min.js"); ?>
+<?php echo js_asset("jquery.validate.js"); ?>
+
+
 
 <script>
+
+    $("document").ready(function () {
+        $("#Adduser").validate({
+            rules: {
+                username: "required",
+                password: "required",
+                detail: "required",
+            },
+            messages: {
+                username: "<p class='text-danger'>กรุณากรอก username</p>",
+                password: "<p class='text-danger'>กรุณากรอก password</p>",
+                detail: "<p class='text-danger'>กรุณากรอก รายละเอียด</p>"
+            }
+        });
+    });
+
+
     $("#message").hide();
     function sendData() {
+
+        if (!$("#Adduser").valid()) {
+            return false;
+        }
         var formData = $("#Adduser").serializeArray();
         var URL = $("#Adduser").attr("action");
         $.post(URL,
@@ -92,7 +116,7 @@
         $("#Adduser")[0].reset();
     }
 
-    
+
 
 
 </script>
