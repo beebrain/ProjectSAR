@@ -18,6 +18,19 @@ class indicator extends CI_Model {
         return $query;
     }
 
+    /**
+     * 
+     * @param type $id
+     * @return Dataset
+     */
+    public function getAllIndicatorBycompositSomeLevel($id,$level) {
+        $this->db->where('composition_id', $id);
+        $this->db->where('lv'.$level,"1");
+        $this->db->order_by('indicator_id');
+        $query = $this->db->get('indicator');
+        return $query;
+    }
+
     /*
      *  jirapa/getIndicatorById
      */

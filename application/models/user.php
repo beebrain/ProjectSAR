@@ -27,6 +27,7 @@ class user extends CI_Model {
     
     public function getUserLevel($data){
         $this->db->where('level',$data['level']);
+        $this->db->where_not_in('status',"-1");
         $query = $this->db->get('user');
         return $query;
     }

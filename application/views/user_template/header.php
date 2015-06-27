@@ -32,11 +32,14 @@
         <link rel="stylesheet" href="<?php echo other_asset_url("bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css"); ?>" >
         <link rel="stylesheet" href="<?php echo other_asset_url("bower_components/datatables-responsive/css/dataTables.responsive.css"); ?>" >
 
+        <!--- bootstrap editable -->
+        <link href="<?php echo base_url('assets/css/bootstrap-editable.css') ?>" rel="stylesheet"/>
 
         <!-- Custom Fonts 
         <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
         <link href="<?php echo other_asset_url("bower_components/font-awesome/css/font-awesome.min.css"); ?>" rel="stylesheet">
 
+        
 
 
 

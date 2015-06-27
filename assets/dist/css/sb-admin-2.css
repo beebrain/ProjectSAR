@@ -332,3 +332,13 @@ table.dataTable thead .sorting::after {
     color: #ffffff;
     
 }
+
+
+/*
+Mystyle
+*/
+
+.mytextarea {
+  width: 100%;
+}
+
