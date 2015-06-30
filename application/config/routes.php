@@ -38,7 +38,7 @@
 |
 */
 
-$route['default_controller'] = "AdminPanel";
+$route['default_controller'] = "AdminPanel/ShowMaster";
 $route['404_override'] = '';
 
 

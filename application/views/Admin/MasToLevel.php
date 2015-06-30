@@ -10,7 +10,7 @@ if (isset($select_master_sar) && count($select_master_sar) > 0) {
     <div class = "row">
         <div class = "row">
             <div class = "col-lg-12">
-                <h1 class = "page-header">กำหนดผู้ประเมิน</h1>
+                <h1 class = "page-header">กำหนดองค์ประเมิน</h1>
             </div>
 
         </div>
@@ -102,7 +102,7 @@ if (isset($select_master_sar) && count($select_master_sar) > 0) {
             <div class="col-lg-10 col-lg-offset-1">
                 <div class="panel panel-success">
                     <div class="panel-heading">
-                        กำหนดผู้ประเมิณ 
+                        กำหนดองค์ประเมิน
                         <span class="pull-right" ><button class="btn  btn-success btn-xs" id="saveuser">บันทึก</button></span>
                     </div>
 
@@ -123,7 +123,7 @@ if (isset($select_master_sar) && count($select_master_sar) > 0) {
                             $composit = $value[0];
                             $indicatorArray = $value[1];
                             ?>
-                            <h3><?= $composit->maintitle ?></h3>
+                            <h3><?= $composit->maintitle." - ".$composit->title ?></h3>
 
                             <table class="table table-striped table-bordered table-hover" id="usertoref">
 
@@ -141,7 +141,7 @@ if (isset($select_master_sar) && count($select_master_sar) > 0) {
                                     ?>
                                     <tbody>
                                         <tr>
-                                            <td><?= $value_indicator->indicator_num ?></td>
+                                            <td><?= $value_indicator->indicator_num." - ".$value_indicator->indicator_title ?></td>
                                             <td> <input type="checkbox" value="<?= $value_indicator->indicator_id ?>" name="lv1" <?php if ($value_indicator->lv1 == "1") echo "checked" ?> > </td>
                                             <td> <input type="checkbox" value="<?= $value_indicator->indicator_id ?>" name="lv2" <?php if ($value_indicator->lv2 == "1") echo "checked" ?> > </td>
                                             <td> <input type="checkbox" value="<?= $value_indicator->indicator_id ?>" name="lv3" <?php if ($value_indicator->lv3 == "1") echo "checked" ?> > </td>

@@ -11,7 +11,7 @@ class UserPanel extends CI_Controller {
         $user_data['user_id'] = "1";
         $user_data['username'] = "test";
         $user_data['detail'] = "ทดสอบ";
-        $user_data['level'] = "1";
+        $user_data['level'] = "3";
         $this->session->set_userdata('user_data', $user_data);
         // Your own constructor code
     }
@@ -86,23 +86,39 @@ class UserPanel extends CI_Controller {
     }
 
     public function ShowIndicator($indicator_id = NULL) {
+        $user_data = $this->session->userdata('user_data');
         if ($indicator_id == NULL) {
             redirect("index.php/UserPanel/master_sar_All");
             return false;
         } else {
             $this->load->model("subindicator");
             $this->load->model("indicator");
+            $this->load->model("subindicator_doc");
+
             $query = $this->indicator->getIndicatorById($indicator_id);
             $result = $query->result();
             $data['indicator'] = $result;
-            
+
             $query = $this->subindicator->getAllSubindicatorByindicator($indicator_id);
             $result = $query->result();
-            $data['subindicator'] = $result;
-            
+            //$data['subindicator'] =;
+
+            $subin_detail = array();
+            foreach ($result as $value) {
+                $query = $this->subindicator_doc->showSubindicator_doc($user_data['user_id'], $value->subindicator_id);
+                $datadetail['subindicator'] = $value;
+                if (sizeof($query->result()) > 0) {
+                    $datadetail['subindicator_doc'] = $query->result()[0];
+                }else{
+                    $datadetail['subindicator_doc'] = NULL;
+                }
+
+                array_push($subin_detail, $datadetail);
+            }
+            $data['subindicator'] = $subin_detail;
             $this->load->view('user_template/header');
             $this->load->view('user_template/navigationbar');
-         //   $this->load->view('user_template/sidebar');
+            //   $this->load->view('user_template/sidebar');
             $this->load->view('User/userindicator', $data);
             $this->load->view('user_template/footer');
         }
@@ -113,15 +129,20 @@ class UserPanel extends CI_Controller {
      * param : id of user
      * param : detail of subindicator
      */
-    public function addDocumentSubindicator(){
+    public function addDocumentSubindicator() {
         $data = $this->input->post();
-        print_r($data);
-        //$this->load->model("subindicator_doc");
-        
-        
+        $this->load->model("subindicator_doc");
+        //$data['create_date'] = 'now()';
+        /*
+          $data['user_id'] = "1";
+          $data['subindicator_id']= "2";
+          $data['indicator_id']= "1";
+          $data['document']="test";
+         */
+        $this->subindicator_doc->addSubindicator_doc($data);
+        echo json_encode($data);
     }
-    
-    
+
     public function login() {
         $this->load->view('template/header');
         $this->load->view('login');
