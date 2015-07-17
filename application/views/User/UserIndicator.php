@@ -104,7 +104,7 @@ $user_id = $user_data['user_id'];
                                         ?></a>
                                 </td>
                                 <td style="width: 30%">
-                                    <a href="#" id="username" data-type="text" data-pk="1" onclick="showUpload()">awesome</a>
+                                    <a href="#" onclick="selectValue('<?php echo $value_subindicator->subindicator_id ?>')"><i class="fa fa-plus-circle"></i></a>
                                 </td>
                             </tr>
                         </table>
@@ -151,30 +151,31 @@ $user_id = $user_data['user_id'];
 </div>
 
 
-
-
 <?php echo js_asset("jquery.js"); ?>
 <?php echo js_asset("jquery-migrate-1.1.1.js"); ?>
 <?php echo js_asset("bootstrap.js"); ?>
 <?php echo js_asset("bootstrap-editable.min.js"); ?>
+<?php echo js_asset("blurbox.js"); ?>
 <script>
 
     function selectValue(id)
     {
         // open popup window and pass field id
-        window.open('sku.php?id=' + encodeURIComponent(id), 'popuppage',
-                'width=400,toolbar=1,resizable=1,scrollbars=yes,height=400,top=100,left=100');
+        /*window.open('sku.php?id=' + encodeURIComponent(id), 'popuppage',
+         'width=400,toolbar=1,resizable=1,scrollbars=yes,height=400,top=100,left=100');
+         */
+        alert(id);
+        window.open('<?php echo base_url('index.php/UserPanel/callUploadPage/') ?>'+"/"+id, 'popuppage',
+                'width=800,toolbar=0,resizable=0,scrollbars=yes,height=500,top=100,left=100');
     }
 
     function updateValue(id, value)
     {
         // this gets called from the popup window and updates the field with a new value
-        document.getElementById(id).value = value;
+       // document.getElementById(id).value = value;
+       alert(id);
+       alert(value);
     }
-
-
-
-
 
     $.fn.editable.defaults.mode = 'inline';
     $(document).ready(function () {

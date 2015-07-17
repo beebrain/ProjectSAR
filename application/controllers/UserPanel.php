@@ -109,7 +109,7 @@ class UserPanel extends CI_Controller {
                 $datadetail['subindicator'] = $value;
                 if (sizeof($query->result()) > 0) {
                     $datadetail['subindicator_doc'] = $query->result()[0];
-                }else{
+                } else {
                     $datadetail['subindicator_doc'] = NULL;
                 }
 
@@ -147,6 +147,59 @@ class UserPanel extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('login');
         $this->load->view('template/footer');
+    }
+
+    public function callUploadPage($id) {
+        $data['id'] = $id;
+        $this->load->view('User/upload', $data);
+    }
+
+    public function uploadfile() {
+        $this->load->model('document');
+        $this->load->model('doc_sync_indicator');
+
+        $user_data = $this->session->userdata('user_data');
+        $master_id = $this->session->userdata('master_id');
+
+        $config['upload_path'] = "upload/";
+        $config['allowed_types'] = "jpg|gif|png|doc|docx|pdf|xlsx|xls";
+        $config['max_size'] = 2048;
+        $config['file_name'] = '768';
+        $config['encrypt_name'] = 'true';
+        $config['remove_spaces'] = 'true';
+
+        $this->load->library("upload");
+        $this->upload->initialize($config);
+        $info['status'] = "success";
+
+        if ($this->upload->do_upload("myfile")) {
+            // if upload success
+            // get upload data
+            $data = $this->upload->data();
+
+            // setdata for insert to document table
+            $data_db['docname'] = $this->input->post("doc_name");
+            $data_db['subindicator_id'] = $this->input->post("subindicator_id");
+            $data_db['full_path'] = base_url('upload/') . "/" . $data['file_name'];
+            $data_db['size'] = $data['file_size'];
+            $data_db['user_id'] = $user_data['user_id'];
+            $data_db['master_id'] = $master_id;
+            // insert to document table
+            $doc_id = $this->document->Adddocument($data_db);
+
+            // set data for insert to doc_sync table
+            $data_doc_sync['doc_name'] = $data_db['docname'];
+            $data_doc_sync['link_path'] = $data_db['full_path'];
+            $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($data_doc_sync);
+
+            $info['data'] = $data_db;
+            $info['data_sync'] = $data_doc_sync;
+        } else {
+            $info['data'] = $this->upload->display_error();
+            $info['statis'] = "error";
+        }
+
+        echo json_encode($info);
     }
 
     public function checksession() {
