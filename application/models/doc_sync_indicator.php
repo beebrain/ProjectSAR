@@ -19,4 +19,12 @@ class doc_sync_indicator extends CI_Model {
         return $this->db->affected_rows();
     }
 
+    public function getDocument_sync($subindicator_id, $user_id, $master_id) {
+        $this->db->where('subindicator_id', $subindicator_id);
+        $this->db->where('master_id', $master_id);
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('doc_syn_indicator');
+        return $query;
+    }
+
 }

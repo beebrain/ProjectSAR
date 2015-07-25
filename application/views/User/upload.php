@@ -45,6 +45,7 @@
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1 col-md-10">
                 <div class="panel panel-default" >
+
                     <form id="data_form">
                         <div class="panel-heading">
                             <h2>จัดการเอกสารหลักฐาน</h2>
@@ -53,7 +54,8 @@
 
                             <div class="form-group col-lg-5">
                                 <label>ชื่อเอกสารหลักฐาน</label>
-                                <input class="form-control" id="name_doc" name="name_doc">
+                                <input class="form-control" id="name_doc" name="name_doc" >
+                                <div id="message_name_doc"></div>
                             </div>
 
 
@@ -92,12 +94,14 @@
                                             <div class="form-group">
                                                 <label>File Upload</label>
                                                 <div id="fileuploader">Upload</div>
+                                                <div id="message_fileuploader"></div>
                                             </div>
                                         </div>
                                         <div id="url_section">
                                             <div class="form-group">
                                                 <label>ที่อยู่ URL</label>
-                                                <input class="form-control" placeholder="ใส่ URL">
+                                                <input  id="url_file" name="url_file" class="form-control" placeholder="ใส่ URL">
+
                                             </div>
                                         </div>
                                     </div>
@@ -111,7 +115,7 @@
 
                     </form>
                     <div class="panel-footer ">
-                        <div class="clearfix "><button class="pull-right " type="reset" value="ยกเลิก">ยกเลิก </button><button id="save_all" class="pull-right" type="button" value="บันทึกข้อมูล">บันทึกข้อมูล</button></div>
+                        <div class="clearfix "><button class="pull-right " type="reset" value="ยกเลิก">ยกเลิก </button><button id="save_all" class="pull-right" type="button" value="savefile">บันทึกข้อมูล</button></div>
                     </div>
                     <!-- /.panel-body -->
                 </div>
@@ -121,21 +125,33 @@
         </div>
         <script src="<?php echo base_url("/assets/js/jquery.js"); ?>"></script>
         <script src="<?php echo base_url("/assets/js/jquery.fileupload.js"); ?>"></script>
-
+        <?php echo js_asset("jquery.validate.js"); ?>
         <script>
                                                                 $(document).ready(function ()
                                                                 {
+                                                                    $('a[data-toggle="tab"]').on('click', function (e) {
+                                                                        var currenttab = ($(e.target).attr('href'));
+                                                                        if (currenttab == 'fileUpload') {
+                                                                            status_input('file');
+                                                                        } else {
+                                                                            status_input('oldfile');
+                                                                            // find All File
+                                                                        }
+                                                                    });
+
                                                                     status_input('file');
                                                                     var uploadObj = $("#fileuploader").uploadFile({
                                                                         url: "<?php echo base_url('index.php/UserPanel/uploadfile/') ?>",
                                                                         multiple: false,
                                                                         autoSubmit: false,
                                                                         fileName: "myfile",
+                                                                        allowedTypes: "jpg,png,gif,wbmp,bmp,zip,rar,doc,docx,xls,xlsx,pdf,ppt,pptx,txt",
                                                                         maxFileSize: 2048 * 1000,
                                                                         maxFileCount: 1,
                                                                         onSuccess: function (files, data, xhr) {
                                                                             console.log(jQuery.parseJSON(data));
                                                                             changeBG("success");
+                                                                            SetName();
                                                                         },
                                                                         showStatusAfterSuccess: false,
                                                                         dragDropStr: "<span><b>ลากไฟล์เพื่อ Upload</b></span>",
@@ -157,8 +173,35 @@
                                                                     });
                                                                     $("#save_all").click(function ()
                                                                     {
-                                                                        changeBG("progress");
-                                                                        uploadObj.startUpload();
+
+                                                                        if ($("#name_doc").val() == "") {
+                                                                            $("#message_name_doc").html("<div class='alert alert-danger'>กรุณากรอกข้อมูล</div>");
+                                                                        } else {
+                                                                            if ($("#save_all").val() == "savefile") {
+                                                                                changeBG("progress");
+                                                                                if (uploadObj.existingFileNames[0] == "") {
+                                                                                    $("#message_fileuploader").html("<div class='alert alert-danger'>กรุณากรอกข้อมูล</div>");
+                                                                                } else {
+                                                                                    uploadObj.startUpload();
+                                                                                }
+                                                                            } else if ($("#save_all").val() == "saveURL") {
+                                                                                var urls = $("#url_file").val();
+                                                                                changeBG("progress");
+                                                                                $.post("<?php echo base_url('index.php/UserPanel/URLFile/') ?>",
+                                                                                        {
+                                                                                            doc_name: $("#name_doc").val(),
+                                                                                            subindicator_id:<?php echo $id; ?>,
+                                                                                            urls: urls
+                                                                                        },
+                                                                                function (data) {
+                                                                                    changeBG("success");
+                                                                                    SetName();
+                                                                                });
+                                                                            } else if ($("#save_all").val() == "olddoc") {
+
+
+                                                                            }
+                                                                        }
                                                                     });
                                                                 });
         </script>
@@ -170,9 +213,13 @@
                 if (status_select == "file") {
                     $("#upload_section").show();
                     $("#url_section").hide();
+                    $("#save_all").val("savefile");
                 } else if (status_select == "url") {
                     $("#upload_section").hide();
                     $("#url_section").show();
+                    $("#save_all").val("saveURL");
+                } else if (status_select == 'olddoc') {
+                    $("#save_all").val("olddoc");
                 }
             }
 
@@ -180,12 +227,22 @@
                 if (status == 'progress') {
                     $("#mainbody").html("<div class='alert alert-info'>กำลังประมวลผล</div>");
 
-                }else if(status == 'success'){
+                } else if (status == 'success') {
                     $("#mainbody").html("<div class='alert alert-success'>บันทึกข้อมูลเรียบร้อย</div>");
-                    
+
                 }
 
             }
+
+
+            function SetName() {
+                if (window.opener != null && !window.opener.closed) {
+                    opener.updateItem(<?php echo $id; ?>);
+                }
+                window.close();
+            }
+
+
 
         </script>
         <script src="<?php echo base_url("/assets/js/jquery.dataTables.js"); ?>"></script>

@@ -5,15 +5,17 @@
 -- HeidiSQL Version:             9.2.0.4947
 -- --------------------------------------------------------
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Dumping database structure for research1
-DROP DATABASE IF EXISTS `research1`;
 CREATE DATABASE IF NOT EXISTS `research1` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
 USE `research1`;
 
 
 -- Dumping structure for table research1.composition
-DROP TABLE IF EXISTS `composition`;
 CREATE TABLE IF NOT EXISTS `composition` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'For Id Composition',
   `maintitle` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
@@ -30,7 +32,6 @@ CREATE TABLE IF NOT EXISTS `composition` (
 
 
 -- Dumping structure for table research1.control_sar
-DROP TABLE IF EXISTS `control_sar`;
 CREATE TABLE IF NOT EXISTS `control_sar` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `master_sar_id` int(3) NOT NULL,
@@ -46,8 +47,38 @@ CREATE TABLE IF NOT EXISTS `control_sar` (
 -- Data exporting was unselected.
 
 
+-- Dumping structure for table research1.document
+CREATE TABLE IF NOT EXISTS `document` (
+  `doc_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `master_id` int(11) NOT NULL DEFAULT '0',
+  `create` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `docname` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `full_path` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `size` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `subindicator_id` int(11) DEFAULT NULL,
+  KEY `id` (`doc_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table research1.doc_syn_indicator
+CREATE TABLE IF NOT EXISTS `doc_syn_indicator` (
+  `doc_sy_id` int(11) NOT NULL AUTO_INCREMENT,
+  `doc_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `link_path` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `order` int(11) DEFAULT '0',
+  `subindicator_id` int(11) DEFAULT NULL,
+  `master_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`doc_sy_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Data exporting was unselected.
+
+
 -- Dumping structure for table research1.indicator
-DROP TABLE IF EXISTS `indicator`;
 CREATE TABLE IF NOT EXISTS `indicator` (
   `indicator_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `indicator_num` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -68,7 +99,6 @@ CREATE TABLE IF NOT EXISTS `indicator` (
 
 
 -- Dumping structure for table research1.map_user_to_ref
-DROP TABLE IF EXISTS `map_user_to_ref`;
 CREATE TABLE IF NOT EXISTS `map_user_to_ref` (
   `user_id` int(11) DEFAULT NULL,
   `ref_id` int(11) DEFAULT NULL
@@ -78,7 +108,6 @@ CREATE TABLE IF NOT EXISTS `map_user_to_ref` (
 
 
 -- Dumping structure for table research1.master_sar
-DROP TABLE IF EXISTS `master_sar`;
 CREATE TABLE IF NOT EXISTS `master_sar` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `desc` varchar(255) COLLATE utf8_bin NOT NULL,
@@ -94,7 +123,6 @@ CREATE TABLE IF NOT EXISTS `master_sar` (
 
 
 -- Dumping structure for table research1.ref
-DROP TABLE IF EXISTS `ref`;
 CREATE TABLE IF NOT EXISTS `ref` (
   `ref_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
@@ -109,7 +137,6 @@ CREATE TABLE IF NOT EXISTS `ref` (
 
 
 -- Dumping structure for table research1.subindicator
-DROP TABLE IF EXISTS `subindicator`;
 CREATE TABLE IF NOT EXISTS `subindicator` (
   `subindicator_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `indicator_id` int(11) DEFAULT NULL,
@@ -121,7 +148,6 @@ CREATE TABLE IF NOT EXISTS `subindicator` (
 
 
 -- Dumping structure for table research1.subindicatorresult
-DROP TABLE IF EXISTS `subindicatorresult`;
 CREATE TABLE IF NOT EXISTS `subindicatorresult` (
   `ID_ResultQA` int(6) NOT NULL AUTO_INCREMENT,
   `ID_Fac` int(4) DEFAULT NULL,
@@ -134,8 +160,31 @@ CREATE TABLE IF NOT EXISTS `subindicatorresult` (
 -- Data exporting was unselected.
 
 
+-- Dumping structure for table research1.subindicator_doc
+CREATE TABLE IF NOT EXISTS `subindicator_doc` (
+  `subindicator_doc_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `indicator_id` int(11) NOT NULL,
+  `subindicator_id` int(11) NOT NULL,
+  `document` text COLLATE utf8_bin,
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`,`subindicator_id`),
+  UNIQUE KEY `subindicator_doc_id` (`subindicator_doc_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table research1.sub_indicator_doc
+CREATE TABLE IF NOT EXISTS `sub_indicator_doc` (
+  `id` int(11) DEFAULT NULL,
+  `Column 2` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- Data exporting was unselected.
+
+
 -- Dumping structure for table research1.user
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
@@ -152,7 +201,6 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 
 -- Dumping structure for view research1.user_ref
-DROP VIEW IF EXISTS `user_ref`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `user_ref` (
 	`user_id` INT(11) NOT NULL,
@@ -167,7 +215,6 @@ CREATE TABLE `user_ref` (
 
 
 -- Dumping structure for view research1.user_ref
-DROP VIEW IF EXISTS `user_ref`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `user_ref`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `user_ref` AS select users.*, parent.detail as parrent_detail

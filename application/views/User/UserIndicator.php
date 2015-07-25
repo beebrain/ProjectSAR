@@ -90,6 +90,8 @@ $user_id = $user_data['user_id'];
                     foreach ($subindicator as $value) {
                         $value_subindicator = $value["subindicator"];
                         $value_subindicator_doc = $value["subindicator_doc"];
+                        $value_subindicator_sync_doc = $value["subindicator_sync_doc"];
+                        //print_r($value_subindicator_sync_doc);
                         ?>
                         <table class="table table-bordered" style="margin: 0px">
                             <tr>
@@ -105,6 +107,19 @@ $user_id = $user_data['user_id'];
                                 </td>
                                 <td style="width: 30%">
                                     <a href="#" onclick="selectValue('<?php echo $value_subindicator->subindicator_id ?>')"><i class="fa fa-plus-circle"></i></a>
+                                    <div id="item<?php echo $value_subindicator->subindicator_id ?>">
+
+                                        <?php
+                                        if ($value_subindicator_sync_doc != NULL) {
+                                            $index = 1;
+                                            foreach ($value_subindicator_sync_doc as $doc_sync) {
+
+                                                echo "<div> <a href='$doc_sync->link_path'>$index " . $doc_sync->doc_name . "</a> <i class='fa fa-plus-circle'></i></div>";
+                                                $index++;
+                                            }
+                                        }
+                                        ?>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -155,8 +170,9 @@ $user_id = $user_data['user_id'];
 <?php echo js_asset("jquery-migrate-1.1.1.js"); ?>
 <?php echo js_asset("bootstrap.js"); ?>
 <?php echo js_asset("bootstrap-editable.min.js"); ?>
-<?php echo js_asset("blurbox.js"); ?>
 <script>
+
+
 
     function selectValue(id)
     {
@@ -165,19 +181,29 @@ $user_id = $user_data['user_id'];
          'width=400,toolbar=1,resizable=1,scrollbars=yes,height=400,top=100,left=100');
          */
         alert(id);
-        window.open('<?php echo base_url('index.php/UserPanel/callUploadPage/') ?>'+"/"+id, 'popuppage',
+        window.open('<?php echo base_url('index.php/UserPanel/callUploadPage/') ?>' + "/" + id, 'popuppage',
                 'width=800,toolbar=0,resizable=0,scrollbars=yes,height=500,top=100,left=100');
     }
 
-    function updateValue(id, value)
+    function updateItem(id)
     {
-        // this gets called from the popup window and updates the field with a new value
-       // document.getElementById(id).value = value;
-       alert(id);
-       alert(value);
+        $.post("<?php echo base_url('index.php/UserPanel/getItemInsubindicator/') ?>",
+                {"subindicator_id": id},
+        function (data) {
+            $("#item" + id).html("");
+            var obj = jQuery.parseJSON(data);
+            for (var i = 0; i < obj.length; i++) {
+                $("#item" + id).append("<div><a href='" + obj[i].link_path + "'>  " + (i + 1) + " " + obj[i].doc_name + "</a> <i class='fa fa-plus-circle'></i></div>");
+            }
+            console.log(obj);
+
+        });
+
+
+
     }
 
-    $.fn.editable.defaults.mode = 'inline';
+
     $(document).ready(function () {
         $("#message").hide();
         $('.username').editable({
@@ -185,6 +211,8 @@ $user_id = $user_data['user_id'];
             showbuttons: "bottom",
         });
     });
+
+    $.fn.editable.defaults.mode = 'inline';
     $('.username').on('save', function (e, params) {
 
         var currentid = $(this).closest('a');

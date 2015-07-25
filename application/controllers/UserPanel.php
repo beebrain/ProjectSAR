@@ -94,16 +94,19 @@ class UserPanel extends CI_Controller {
             $this->load->model("subindicator");
             $this->load->model("indicator");
             $this->load->model("subindicator_doc");
+            $this->load->model("doc_sync_indicator");
 
             $query = $this->indicator->getIndicatorById($indicator_id);
             $result = $query->result();
             $data['indicator'] = $result;
+
 
             $query = $this->subindicator->getAllSubindicatorByindicator($indicator_id);
             $result = $query->result();
             //$data['subindicator'] =;
 
             $subin_detail = array();
+
             foreach ($result as $value) {
                 $query = $this->subindicator_doc->showSubindicator_doc($user_data['user_id'], $value->subindicator_id);
                 $datadetail['subindicator'] = $value;
@@ -113,9 +116,22 @@ class UserPanel extends CI_Controller {
                     $datadetail['subindicator_doc'] = NULL;
                 }
 
+
+                // Get Document each subindicator
+                $user_id = $user_data['user_id'];
+                $master_id = $this->session->userdata('master_id');
+                $subindicator_id = $value->subindicator_id;
+
+                $result = $this->doc_sync_indicator->getDocument_sync($subindicator_id, $user_id, $master_id);
+                $data_rows = $result->result();
+                $datadetail['subindicator_sync_doc'] = $data_rows;
+
+
                 array_push($subin_detail, $datadetail);
             }
             $data['subindicator'] = $subin_detail;
+
+
             $this->load->view('user_template/header');
             $this->load->view('user_template/navigationbar');
             //   $this->load->view('user_template/sidebar');
@@ -154,6 +170,34 @@ class UserPanel extends CI_Controller {
         $this->load->view('User/upload', $data);
     }
 
+    public function URLFile() {
+        $this->load->model('doc_sync_indicator');
+        $user_data = $this->session->userdata('user_data');
+        $master_id = $this->session->userdata('master_id');
+        $info['status'] = "success";
+
+        // setdata for insert to document table
+
+        $urls = $this->input->post("urls");
+        //Check http:// is found
+        if (!filter_var($urls, FILTER_VALIDATE_URL) === false) {
+            $urls = $urls;
+        } else {
+            $urls = "http://" . $urls;
+        }
+
+        $data_doc_sync['doc_name'] = $this->input->post("doc_name");
+        $data_doc_sync['link_path'] = $urls;
+        $data_doc_sync['user_id'] = $user_data['user_id'];
+        $data_doc_sync['master_id'] = $master_id;
+        $data_doc_sync['subindicator_id'] = $this->input->post("subindicator_id");
+        $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($data_doc_sync);
+
+        $info['data_sync'] = $data_doc_sync;
+
+        echo json_encode($info);
+    }
+
     public function uploadfile() {
         $this->load->model('document');
         $this->load->model('doc_sync_indicator');
@@ -190,6 +234,9 @@ class UserPanel extends CI_Controller {
             // set data for insert to doc_sync table
             $data_doc_sync['doc_name'] = $data_db['docname'];
             $data_doc_sync['link_path'] = $data_db['full_path'];
+            $data_doc_sync['user_id'] = $user_data['user_id'];
+            $data_doc_sync['master_id'] = $master_id;
+            $data_doc_sync['subindicator_id'] = $this->input->post("subindicator_id");
             $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($data_doc_sync);
 
             $info['data'] = $data_db;
@@ -200,6 +247,18 @@ class UserPanel extends CI_Controller {
         }
 
         echo json_encode($info);
+    }
+
+    public function getItemInsubindicator() {
+        $this->load->model('doc_sync_indicator');
+
+        $user_data = $this->session->userdata('user_data');
+        $master_id = $this->session->userdata('master_id');
+        $subindicator_id = $this->input->post("subindicator_id");
+        $this->load->model('doc_sync_indicator');
+        $result = $this->doc_sync_indicator->getDocument_sync($subindicator_id, $user_data['user_id'], $master_id);
+        $data_rows = $result->result();
+        echo json_encode($data_rows);
     }
 
     public function checksession() {
