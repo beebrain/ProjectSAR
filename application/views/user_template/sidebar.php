@@ -4,35 +4,27 @@
             <ul class="nav" id="side-menu">
                 <li class="sidebar-search">
                     <div class="input-group custom-search-form">
-                        <p style="text-align: center"><image  src=" <?php echo base_url("assets/img/logouru2011.png"); ?>"/>มหาวิทยาลัยราชภัฏอุตรดิตถ์</p> 
+                        <?php
+                        $user_data = $this->session->userdata('user_data') ;
+                        ?>
+                        <p style="text-align: center"><image  src=" <?php echo base_url("assets/img/logouru2011.png"); ?>"/><br><?php echo  $user_data["username"] ?></p> 
                     </div>
                     <!-- /input-group -->
                 </li>
+
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>จัดการองค์ประเมิณ<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="<?php echo base_url("index.php/AdminPanel/ShowMaster");?>"> สร้างหัวข้อองค์ประเมิณ</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url("index.php/AdminPanel/MasToLevel");?>"> กำหนดองค์ประเมิณ</a>
-                        </li> 
-                   </ul>
-                    <!-- /.nav-second-level -->
+                    <a href="<?php echo base_url("index.php/UserPanel/master_sar_All"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>เลือกชุดการประเมิน</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> จัดการผู้ใช้<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="<?php echo base_url("index.php/AdminControl/ShowAllUser"); ?>">รายชื่อผู้ถูกประเมิณ</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url("index.php/AdminControl/ShowAllRef"); ?>">รายชื่อผู้ประเมิณ</a>
-                        </li>
-                    </ul>
-                    <!-- /.nav-second-level -->
-                </li>
-               
+                    <a href="<?php echo base_url("index.php/UserManageDoc/ShowManageDoc"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>จัดการเอกสารหลักฐานการประเมิน</a>
+                </li> 
+                <li>
+                    <a href="<?php echo base_url("index.php/UserPanel/MasToLevel"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>แก้ไขข้อมูลส่วนตัว</a>
+                </li> 
+                <li>
+                    <a href="<?php echo base_url("index.php/UserPanel/MasToLevel"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>ออกจากระบบ</a>
+                </li> 
+
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

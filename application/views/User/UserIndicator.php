@@ -114,7 +114,7 @@ $user_id = $user_data['user_id'];
                                             $index = 1;
                                             foreach ($value_subindicator_sync_doc as $doc_sync) {
 
-                                                echo "<div> <a href='$doc_sync->link_path'>$index " . $doc_sync->doc_name . "</a> <i class='fa fa-plus-circle'></i></div>";
+                                                echo "<div> <a href='$doc_sync->link_path'>$index " . $doc_sync->docname . "</a> <i class='fa fa-plus-circle'></i></div>";
                                                 $index++;
                                             }
                                         }
@@ -193,7 +193,7 @@ $user_id = $user_data['user_id'];
             $("#item" + id).html("");
             var obj = jQuery.parseJSON(data);
             for (var i = 0; i < obj.length; i++) {
-                $("#item" + id).append("<div><a href='" + obj[i].link_path + "'>  " + (i + 1) + " " + obj[i].doc_name + "</a> <i class='fa fa-plus-circle'></i></div>");
+                $("#item" + id).append("<div><a href='" + obj[i].link_path + "'>  " + (i + 1) + " " + obj[i].docname + "</a> <i class='fa fa-plus-circle'></i></div>");
             }
             console.log(obj);
 

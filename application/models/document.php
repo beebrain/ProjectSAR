@@ -25,4 +25,27 @@ class document extends CI_Model {
         return $this->db->affected_rows();
     }
 
+    public function GetAllDocument($userid) {
+        $this->db->where('user_id', $userid);
+        //$this->db->where('master_id', $masterid);
+        return $this->db->get('document');
+    }
+
+    public function GetAllDocumentwithMaster($userid, $masterid = null) {
+        $this->db->select('*');
+        $this->db->from('document');
+        $this->db->join('user', 'user.user_id = document.user_id', 'inner');
+        $this->db->where('document.user_id', $userid);
+        if ($masterid <> NULL) {
+            $this->db->where('master_id', $masterid);
+        }
+
+        // $str = $this->db->last_query();
+        return $this->db->get();
+    }
+
+    public function delete($file_name = null) {
+       
+    }
+
 }

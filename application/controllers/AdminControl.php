@@ -92,8 +92,6 @@ class AdminControl extends CI_Controller {
         $this->load->view('template/footer');
     }
 
-
-    
     /**
      * For Json data
      */
@@ -104,7 +102,7 @@ class AdminControl extends CI_Controller {
         $data = $result->result();
 
         for ($i = 0; $i < sizeof($data); $i++) {
-            $data[$i]->level_detail = $level_detail[$data[$i]->level-1];
+            $data[$i]->level_detail = $level_detail[$data[$i]->level - 1];
         }
         //print_r($data);
         $output = array(
@@ -197,8 +195,15 @@ class AdminControl extends CI_Controller {
     public function AddUser() {
         $this->load->model('user');
         $data = $this->input->post();
-        $data['password'] = md5($data['password']);
-        echo $this->user->AddUser($data);
+
+        if (!$this->user->checkDupUser($data['username'])) {
+            $data['password'] = md5($data['password']);
+            $this->user->AddUser($data);
+            $data['message'] = "TRUE";
+        } else {
+            $data['message'] = "FALSE";
+        }
+        echo json_encode($data);
     }
 
     /**

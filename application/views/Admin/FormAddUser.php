@@ -123,8 +123,18 @@
                     formData,
                     function (data, textStatus, jqXHR)
                     {
-                    $('#info_insert').html("บันทึกข้อมูลเรียบร้อยแล้ว");
-                    $('#message').removeClass("alert-danger").addClass("alert-success");
+                    var data_json = jQuery.parseJSON(data);
+                    console.log(data_json);
+                    if (data_json['message'] == "TRUE") {
+                        $('#info_insert').html("บันทึกข้อมูลเรียบร้อยแล้ว");
+
+                        $('#message').removeClass("alert-danger").addClass("alert-success");
+
+                    } else {
+                        $('#info_insert').html("มีชื่อผู้ใช้นี้แล้ว");
+
+                        $('#message').removeClass("alert-success").addClass("alert-danger");
+                    }
                     $("#message").show();
                     $("#message").fadeOut(3000);
                     }).fail(function (jqXHR, textStatus, errorThrown)
@@ -149,20 +159,18 @@
                 var i = 0
                 var len = obj.length;
                 console.log(obj);
-                $("select[name=user_ref]").html("<option>กรุณาเลือก</option>");
+                $("select[name=user_ref]").html("");
                 for (; i < len; i++) {
                     $("select[name=user_ref]").append("<option value='" + obj[i].user_id + "'>" + obj[i].detail + "</option>");
                 }
-
-
                 }).fail(function (data) {
                 alert("ไม่พบข้อมูล กรุณาติดต่อผู้พัฒนา");
             });
-        } else if($("#level").val() == 1) {
+        } else if ($("#level").val() == 1) {
             $("select[name=user_ref]").html("<option value='1'>มหาวิทยาลัยราชภัฏอุตรดิตถ์</option>");
             $("#user_ref_div").show();
             // $("#user_ref_div").hide();
-        }else{
+        } else {
             $("#user_ref_div").hide();
         }
 

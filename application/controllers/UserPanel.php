@@ -8,12 +8,24 @@ class UserPanel extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
-        $user_data['user_id'] = "1";
-        $user_data['username'] = "test";
-        $user_data['detail'] = "ทดสอบ";
-        $user_data['level'] = "3";
-        $this->session->set_userdata('user_data', $user_data);
-        // Your own constructor code
+        /*
+          $user_data['user_id'] = "1";
+          $user_data['username'] = "test";
+          $user_data['detail'] = "ทดสอบ";
+          $user_data['level'] = "3";
+         */
+
+
+        if ($this->session->userdata('user_data') == null) {
+            // Prevent infinite loop by checking that this isn't the login controller  
+
+            if ($this->router->class != 'UserControl') {
+                redirect("index.php/UserControl/loginPage");
+            }
+        } else {
+            $user_data = $this->session->userdata('user_data');
+            // print_r($user_data);
+        }
     }
 
     public function index() {
@@ -172,12 +184,14 @@ class UserPanel extends CI_Controller {
 
     public function URLFile() {
         $this->load->model('doc_sync_indicator');
+        $this->load->model('document');
+
+
         $user_data = $this->session->userdata('user_data');
         $master_id = $this->session->userdata('master_id');
         $info['status'] = "success";
 
         // setdata for insert to document table
-
         $urls = $this->input->post("urls");
         //Check http:// is found
         if (!filter_var($urls, FILTER_VALIDATE_URL) === false) {
@@ -186,14 +200,30 @@ class UserPanel extends CI_Controller {
             $urls = "http://" . $urls;
         }
 
-        $data_doc_sync['doc_name'] = $this->input->post("doc_name");
-        $data_doc_sync['link_path'] = $urls;
-        $data_doc_sync['user_id'] = $user_data['user_id'];
-        $data_doc_sync['master_id'] = $master_id;
-        $data_doc_sync['subindicator_id'] = $this->input->post("subindicator_id");
-        $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($data_doc_sync);
+        // setdata for insert to document table
+        $data_db['docname'] = $this->input->post("doc_name");
+        $data_db['link_path'] = $urls;
+        $data_db['size'] = 0;
+        $data_db['user_id'] = $user_data['user_id'];
+        $data_db['master_id'] = $master_id;
+        $data_db['type'] = "URL";
+        // insert to document table
+        $doc_id = $this->document->Adddocument($data_db);
 
-        $info['data_sync'] = $data_doc_sync;
+        /* add Data To doc sync */
+        $data_db['doc_id'] = $doc_id;
+        $data_db['subindicator_id'] = $this->input->post("subindicator_id");
+
+        // set data to doc sync table
+        $doc_syn['doc_id'] = $doc_id;
+        $doc_syn['docname'] = $data_db['docname'];
+        $doc_syn['link_path'] = $data_db['link_path'];
+        $doc_syn['subindicator_id'] = $this->input->post("subindicator_id");
+        $doc_syn['master_id'] = $data_db['master_id'];
+        $doc_syn['user_id'] = $data_db['user_id'];
+        $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($doc_syn);
+        
+        $info['data'] = $data_db;
 
         echo json_encode($info);
     }
@@ -223,24 +253,29 @@ class UserPanel extends CI_Controller {
 
             // setdata for insert to document table
             $data_db['docname'] = $this->input->post("doc_name");
-            $data_db['subindicator_id'] = $this->input->post("subindicator_id");
-            $data_db['full_path'] = base_url('upload/') . "/" . $data['file_name'];
+            $data_db['link_path'] = base_url('upload/') . "/" . $data['file_name'];
             $data_db['size'] = $data['file_size'];
             $data_db['user_id'] = $user_data['user_id'];
             $data_db['master_id'] = $master_id;
+            $data_db['type'] = "FILE";
+            $data_db['filename'] = $data['file_name'];
             // insert to document table
             $doc_id = $this->document->Adddocument($data_db);
 
-            // set data for insert to doc_sync table
-            $data_doc_sync['doc_name'] = $data_db['docname'];
-            $data_doc_sync['link_path'] = $data_db['full_path'];
-            $data_doc_sync['user_id'] = $user_data['user_id'];
-            $data_doc_sync['master_id'] = $master_id;
-            $data_doc_sync['subindicator_id'] = $this->input->post("subindicator_id");
-            $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($data_doc_sync);
+            $data_db['doc_id'] = $doc_id;
+            $data_db['subindicator_id'] = $this->input->post("subindicator_id");
+
+            // set data to doc sync table
+            $doc_syn['doc_id'] = $doc_id;
+            $doc_syn['docname'] = $data_db['docname'];
+            $doc_syn['link_path'] = $data_db['link_path'];
+            $doc_syn['subindicator_id'] = $this->input->post("subindicator_id");
+            $doc_syn['master_id'] = $data_db['master_id'];
+            $doc_syn['user_id'] = $data_db['user_id'];
+            $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($doc_syn);
 
             $info['data'] = $data_db;
-            $info['data_sync'] = $data_doc_sync;
+            // $info['data_sync'] = $data_doc_sync;
         } else {
             $info['data'] = $this->upload->display_error();
             $info['statis'] = "error";
