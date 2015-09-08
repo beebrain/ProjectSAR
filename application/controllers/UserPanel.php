@@ -207,6 +207,8 @@ class UserPanel extends CI_Controller {
         $data_db['user_id'] = $user_data['user_id'];
         $data_db['master_id'] = $master_id;
         $data_db['type'] = "URL";
+        $data_db['full_path'] = $urls;
+        
         // insert to document table
         $doc_id = $this->document->Adddocument($data_db);
 
@@ -222,7 +224,7 @@ class UserPanel extends CI_Controller {
         $doc_syn['master_id'] = $data_db['master_id'];
         $doc_syn['user_id'] = $data_db['user_id'];
         $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($doc_syn);
-        
+
         $info['data'] = $data_db;
 
         echo json_encode($info);
@@ -258,7 +260,7 @@ class UserPanel extends CI_Controller {
             $data_db['user_id'] = $user_data['user_id'];
             $data_db['master_id'] = $master_id;
             $data_db['type'] = "FILE";
-            $data_db['filename'] = $data['file_name'];
+            $data_db['full_path'] = $data['full_path'];
             // insert to document table
             $doc_id = $this->document->Adddocument($data_db);
 

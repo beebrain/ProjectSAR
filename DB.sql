@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.5.32 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
--- HeidiSQL Version:             9.2.0.4947
+-- HeidiSQL Version:             9.3.0.4984
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -54,9 +54,10 @@ CREATE TABLE IF NOT EXISTS `document` (
   `master_id` int(11) NOT NULL DEFAULT '0',
   `create` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `docname` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `full_path` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `link_path` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `size` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `subindicator_id` int(11) DEFAULT NULL,
+  `type` varchar(5) COLLATE utf8_bin DEFAULT NULL,
+  `filename` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   KEY `id` (`doc_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -65,14 +66,15 @@ CREATE TABLE IF NOT EXISTS `document` (
 
 -- Dumping structure for table research1.doc_syn_indicator
 CREATE TABLE IF NOT EXISTS `doc_syn_indicator` (
-  `doc_sy_id` int(11) NOT NULL AUTO_INCREMENT,
-  `doc_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `doc_syn_id` int(11) NOT NULL AUTO_INCREMENT,
+  `doc_id` int(11) DEFAULT '0',
+  `docname` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `link_path` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `order` int(11) DEFAULT '0',
   `subindicator_id` int(11) DEFAULT NULL,
   `master_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`doc_sy_id`)
+  PRIMARY KEY (`doc_syn_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Data exporting was unselected.
