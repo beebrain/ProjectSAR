@@ -27,4 +27,18 @@ class doc_sync_indicator extends CI_Model {
         return $query;
     }
 
+    public function delete($doc_id = null) {
+        if ($doc_id != null) {
+            $this->db->where('doc_id', $doc_id);
+            $this->db->delete('doc_syn_indicator');
+        }
+    }
+    
+     public function deleteSyn($doc_syn_id = null) {
+        if ($doc_syn_id != null) {
+            $this->db->where('doc_syn_id', $doc_syn_id);
+            $this->db->delete('doc_syn_indicator');
+        }
+    }
+
 }

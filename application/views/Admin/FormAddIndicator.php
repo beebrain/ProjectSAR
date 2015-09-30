@@ -45,7 +45,7 @@
                             </div>
                             <div class="form-group">
                                 <label>เกณฑ์มาตรฐาน :</label>
-                                <select class="form-control">
+                                <select class="form-control" name="citeria">
                                     <option value="1">ข้อ</option>
                                     <option value="2">เชิงปริมาณ</option>
                                 </select>

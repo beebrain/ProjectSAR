@@ -27,25 +27,43 @@ class document extends CI_Model {
 
     public function GetAllDocument($userid) {
         $this->db->where('user_id', $userid);
-        //$this->db->where('master_id', $masterid);
+//$this->db->where('master_id', $masterid);
         return $this->db->get('document');
     }
 
     public function GetAllDocumentwithMaster($userid, $masterid = null) {
-        $this->db->select('*');
-        $this->db->from('document');
-        $this->db->join('user', 'user.user_id = document.user_id', 'inner');
-        $this->db->where('document.user_id', $userid);
+
+        $sqlcommand = "select * from";
+        $sqlcommand .= "(select * from user where user.user_id = $userid union ";
+        $sqlcommand .= " select user2.* from user inner join user as user2 on  ";
+        $sqlcommand .= " user.user_ref = user2.user_id where user.user_id = $userid";
+        $sqlcommand .= " union ";
+        $sqlcommand .= " select user2.* from user inner join user as user2 on  ";
+        $sqlcommand .= " user.user_id = user2.user_ref where user2.user_ref = $userid";
+        $sqlcommand .= " ";
+        $sqlcommand .= " )as Alluser";
+        $sqlcommand .= " inner join document";
+        $sqlcommand .= " ON Alluser.user_id = document.user_id";
+        
         if ($masterid <> NULL) {
-            $this->db->where('master_id', $masterid);
+            $sqlcommand .= " where master_id = $masterid";
         }
 
         // $str = $this->db->last_query();
-        return $this->db->get();
+        return $this->db->query($sqlcommand);
     }
 
-    public function delete($file_name = null) {
-       
+    public function getDetailDocWithID($doc_id) {
+        $this->db->where('doc_id', $doc_id);
+        //$this->db->where('master_id', $masterid);
+        return $this->db->get('document');
+    }
+
+    public function delete($doc_id = null) {
+        if ($doc_id != null) {
+            $this->db->where('doc_id', $doc_id);
+            $this->db->delete('document');
+        }
     }
 
 }

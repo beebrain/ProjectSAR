@@ -29,7 +29,7 @@ class UserPanel extends CI_Controller {
     }
 
     public function index() {
-        
+        $this->master_sar_All();
     }
 
     public function master_sar_All() {
@@ -127,8 +127,7 @@ class UserPanel extends CI_Controller {
                 } else {
                     $datadetail['subindicator_doc'] = NULL;
                 }
-
-
+                
                 // Get Document each subindicator
                 $user_id = $user_data['user_id'];
                 $master_id = $this->session->userdata('master_id');
@@ -178,8 +177,53 @@ class UserPanel extends CI_Controller {
     }
 
     public function callUploadPage($id) {
+
         $data['id'] = $id;
         $this->load->view('User/upload', $data);
+    }
+
+    // For upload Document Only
+    public function callUploadDoc() {
+        $this->load->model('master_sar');
+        $query = $this->master_sar->getAllmaster_sar();
+        $data['master_sar'] = $query->result();
+
+        $this->load->view('User/uploadDoc', $data);
+    }
+
+    public function SelectFile() {
+        $this->load->model('doc_sync_indicator');
+        $this->load->model('document');
+        $user_data = $this->session->userdata('user_data');
+
+        $master_id = $this->input->post("master_id");
+        $doc_id = $this->input->post("file_id");
+        $doc_name = $this->input->post("doc_name");
+
+        $result = $this->document->getDetailDocWithID($doc_id);
+        $result = $result->result();
+        $data_doc = $result[0];
+
+        $doc_syn['subindicator_id'] = $this->input->post("subindicator_id");
+        if ($doc_syn['subindicator_id'] != 0) {
+            // set data to doc sync table
+            $doc_syn['doc_id'] = $doc_id;
+            $doc_syn['docname'] = $doc_name;
+            $doc_syn['link_path'] = $data_doc->link_path;
+            $doc_syn['master_id'] = $master_id;
+            $doc_syn['user_id'] = $user_data['user_id'];
+
+            $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($doc_syn);
+
+
+            $info['data'] = $data_db;
+            $info['statis'] = "success";
+        } else {
+            $info['data'] = $this->upload->display_error();
+            $info['statis'] = "error";
+        }
+
+        echo json_encode($info);
     }
 
     public function URLFile() {
@@ -188,7 +232,9 @@ class UserPanel extends CI_Controller {
 
 
         $user_data = $this->session->userdata('user_data');
-        $master_id = $this->session->userdata('master_id');
+        $master_id = $this->input->post("master_id");
+        // $master_id = $this->session->userdata('master_id');
+
         $info['status'] = "success";
 
         // setdata for insert to document table
@@ -208,7 +254,7 @@ class UserPanel extends CI_Controller {
         $data_db['master_id'] = $master_id;
         $data_db['type'] = "URL";
         $data_db['full_path'] = $urls;
-        
+
         // insert to document table
         $doc_id = $this->document->Adddocument($data_db);
 
@@ -216,15 +262,16 @@ class UserPanel extends CI_Controller {
         $data_db['doc_id'] = $doc_id;
         $data_db['subindicator_id'] = $this->input->post("subindicator_id");
 
-        // set data to doc sync table
-        $doc_syn['doc_id'] = $doc_id;
-        $doc_syn['docname'] = $data_db['docname'];
-        $doc_syn['link_path'] = $data_db['link_path'];
-        $doc_syn['subindicator_id'] = $this->input->post("subindicator_id");
-        $doc_syn['master_id'] = $data_db['master_id'];
-        $doc_syn['user_id'] = $data_db['user_id'];
-        $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($doc_syn);
-
+        if ($data_db['subindicator_id'] != 0) {
+            // set data to doc sync table
+            $doc_syn['doc_id'] = $doc_id;
+            $doc_syn['docname'] = $data_db['docname'];
+            $doc_syn['link_path'] = $data_db['link_path'];
+            $doc_syn['subindicator_id'] = $this->input->post("subindicator_id");
+            $doc_syn['master_id'] = $data_db['master_id'];
+            $doc_syn['user_id'] = $data_db['user_id'];
+            $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($doc_syn);
+        }
         $info['data'] = $data_db;
 
         echo json_encode($info);
@@ -235,10 +282,11 @@ class UserPanel extends CI_Controller {
         $this->load->model('doc_sync_indicator');
 
         $user_data = $this->session->userdata('user_data');
-        $master_id = $this->session->userdata('master_id');
+        $master_id = $this->input->post("master_id");
+        //$master_id = $this->session->userdata('master_id');
 
         $config['upload_path'] = "upload/";
-        $config['allowed_types'] = "jpg|gif|png|doc|docx|pdf|xlsx|xls";
+        $config['allowed_types'] = "jpg|gif|png|doc|docx|pdf|xlsx|xls|txt";
         $config['max_size'] = 2048;
         $config['file_name'] = '768';
         $config['encrypt_name'] = 'true';
@@ -262,20 +310,22 @@ class UserPanel extends CI_Controller {
             $data_db['type'] = "FILE";
             $data_db['full_path'] = $data['full_path'];
             // insert to document table
+
             $doc_id = $this->document->Adddocument($data_db);
 
             $data_db['doc_id'] = $doc_id;
             $data_db['subindicator_id'] = $this->input->post("subindicator_id");
 
-            // set data to doc sync table
-            $doc_syn['doc_id'] = $doc_id;
-            $doc_syn['docname'] = $data_db['docname'];
-            $doc_syn['link_path'] = $data_db['link_path'];
-            $doc_syn['subindicator_id'] = $this->input->post("subindicator_id");
-            $doc_syn['master_id'] = $data_db['master_id'];
-            $doc_syn['user_id'] = $data_db['user_id'];
-            $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($doc_syn);
-
+            if ($data_db['subindicator_id'] != 0) {
+                // set data to doc sync table
+                $doc_syn['doc_id'] = $doc_id;
+                $doc_syn['docname'] = $data_db['docname'];
+                $doc_syn['link_path'] = $data_db['link_path'];
+                $doc_syn['subindicator_id'] = $this->input->post("subindicator_id");
+                $doc_syn['master_id'] = $data_db['master_id'];
+                $doc_syn['user_id'] = $data_db['user_id'];
+                $doc_sync_id = $this->doc_sync_indicator->Adddocument_sync($doc_syn);
+            }
             $info['data'] = $data_db;
             // $info['data_sync'] = $data_doc_sync;
         } else {
@@ -292,14 +342,46 @@ class UserPanel extends CI_Controller {
         $user_data = $this->session->userdata('user_data');
         $master_id = $this->session->userdata('master_id');
         $subindicator_id = $this->input->post("subindicator_id");
+
         $this->load->model('doc_sync_indicator');
         $result = $this->doc_sync_indicator->getDocument_sync($subindicator_id, $user_data['user_id'], $master_id);
         $data_rows = $result->result();
         echo json_encode($data_rows);
     }
 
-    public function checksession() {
+    public function deleteDoc_syn() {
+        $this->load->model('doc_sync_indicator');
+        $user_data = $this->session->userdata('user_data');
+        $master_id = $this->session->userdata('master_id');
+        $id_syn = $this->input->post("id_syn");
+        $subindicator_id = $this->input->post("subindicator_id");
+
+        $data['id'] = $id_syn;
+        $data['subindicator_id'] = $subindicator_id;
+
+        $this->doc_sync_indicator->deleteSyn($id_syn);
+        $data['sql'] =$this->db->last_query();
+        echo json_encode($data);
+    }
+    
+    public function saveScore(){
+        $user_data = $this->session->userdata('user_data');
+        $comment_self = $this->input->post("comment_text");
+        $score_self = $this->input->post("score_self");
+        $indicator_id = $this->input->post("indicator_id");
         
+        $this->load->model('resultuser');
+        $citeria['user_id']= $user_data['user_id'];
+        $citeria['indicator_id'] = $indicator_id;
+        $citeria['score_user'] = $score_self;
+        $citeria['comment_user'] = $comment_self;
+        
+        $result = $this->resultuser->addIndicator($citeria);
+        $result = $result->result();
+    }
+
+    public function logout() {
+       
     }
 
 }

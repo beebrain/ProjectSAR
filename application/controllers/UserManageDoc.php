@@ -34,6 +34,8 @@ class UserManageDoc extends CI_Controller {
     public function getAllDocMember($master_id = null) {
         $user_data = $this->session->userdata('user_data');
         $user_id = $user_data['user_id'];
+        
+        
         $this->load->model('user');
         $result = $this->user->getUserRef($user_id);
         $result = $result->result();
@@ -61,14 +63,22 @@ class UserManageDoc extends CI_Controller {
     public function deletedoc() {
         $path = $_SERVER['DOCUMENT_ROOT'] . '/upload/';
         $data = $this->input->post();
-        $file_name = $data["filename"];
-        if ($file_name != null) {
-            $files = glob($path . $file_name); // get all file names
-            foreach ($files as $file) { // iterate files
-                if (is_file($file))
-                    unlink($file); // delete file
+
+        // Delete in document Table
+        $this->load->model('document');
+        $this->document->delete($data["doc_id"]);
+
+        // Delete all in Doc Sync Table
+        $this->load->model('doc_sync_indicator');
+        $this->doc_sync_indicator->delete($data["doc_id"]);
+
+        if ($data["type"] == "FILE") {
+            $file_name = $data["full_path"];
+            if ($file_name != null) {
+                unlink($file_name); // delete file
             }
         }
+
         echo json_encode($data);
     }
 

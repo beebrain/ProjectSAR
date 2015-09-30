@@ -7,8 +7,6 @@ $user_id = $user_data['user_id'];
 
 <div class="row">
     <p></p>
-
-
     <div class="col-lg-10 col-lg-offset-1">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -24,6 +22,7 @@ $user_id = $user_data['user_id'];
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-lg-2">ตัวชี้วัดที่</div>
+                                    <?php //print_r($indicator); ?>
                                     <div class="col-lg-9"><?php echo $indicator->indicator_num . " - " . $indicator->indicator_title; ?></div>
                                 </div>
                                 <div class="row">
@@ -106,7 +105,7 @@ $user_id = $user_data['user_id'];
                                         ?></a>
                                 </td>
                                 <td style="width: 30%">
-                                    <a href="#" onclick="selectValue('<?php echo $value_subindicator->subindicator_id ?>')"><i class="fa fa-plus-circle"></i></a>
+                                    <a href="#" onclick="selectValue('<?php echo $value_subindicator->subindicator_id ?>')">เพิ่มหลักฐาน</a>
                                     <div id="item<?php echo $value_subindicator->subindicator_id ?>">
 
                                         <?php
@@ -114,7 +113,7 @@ $user_id = $user_data['user_id'];
                                             $index = 1;
                                             foreach ($value_subindicator_sync_doc as $doc_sync) {
 
-                                                echo "<div> <a href='$doc_sync->link_path'>$index " . $doc_sync->docname . "</a> <i class='fa fa-plus-circle'></i></div>";
+                                                echo "<div> <a href='$doc_sync->link_path' style='color:blue' >$index " . $doc_sync->docname . "</a>  <a href='#' onclick=deleteDoc('$doc_sync->doc_syn_id','$value_subindicator->subindicator_id') style='color:red'><i class='fa fa-trash'></i></a></div>";
                                                 $index++;
                                             }
                                         }
@@ -129,34 +128,43 @@ $user_id = $user_data['user_id'];
 
                 </div >
                 <div class="panel-group" id="result">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="width: 20%">
-                                    เป้าหมาย
-                                </th >
-                                <th style="width: 60%">
-                                    ผลดำเนินงาน
-                                </th>
-                                <th style="width: 20%">
-                                    คะแนนการประเมินตนเอง
-                                </th>
+                    <form name="scoreform" id="scoreform" >
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
 
-                            </tr>
-                        </thead>
-                        <tbody>
+                                    <th style="width: 60%">
+                                        ผลดำเนินงาน
+                                    </th>
+                                    <th >
+                                        คะแนนการประเมินตนเอง
+                                    </th>
 
-                            <tr>
-                                <td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <textarea name="comment_user" id="comment_user" class="form-control" rows="3"></textarea>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" name="score_user" id="score_user" placeholder="คะแนนประเมิน">
+                                        <input type="hidden" class="form-control" name="indicator_id" id="indicator_id">
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
 
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                <tr >
+
+                                    <td colspan="2">
+                                        <button type="button" name="saveScore" id="saveScore" class="btn btn-primary pull-right">บันทึกคะแนน</button>
+                                    </td>
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </form>
                 </div >
             </div>
             <!-- .panel-body -->
@@ -165,13 +173,34 @@ $user_id = $user_data['user_id'];
     </div>
 </div>
 
-
 <?php echo js_asset("jquery.js"); ?>
 <?php echo js_asset("jquery-migrate-1.1.1.js"); ?>
 <?php echo js_asset("bootstrap.js"); ?>
 <?php echo js_asset("bootstrap-editable.min.js"); ?>
 <script>
+    function deleteDoc(id_syn, id) {
+        var confirmdelete = confirm("คุณต้องการลบหลักฐานใช่หรือไม่");
 
+        if (confirmdelete == true) {
+            $.post("<?php echo base_url('index.php/UserPanel/deleteDoc_syn/') ?>",
+                    {"subindicator_id": id, "id_syn": id_syn},
+            function (data) {
+                console.log(data);
+            });
+
+
+            $.post("<?php echo base_url('index.php/UserPanel/getItemInsubindicator/') ?>",
+                    {"subindicator_id": id},
+            function (data) {
+                $("#item" + id).html("");
+                var obj = jQuery.parseJSON(data);
+                for (var i = 0; i < obj.length; i++) {
+                    $("#item" + id).append("<div><a href='" + obj[i].link_path + "' style='color:blue '>  " + (i + 1) + " " + obj[i].docname + "</a><a href='#' onclick=deleteDoc('" + obj[i].doc_syn_id + "','" + id + "') style='color:red'> <i class='fa fa-trash'></i></a></div>");
+                }
+                console.log(obj);
+            });
+        }
+    }
 
 
     function selectValue(id)
@@ -180,7 +209,6 @@ $user_id = $user_data['user_id'];
         /*window.open('sku.php?id=' + encodeURIComponent(id), 'popuppage',
          'width=400,toolbar=1,resizable=1,scrollbars=yes,height=400,top=100,left=100');
          */
-        alert(id);
         window.open('<?php echo base_url('index.php/UserPanel/callUploadPage/') ?>' + "/" + id, 'popuppage',
                 'width=800,toolbar=0,resizable=0,scrollbars=yes,height=500,top=100,left=100');
     }
@@ -193,14 +221,10 @@ $user_id = $user_data['user_id'];
             $("#item" + id).html("");
             var obj = jQuery.parseJSON(data);
             for (var i = 0; i < obj.length; i++) {
-                $("#item" + id).append("<div><a href='" + obj[i].link_path + "'>  " + (i + 1) + " " + obj[i].docname + "</a> <i class='fa fa-plus-circle'></i></div>");
+                $("#item" + id).append("<div><a href='" + obj[i].link_path + "' style='color:blue '>  " + (i + 1) + " " + obj[i].docname + "</a></a><a href='#' onclick=deleteDoc('" + obj[i].doc_syn_id + "','" + id + "') style='color:red'> <i class='fa fa-trash'></i></a></div>");
             }
             console.log(obj);
-
         });
-
-
-
     }
 
 
@@ -212,6 +236,36 @@ $user_id = $user_data['user_id'];
         });
     });
 
+    $('#saveScore').on('click', function () {
+        var indicator_id = "<?= $indicator->indicator_id ?>";
+        var formData = $("#scoreform").serializeArray();
+/*
+        var url = '<?php echo base_url('index.php/UserPanel/saveScore') ?>'
+        $.ajax({
+            url: url,
+            data: {'user_id': user_id,
+                'indicator_id': indicator_id,
+                'document': detail
+            },
+            types: "text",
+            method: "POST",
+            beforeSend: function (xhr) {
+                $('#info').html("กำลังบันทึกข้อมูล....");
+                $('#message').removeClass().addClass("alert alert-info alert-dismissable");
+                $("#message").show();
+                $("#message").fadeOut(3000);
+            }
+        }).done(function (data) {
+            $('#info').html("บันทึกข้อมูลเรียบร้อยแล้ว....");
+            $('#message').removeClass().addClass("alert alert-success alert-dismissable");
+            $("#message").show();
+            $("#message").fadeOut(3000);
+        }).fail(function () {
+            alert("พบข้อผิดพลาด กรุณาทดลองอีกครั้ง");
+        })
+
+*/
+    });
     $.fn.editable.defaults.mode = 'inline';
     $('.username').on('save', function (e, params) {
 
