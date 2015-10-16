@@ -1,4 +1,6 @@
 <?php
+//print_r($Score_indicator);
+$Score_indicator = $Score_indicator[0];
 $indicator = $indicator[0];
 $user_data = $this->session->userdata('user_data');
 //print_r($user_data);
@@ -21,25 +23,25 @@ $user_id = $user_data['user_id'];
                         <div id="collapseOne" class="panel-collapse collapse in" aria-expanded="true">
                             <div class="panel-body">
                                 <div class="row">
-                                    <div class="col-lg-2">ตัวชี้วัดที่</div>
+                                    <div class="col-lg-2"><p>ตัวชี้วัดที่</p></div>
                                     <?php //print_r($indicator); ?>
-                                    <div class="col-lg-9"><?php echo $indicator->indicator_num . " - " . $indicator->indicator_title; ?></div>
+                                    <div class="col-lg-9"><p><?php echo $indicator->indicator_num . " - " . $indicator->indicator_title; ?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-2">ชนิดตัวบ่งชี้</div>
-                                    <div class="col-lg-9"><?php echo $indicator->indicator_type ?></div>
+                                    <div class="col-lg-2"><p>ชนิดตัวบ่งชี้</p></div>
+                                    <div class="col-lg-9"><p><?php echo $indicator->indicator_type ?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-2">ใช้กับ</div>
-                                    <div class="col-lg-9"><?php echo ($indicator->data_use == '1' ? "ปีการศึกษา" : $indicator->data_use == '2' ? "ปีงบประมาณ" : "ปีปฏิทิน") ?></div>
+                                    <div class="col-lg-2"><p>ใช้กับ</p></div>
+                                    <div class="col-lg-9"><p><?php echo ($indicator->data_use == '1' ? "ปีการศึกษา" : $indicator->data_use == '2' ? "ปีงบประมาณ" : "ปีปฏิทิน") ?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-2">เกณฑ์การประเมิน</div>
-                                    <div class="col-lg-9"><?php echo $indicator->detail ?></div>
+                                    <div class="col-lg-2"><p>เกณฑ์การประเมิน</p></div>
+                                    <div class="col-lg-9"><p><?php echo $indicator->detail ?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-2">เกณฑ์มาตรฐาน</div>
-                                    <div class="col-lg-9"><?php echo ($indicator->citeria == '0' ? "จำนวนข้อ" : "เชิงปริมาณ") ?></div>
+                                    <div class="col-lg-2"><p>เกณฑ์มาตรฐาน</p></div>
+                                    <div class="col-lg-9"><p><?php echo ($indicator->citeria == '0' ? "จำนวนข้อที่บรรลุ" : "เชิงปริมาณ") ?></p></div>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +54,7 @@ $user_id = $user_data['user_id'];
 </div>
 <!-- /.row -->
 <div class="row" >
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-10 col-md-offset-1">
         <div id='message' class="alert alert-success alert-dismissable" >
             <button class="close" onclick="$('.alert').hide()" type="button">×</button>
             <p id="info">กำลังบันทึกข้อมูล...</p>
@@ -132,7 +134,6 @@ $user_id = $user_data['user_id'];
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-
                                     <th style="width: 60%">
                                         ผลดำเนินงาน
                                     </th>
@@ -145,11 +146,11 @@ $user_id = $user_data['user_id'];
                             <tbody>
                                 <tr>
                                     <td>
-                                        <textarea name="comment_user" id="comment_user" class="form-control" rows="3"></textarea>
+                                        <textarea name="comment_user" id="comment_user" class="form-control" rows="3"><?php echo $Score_indicator->comment_user; ?></textarea>
                                     </td>
                                     <td>
-                                        <input class="form-control" name="score_user" id="score_user" placeholder="คะแนนประเมิน">
-                                        <input type="hidden" class="form-control" name="indicator_id" id="indicator_id">
+                                        <input class="form-control" name="score_user" id="score_user" placeholder="คะแนนประเมิน" value="<?php echo $Score_indicator->score_user; ?>">
+                                        <input type="hidden" class="form-control" name="indicator_id" id="indicator_id" value="<?= $indicator->indicator_id ?>">
                                     </td>
                                 </tr>
                             </tbody>
@@ -158,6 +159,10 @@ $user_id = $user_data['user_id'];
                                 <tr >
 
                                     <td colspan="2">
+                                        <div id='message2' class=" alert alert-success alert-dismissable" >
+                                            <button class="close" onclick="$('.alert').hide()" type="button">×</button>
+                                            <p id="info2">กำลังบันทึกข้อมูล...</p>
+                                        </div>  
                                         <button type="button" name="saveScore" id="saveScore" class="btn btn-primary pull-right">บันทึกคะแนน</button>
                                     </td>
 
@@ -177,6 +182,7 @@ $user_id = $user_data['user_id'];
 <?php echo js_asset("jquery-migrate-1.1.1.js"); ?>
 <?php echo js_asset("bootstrap.js"); ?>
 <?php echo js_asset("bootstrap-editable.min.js"); ?>
+<?php echo js_asset("autoNumeric.js"); ?>
 <script>
     function deleteDoc(id_syn, id) {
         var confirmdelete = confirm("คุณต้องการลบหลักฐานใช่หรือไม่");
@@ -230,43 +236,40 @@ $user_id = $user_data['user_id'];
 
     $(document).ready(function () {
         $("#message").hide();
+        $("#message2").hide();
         $('.username').editable({
             title: 'Enter username',
             showbuttons: "bottom",
         });
+        // set inital Score
+        $('#score_user').autoNumeric('init', {"vMin": "0.00", "vMax": "5.00"});
     });
 
     $('#saveScore').on('click', function () {
-        var indicator_id = "<?= $indicator->indicator_id ?>";
         var formData = $("#scoreform").serializeArray();
-/*
+
         var url = '<?php echo base_url('index.php/UserPanel/saveScore') ?>'
         $.ajax({
             url: url,
-            data: {'user_id': user_id,
-                'indicator_id': indicator_id,
-                'document': detail
-            },
+            data: formData,
             types: "text",
             method: "POST",
             beforeSend: function (xhr) {
-                $('#info').html("กำลังบันทึกข้อมูล....");
-                $('#message').removeClass().addClass("alert alert-info alert-dismissable");
-                $("#message").show();
-                $("#message").fadeOut(3000);
+                $('#saveScore').removeClass("btn btn-primary").addClass("btn btn-primary disabled");
+                $("#saveScore").html("กำลังบันทึกข้อมูล....");
             }
         }).done(function (data) {
-            $('#info').html("บันทึกข้อมูลเรียบร้อยแล้ว....");
-            $('#message').removeClass().addClass("alert alert-success alert-dismissable");
-            $("#message").show();
-            $("#message").fadeOut(3000);
+            //location.reload();
+            window.location.replace("<?php echo base_url('index.php/UserPanel/ShowComposit/') ?>");
         }).fail(function () {
             alert("พบข้อผิดพลาด กรุณาทดลองอีกครั้ง");
         })
 
-*/
+
     });
+
     $.fn.editable.defaults.mode = 'inline';
+
     $('.username').on('save', function (e, params) {
 
         var currentid = $(this).closest('a');
@@ -286,7 +289,7 @@ $user_id = $user_data['user_id'];
             types: "text",
             method: "POST",
             beforeSend: function (xhr) {
-                $('#info').html("กำลังบันทึกข้อมูล....");
+                $('#info2').html("กำลังบันทึกข้อมูล....");
                 $('#message').removeClass().addClass("alert alert-info alert-dismissable");
                 $("#message").show();
                 $("#message").fadeOut(3000);

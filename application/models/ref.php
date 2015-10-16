@@ -22,6 +22,21 @@ class ref extends CI_Model {
         $this->db->update('ref', $data);
         return $this->db->affected_rows();
     }
+    
+     public function checkuser($user, $password) {
+        if ($user <> NULL && $password <> NULL) {
+            $this->db->where('username', $user);
+            $this->db->where_not_in('status', "-1");
+        }
+        $query = $this->db->get('ref');
+        $result = $query->result_array();
+        $MD5_password = md5($password);
+        if ($result <> NULL && $result[0]['password'] == md5($password)) {
+            return $result[0];
+        } else {
+            return NULL;
+        }
+    }
 
 
 

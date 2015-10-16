@@ -8,14 +8,6 @@ class UserPanel extends CI_Controller {
     public function __construct() {
         parent::__construct();
 
-        /*
-          $user_data['user_id'] = "1";
-          $user_data['username'] = "test";
-          $user_data['detail'] = "ทดสอบ";
-          $user_data['level'] = "3";
-         */
-
-
         if ($this->session->userdata('user_data') == null) {
             // Prevent infinite loop by checking that this isn't the login controller  
 
@@ -47,8 +39,6 @@ class UserPanel extends CI_Controller {
     }
 
     public function ShowComposit($master_id = NULL) {
-
-
         $this->load->model('master_sar');
         if ($master_id != NULL) {
             // for regis master_sar to session
@@ -81,6 +71,28 @@ class UserPanel extends CI_Controller {
             $level = $user_data['level'];
             $query = $this->indicator->getAllIndicatorBycompositSomeLevel($value->id, $level);
             $result_indicator = $query->result();
+
+
+            // get score form indicator and user
+            $this->load->model('resultuser');
+            foreach ($result_indicator as $key => $value2) {
+                $citeria['user_id'] = $user_data['user_id'];
+                $citeria['indicator_id'] = $value2->indicator_id;
+                $result_score = $this->resultuser->getResult($citeria);
+                $result_score = $result_score->result();
+
+                if ($result_score != NULL) {            // check if null score
+                    $result_score = $result_score[0];
+                } else {
+                    $result_score = NULL;
+                }
+
+                $result_indicator[$key]->indicator = $value;
+                $result_indicator[$key]->score = $result_score;
+            }
+
+
+
             $data_sub["composit"] = $value;
             $data_sub["indicator"] = $result_indicator;
             array_push($data_all, $data_sub);
@@ -107,6 +119,8 @@ class UserPanel extends CI_Controller {
             $this->load->model("indicator");
             $this->load->model("subindicator_doc");
             $this->load->model("doc_sync_indicator");
+            $this->load->model("resultuser");
+
 
             $query = $this->indicator->getIndicatorById($indicator_id);
             $result = $query->result();
@@ -127,7 +141,7 @@ class UserPanel extends CI_Controller {
                 } else {
                     $datadetail['subindicator_doc'] = NULL;
                 }
-                
+
                 // Get Document each subindicator
                 $user_id = $user_data['user_id'];
                 $master_id = $this->session->userdata('master_id');
@@ -142,6 +156,17 @@ class UserPanel extends CI_Controller {
             }
             $data['subindicator'] = $subin_detail;
 
+            // Load Score and Comment user
+            $citeria['user_id'] = $user_data['user_id'];
+            $citeria['indicator_id'] = $indicator_id;
+            $query = $this->resultuser->getResult($citeria);
+            $result = $query->result();
+            if ($result == null) {
+                $result[0] = new stdClass();
+                $result[0]->comment_user = "";
+                $result[0]->score_user = 0;
+            }
+            $data['Score_indicator'] = $result;
 
             $this->load->view('user_template/header');
             $this->load->view('user_template/navigationbar');
@@ -360,28 +385,64 @@ class UserPanel extends CI_Controller {
         $data['subindicator_id'] = $subindicator_id;
 
         $this->doc_sync_indicator->deleteSyn($id_syn);
-        $data['sql'] =$this->db->last_query();
+        $data['sql'] = $this->db->last_query();
         echo json_encode($data);
     }
-    
-    public function saveScore(){
+
+    public function saveScore() {
         $user_data = $this->session->userdata('user_data');
-        $comment_self = $this->input->post("comment_text");
-        $score_self = $this->input->post("score_self");
+        $comment_self = $this->input->post("comment_user");
+        $score_self = $this->input->post("score_user");
         $indicator_id = $this->input->post("indicator_id");
-        
+
         $this->load->model('resultuser');
-        $citeria['user_id']= $user_data['user_id'];
+        $citeria['user_id'] = $user_data['user_id'];
         $citeria['indicator_id'] = $indicator_id;
         $citeria['score_user'] = $score_self;
         $citeria['comment_user'] = $comment_self;
-        
+
         $result = $this->resultuser->addIndicator($citeria);
         $result = $result->result();
     }
 
     public function logout() {
-       
+        
+    }
+
+    public function report($master_id = null) {
+
+        $this->load->model('master_sar');
+        $result_sar = $this->master_sar->getmaster_sarById($master_id);
+        $result_sar = $result_sar->result()[0];
+
+        $this->load->model('composition');
+        $result_composit = $this->composition->getAllCompositionByMaster($master_id);
+        $result_composit = $result_composit->result();
+
+        // get indicator with composit
+        $this->load->model('indicator');
+        $this->load->model('resultuser');
+        $user_data = $this->session->userdata('user_data');
+        $level = $user_data['level'];
+        foreach ($result_composit as $key => $value) {
+            $result_All_indicator = $this->indicator->getAllIndicatorBycompositSomeLevel($value->id, $level);
+            $result_composit[$key]->indicator = $result_All_indicator->result();
+            foreach ($result_composit[$key]->indicator as $key2 => $value2) {
+                $citeria['user_id'] = $user_data['user_id'];
+                $citeria['indicator_id'] = $value2->indicator_id;
+                $result_score = $this->resultuser->getResult($citeria);
+                $result_composit[$key]->indicator[$key2]->score = $result_score->result();
+            }
+        }
+
+        $data['data_all'] = $result_composit;
+        $data['master_sar'] = $result_sar;
+
+        $this->load->view('user_template/header');
+        $this->load->view('user_template/navigationbar');
+        $this->load->view('user_template/sidebar');
+        $this->load->view('template/report',$data);
+        $this->load->view('user_template/footer');
     }
 
 }
