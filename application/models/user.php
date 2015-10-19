@@ -45,9 +45,20 @@ class user extends CI_Model {
         //echo $this->db->last_query();
         return $query;
     }
+    
+      public function getUser_detail($user_id = NULL) {
+        if ($user_id <> NULL) {
+            $this->db->where('user_id', $user_id);
+        }
+        $this->db->where_not_in('status', "-1");
+        $query = $this->db->get('user');
+        //echo $this->db->last_query();
+        return $query;
+    }
 
     public function getUserRef($user_id) {
         $this->db->where('user_ref', $user_id);
+        $this->db->where_not_in('status', "-1");
         $query = $this->db->get('user_ref');
         return $query;
     }
@@ -76,6 +87,19 @@ class user extends CI_Model {
         } else {
             return FALSE;
         }
+    }
+
+    public function getUserRefAll($user_id, $level) {
+        $result = null;
+        if($level < 3) {
+            $result = $this->getUserRef($user_id)->result();
+            foreach ($result as $key => $value) {
+                 $result[$key]->child = $this->getUserRefAll($value->user_id,$value->level);
+            }
+        }else{
+            $result = $this->getUserRef($user_id)->result();
+        }
+        return $result;
     }
 
 }

@@ -119,7 +119,7 @@ $user_data = $this->session->userdata('user_data');
                                             {"data": "docname"},
                                             {"data": "link_path"},
                                             {"data": "type"},
-                                            {"data": "username"},
+                                            {"data": "detail"},
                                             {"data": "username"}
                                         ],
                                         "columnDefs": [

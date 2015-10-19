@@ -405,15 +405,18 @@ class UserPanel extends CI_Controller {
         $result = $result->result();
     }
 
-    public function logout() {
-        
-    }
+    
 
-    public function report($master_id = null) {
+    public function report($master_id = null, $user_id = null) {
 
         $this->load->model('master_sar');
+        $result_sar_all = $this->master_sar->getAllmaster_sar()->result();
+        if ($master_id == null || $master_id=="") {
+            $master_id = $result_sar_all[0]->id;
+        }
         $result_sar = $this->master_sar->getmaster_sarById($master_id);
         $result_sar = $result_sar->result()[0];
+
 
         $this->load->model('composition');
         $result_composit = $this->composition->getAllCompositionByMaster($master_id);
@@ -422,26 +425,49 @@ class UserPanel extends CI_Controller {
         // get indicator with composit
         $this->load->model('indicator');
         $this->load->model('resultuser');
+        $this->load->model('user');
+
         $user_data = $this->session->userdata('user_data');
-        $level = $user_data['level'];
+        if ($user_id == null) {
+            // load user data form session
+            $user_id = $user_data['user_id'];
+        }
+        $user_result = $this->user->getUser_detail($user_id)->result()[0];
+        $level = $user_result->level;
+        // End load user data
+
+
+        $user_result_all = $this->user->getUserRefAll($user_data['user_id'], $user_data['level']);
+
+
         foreach ($result_composit as $key => $value) {
             $result_All_indicator = $this->indicator->getAllIndicatorBycompositSomeLevel($value->id, $level);
             $result_composit[$key]->indicator = $result_All_indicator->result();
             foreach ($result_composit[$key]->indicator as $key2 => $value2) {
-                $citeria['user_id'] = $user_data['user_id'];
+                $citeria['user_id'] = $user_id;
                 $citeria['indicator_id'] = $value2->indicator_id;
-                $result_score = $this->resultuser->getResult($citeria);
-                $result_composit[$key]->indicator[$key2]->score = $result_score->result();
+                $result_score = $this->resultuser->getResult($citeria)->result();
+                if ($result_score == null) {
+                    $result_score[0] = new stdClass();
+                    $result_score[0]->score_ref = "";
+                    $result_score[0]->score_user = 0;
+                }
+                $result_composit[$key]->indicator[$key2]->score = $result_score;
             }
         }
 
         $data['data_all'] = $result_composit;
         $data['master_sar'] = $result_sar;
-
+        $data['master_sar_all'] = $result_sar_all;
+        
+        $data['user_select'] = $user_result;
+        $data['user_all'] = $user_result_all;
+        $data['user_data'] = $user_data;
+        
         $this->load->view('user_template/header');
         $this->load->view('user_template/navigationbar');
         $this->load->view('user_template/sidebar');
-        $this->load->view('template/report',$data);
+        $this->load->view('user/report', $data);
         $this->load->view('user_template/footer');
     }
 

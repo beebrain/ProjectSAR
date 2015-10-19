@@ -38,10 +38,9 @@ class UserControl extends CI_Controller {
     }
 
     public function logoutProcess() {
-        $this->session->unset_userdata('user_data');
+        $this->session->sess_destroy();
         redirect("index.php/UserControl/loginPage");
     }
-
 }
 ?>
 

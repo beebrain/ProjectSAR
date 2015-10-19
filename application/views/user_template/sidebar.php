@@ -7,22 +7,22 @@
                         <?php
                         $user_data = $this->session->userdata('user_data') ;
                         ?>
-                        <p style="text-align: center"><image  src=" <?php echo base_url("assets/img/logouru2011.png"); ?>"/><br><?php echo  $user_data["username"] ?></p> 
+                        <p style="text-align: center"><image  src=" <?php echo base_url("assets/img/logouru2011.png"); ?>"/><br><?php echo  $user_data["detail"] ?></p> 
                     </div>
                     <!-- /input-group -->
                 </li>
 
                 <li>
-                    <a href="<?php echo base_url("index.php/UserPanel/master_sar_All"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>เลือกชุดการประเมิน</a>
+                    <a href="<?php echo base_url("index.php/UserPanel/master_sar_All"); ?>"> <i class="fa fa-calendar-o fa-fw"></i>เลือกชุดการประเมิน</a>
                 </li>
                 <li>
-                    <a href="<?php echo base_url("index.php/UserManageDoc/ShowManageDoc"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>จัดการเอกสารหลักฐานการประเมิน</a>
+                    <a href="<?php echo base_url("index.php/UserManageDoc/ShowManageDoc"); ?>"> <i class="fa fa-list-alt fa-fw"></i>จัดการเอกสารหลักฐานการประเมิน</a>
                 </li> 
                 <li>
-                    <a href="<?php echo base_url("index.php/UserPanel/MasToLevel"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>แก้ไขข้อมูลส่วนตัว</a>
+                    <a href="<?php echo base_url("index.php/UserPanel/report"); ?>"> <i class="fa fa-file-text-o fa-fw"></i>รายงานการประเมิน</a>
                 </li> 
                 <li>
-                    <a href="<?php echo base_url("index.php/UserPanel/MasToLevel"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>ออกจากระบบ</a>
+                    <a href="<?php echo base_url("index.php/UserControl/logoutProcess"); ?>"> <i class="fa fa-sign-out fa-fw"></i>ออกจากระบบ</a>
                 </li> 
 
             </ul>
