@@ -405,19 +405,16 @@ class UserPanel extends CI_Controller {
         $result = $result->result();
     }
 
-    
-
     public function report($master_id = null, $user_id = null) {
 
         $this->load->model('master_sar');
         $result_sar_all = $this->master_sar->getAllmaster_sar()->result();
-        if ($master_id == null || $master_id=="") {
+        if ($master_id == null || $master_id == "") {
             $master_id = $result_sar_all[0]->id;
         }
         $result_sar = $this->master_sar->getmaster_sarById($master_id);
         $result_sar = $result_sar->result()[0];
-
-
+        
         $this->load->model('composition');
         $result_composit = $this->composition->getAllCompositionByMaster($master_id);
         $result_composit = $result_composit->result();
@@ -459,11 +456,11 @@ class UserPanel extends CI_Controller {
         $data['data_all'] = $result_composit;
         $data['master_sar'] = $result_sar;
         $data['master_sar_all'] = $result_sar_all;
-        
+
         $data['user_select'] = $user_result;
         $data['user_all'] = $user_result_all;
         $data['user_data'] = $user_data;
-        
+
         $this->load->view('user_template/header');
         $this->load->view('user_template/navigationbar');
         $this->load->view('user_template/sidebar');

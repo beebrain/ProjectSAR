@@ -5,9 +5,9 @@
                 <li class="sidebar-search">
                     <div class="input-group custom-search-form">
                         <?php
-                        $user_data = $this->session->userdata('user_data') ;
+                        $user_data = $this->session->userdata('user_data');
                         ?>
-                        <p style="text-align: center"><image  src=" <?php echo base_url("assets/img/logouru2011.png"); ?>"/><br><?php echo  $user_data["detail"] ?></p> 
+                        <p style="text-align: center"><image  src=" <?php echo base_url("assets/img/logouru2011.png"); ?>"/><br><?php echo $user_data["detail"] ?></p> 
                     </div>
                     <!-- /input-group -->
                 </li>
@@ -21,6 +21,9 @@
                 <li>
                     <a href="<?php echo base_url("index.php/UserPanel/report"); ?>"> <i class="fa fa-file-text-o fa-fw"></i>รายงานการประเมิน</a>
                 </li> 
+                <li>
+                    <a href="<?php echo base_url("index.php/UserControl/changePassword"); ?>"> <i class="fa fa-sign-out fa-fw"></i>เปลี่ยนรหัสผ่าน</a>
+                </li>
                 <li>
                     <a href="<?php echo base_url("index.php/UserControl/logoutProcess"); ?>"> <i class="fa fa-sign-out fa-fw"></i>ออกจากระบบ</a>
                 </li> 
