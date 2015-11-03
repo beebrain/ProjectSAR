@@ -1,7 +1,5 @@
 <?php
-
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class UserPanel extends CI_Controller {
 
@@ -10,10 +8,7 @@ class UserPanel extends CI_Controller {
 
         if ($this->session->userdata('user_data') == null) {
             // Prevent infinite loop by checking that this isn't the login controller  
-
-            if ($this->router->class != 'UserControl') {
-                redirect("index.php/UserControl/loginPage");
-            }
+            redirect("index.php/UserControl/loginPage");
         } else {
             $user_data = $this->session->userdata('user_data');
             // print_r($user_data);
@@ -25,7 +20,8 @@ class UserPanel extends CI_Controller {
     }
 
     public function master_sar_All() {
-        // getdata form database
+        
+        
         $this->load->model('composition');
         $this->load->model('master_sar');
         $query = $this->master_sar->getAllmaster_sar();
@@ -34,7 +30,7 @@ class UserPanel extends CI_Controller {
         $this->load->view('user_template/header');
         $this->load->view('user_template/navigationbar');
         $this->load->view('user_template/sidebar');
-        $this->load->view('User/Usermaster', $data);
+        $this->load->view('User/UserMaster', $data);
         $this->load->view('user_template/footer');
     }
 
@@ -71,7 +67,9 @@ class UserPanel extends CI_Controller {
             $level = $user_data['level'];
             $query = $this->indicator->getAllIndicatorBycompositSomeLevel($value->id, $level);
             $result_indicator = $query->result();
-
+            // check if not child
+            if ($result_indicator == NULL)
+                continue;
 
             // get score form indicator and user
             $this->load->model('resultuser');
@@ -109,18 +107,32 @@ class UserPanel extends CI_Controller {
         $this->load->view('user_template/footer');
     }
 
-    public function ShowIndicator($indicator_id = NULL) {
-        $user_data = $this->session->userdata('user_data');
+    public function ShowIndicator($indicator_id = NULL, $action = NULL, $user_id = null, $master_id = null) {
+
         if ($indicator_id == NULL) {
             redirect("index.php/UserPanel/master_sar_All");
             return false;
         } else {
+            if ($user_id == null) {
+                $user_data = $this->session->userdata('user_data');
+                $user_id = $user_data['user_id'];
+            } else {
+                $this->load->model('user');
+                $result = $this->user->getUser($user_id)->result();
+                $user_data = $result[0];
+                $user_data = (array) $user_data;
+                if ($user_data == NULL) {
+                    redirect("index.php/UserPanel/master_sar_All");
+                    return false;
+                }
+            }
+
             $this->load->model("subindicator");
             $this->load->model("indicator");
             $this->load->model("subindicator_doc");
             $this->load->model("doc_sync_indicator");
             $this->load->model("resultuser");
-
+            $this->load->model("master_sar");
 
             $query = $this->indicator->getIndicatorById($indicator_id);
             $result = $query->result();
@@ -133,18 +145,30 @@ class UserPanel extends CI_Controller {
 
             $subin_detail = array();
 
+
             foreach ($result as $value) {
                 $query = $this->subindicator_doc->showSubindicator_doc($user_data['user_id'], $value->subindicator_id);
                 $datadetail['subindicator'] = $value;
                 if (sizeof($query->result()) > 0) {
-                    $datadetail['subindicator_doc'] = $query->result()[0];
+                    $query = $query->result();
+                    $datadetail['subindicator_doc'] = $query[0];
                 } else {
                     $datadetail['subindicator_doc'] = NULL;
                 }
 
                 // Get Document each subindicator
-                $user_id = $user_data['user_id'];
-                $master_id = $this->session->userdata('master_id');
+                // $user_id = $user_data['user_id'];
+                if ($master_id == null) {
+                    $master_id = $this->session->userdata('master_id');
+                }
+                
+                $result_sar = $this->master_sar->getmaster_sarById($master_id);
+                $result_sar = $result_sar->result();
+                $result_sar = $result_sar[0];
+                $data['detail_sar'] = $result_sar;
+
+
+
                 $subindicator_id = $value->subindicator_id;
 
                 $result = $this->doc_sync_indicator->getDocument_sync($subindicator_id, $user_id, $master_id);
@@ -154,10 +178,11 @@ class UserPanel extends CI_Controller {
 
                 array_push($subin_detail, $datadetail);
             }
+
             $data['subindicator'] = $subin_detail;
 
             // Load Score and Comment user
-            $citeria['user_id'] = $user_data['user_id'];
+            $citeria['user_id'] = $user_id;
             $citeria['indicator_id'] = $indicator_id;
             $query = $this->resultuser->getResult($citeria);
             $result = $query->result();
@@ -167,11 +192,16 @@ class UserPanel extends CI_Controller {
                 $result[0]->score_user = 0;
             }
             $data['Score_indicator'] = $result;
-
+            $data['user_data'] = $user_data;
+            
             $this->load->view('user_template/header');
             $this->load->view('user_template/navigationbar');
-            //   $this->load->view('user_template/sidebar');
-            $this->load->view('User/userindicator', $data);
+            if ($action == null) {
+                $this->load->view('User/UserIndicator', $data);
+            } else if ($action == "Report") {
+                $this->load->view('user_template/sidebar');
+                $this->load->view('User/ReportIndicator', $data);
+            }
             $this->load->view('user_template/footer');
         }
     }
@@ -410,13 +440,16 @@ class UserPanel extends CI_Controller {
         $this->load->model('master_sar');
         $result_sar_all = $this->master_sar->getAllmaster_sar()->result();
         if ($master_id == null || $master_id == "") {
-            $master_id = $result_sar_all[0]->id;
+            $master_select = $result_sar_all[0]->id;
+        } else {
+            $master_select = $master_id;
         }
-        $result_sar = $this->master_sar->getmaster_sarById($master_id);
-        $result_sar = $result_sar->result()[0];
-        
+        $result_sar = $this->master_sar->getmaster_sarById($master_select);
+        $result_sar = $result_sar->result();
+        $result_sar = $result_sar[0];
+
         $this->load->model('composition');
-        $result_composit = $this->composition->getAllCompositionByMaster($master_id);
+        $result_composit = $this->composition->getAllCompositionByMaster($master_select);
         $result_composit = $result_composit->result();
 
         // get indicator with composit
@@ -427,9 +460,12 @@ class UserPanel extends CI_Controller {
         $user_data = $this->session->userdata('user_data');
         if ($user_id == null) {
             // load user data form session
-            $user_id = $user_data['user_id'];
+            $user_select = $user_data['user_id'];
+        } else {
+            $user_select = $user_id;
         }
-        $user_result = $this->user->getUser_detail($user_id)->result()[0];
+        $user_result = $this->user->getUser_detail($user_select)->result();
+        $user_result = $user_result[0];
         $level = $user_result->level;
         // End load user data
 
@@ -439,9 +475,16 @@ class UserPanel extends CI_Controller {
 
         foreach ($result_composit as $key => $value) {
             $result_All_indicator = $this->indicator->getAllIndicatorBycompositSomeLevel($value->id, $level);
+            if ($result_All_indicator->result() == null) {
+                unset($result_composit[$key]);
+                continue;
+            }
+
             $result_composit[$key]->indicator = $result_All_indicator->result();
+
+
             foreach ($result_composit[$key]->indicator as $key2 => $value2) {
-                $citeria['user_id'] = $user_id;
+                $citeria['user_id'] = $user_select;
                 $citeria['indicator_id'] = $value2->indicator_id;
                 $result_score = $this->resultuser->getResult($citeria)->result();
                 if ($result_score == null) {
@@ -456,6 +499,8 @@ class UserPanel extends CI_Controller {
         $data['data_all'] = $result_composit;
         $data['master_sar'] = $result_sar;
         $data['master_sar_all'] = $result_sar_all;
+        $data['user_id_select'] = $user_select;
+        $data['master_id_select'] = $master_select;
 
         $data['user_select'] = $user_result;
         $data['user_all'] = $user_result_all;
@@ -468,7 +513,14 @@ class UserPanel extends CI_Controller {
         $this->load->view('user_template/footer');
     }
 
+    public function changePass() {
+        $this->load->view('user_template/header');
+        $this->load->view('user_template/navigationbar');
+        $this->load->view('user_template/sidebar');
+        $this->load->view('User/ChangePass');
+        $this->load->view('user_template/footer');
+    }
+
 }
+
 ?>
-
-

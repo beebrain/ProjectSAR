@@ -10,6 +10,16 @@ if (!defined('BASEPATH'))
 
 class AdminControl extends CI_Controller {
 
+    public function __construct() {
+        parent::__construct();
+        if ($this->session->userdata('Admin_data') == null) {
+            // Prevent infinite loop by checking that this isn't the login controller  
+            redirect("index.php/UserControl/loginPage");
+        } else {
+            $Admin_data = $this->session->userdata('Admin_data');
+        }
+    }
+
     public function ShowFormAdduser() {
         // Call View
         $this->load->view('template/header');
@@ -98,7 +108,7 @@ class AdminControl extends CI_Controller {
     public function getAllUser() {
         $level_detail = array("ระดับมหาวิทยาลัย", "ระดับคณะ", "ระดับหลักสูตร");
         $this->load->model('user');
-        $result = $this->user->getUser();
+        $result = $this->user->getUserRef();
         $data = $result->result();
 
         for ($i = 0; $i < sizeof($data); $i++) {
@@ -211,9 +221,16 @@ class AdminControl extends CI_Controller {
      */
     public function AddRef() {
         $this->load->model('ref');
+        $this->load->model('user');
         $data = $this->input->post();
-        $data['password'] = md5($data['password']);
-        echo $this->ref->AddRef($data);
+        if (!$this->user->checkDupUser($data['username'])) {
+            $data['password'] = md5($data['password']);
+            $this->ref->AddRef($data);
+            $data['message'] = "TRUE";
+        } else {
+            $data['message'] = "FALSE";
+        }
+        echo json_encode($data);
     }
 
     /**
@@ -240,6 +257,11 @@ class AdminControl extends CI_Controller {
         }
         unset($data["password2"]);
         echo $this->ref->UpdateRef($data);
+    }
+
+    public function logoutProcess() {
+        $this->session->sess_destroy();
+        redirect("index.php/UserControl/loginPage");
     }
 
 }

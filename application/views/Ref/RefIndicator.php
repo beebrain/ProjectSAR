@@ -8,7 +8,12 @@ $user_id_select = $this->session->userdata('user_id_select');
 $ref_data = $this->session->userdata('ref_data');
 $ref_id = $ref_data['ref_id'];
 ?>
-
+<div class="row">
+    <p></p>
+    <div class="col-lg-10 col-lg-offset-1">
+        <button type="button" class="btn btn-warning btn-xs" onclick="window.location.href = '<?php echo base_url('index.php/RefPanel/Composit/') ?>';">back</button>
+    </div>
+</div>
 <div class="row">
     <p></p>
     <div class="col-lg-10 col-lg-offset-1">

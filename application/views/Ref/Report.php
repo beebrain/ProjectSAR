@@ -18,7 +18,7 @@
                 <p>ผู้รับการประเมิน
                     <select class="form-control" name="user_select" id="user_select">
                         <?php
-                        echo "<option value='$user_data[user_id]' " . ($user_select->user_id == $user_data[user_id] ? "selected" : "") . ">$user_data[detail]</option>";
+                        //echo "<option value='$user_data[user_id]' " . ($user_select->user_id == $user_data[user_id] ? "selected" : "") . ">$user_data[detail]</option>";
                         foreach ($user_all as $key => $value) {
                             echo "<option value='$value->user_id'" . ($user_select->user_id == $value->user_id ? "selected" : "") . ">&nbsp;&nbsp;-$value->detail</option>";
                             if ($value->child != null) {
@@ -52,8 +52,8 @@
                             <thead>
                                 <tr>
                                     <th>หัวข้อประเมิน</th>
-                                    <th style="width: 10%">ผู้ประเมิน</th>
                                     <th style="width: 10%">ตนเอง</th>
+                                    <th style="width: 10%">กรรมการ</th>
                                 </tr>
                             </thead>
                             <?php
@@ -68,17 +68,18 @@
                                     <?php
                                     foreach ($indicator as $value_indicator) {
                                         $score = $value_indicator->score[0];
-                                        // print_r($score);
+                                         //print_r($score);
                                         ?>
                                         <tr class="success">
                                             <td  style="padding-left: 50px">
-                                                <?= $value_indicator->indicator_title; ?>
-                                            </td>
-                                            <td >
-                                                <?= $score->score_ref; ?>
+                                                
+                                                 <?= "<a href='".  base_url('index.php/RefPanel/ShowIndicator/')."/".$value_indicator->indicator_id."/Report/".$user_select->user_id."/".$master_sar->id."'>".$value_indicator->indicator_title."</a>"; ?>
                                             </td>
                                             <td >
                                                 <?= $score->score_user; ?>
+                                            </td>
+                                            <td >
+                                                <?= $score->score_ref; ?>
 
                                             </td>
                                         </tr>
@@ -110,7 +111,7 @@
 <script type="text/javascript">
     $('#master_select,#user_select').change(function () {
         if ($('#master_select').val() != "") {
-            url = "<?php echo base_url('index.php/UserPanel/report'); ?>";
+            url = "<?php echo base_url('index.php/RefPanel/report'); ?>";
             url += "/" + $('#master_select').val();
             url += "/" + $('#user_select').val();
             window.location.replace(url);

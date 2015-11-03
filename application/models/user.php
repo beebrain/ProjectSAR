@@ -41,12 +41,12 @@ class user extends CI_Model {
             $this->db->where('user_id', $user_id);
         }
         $this->db->where_not_in('status', "-1");
-        $query = $this->db->get('user_ref');
+        $query = $this->db->get('user');
         //echo $this->db->last_query();
         return $query;
     }
-    
-      public function getUser_detail($user_id = NULL) {
+
+    public function getUser_detail($user_id = NULL) {
         if ($user_id <> NULL) {
             $this->db->where('user_id', $user_id);
         }
@@ -56,8 +56,11 @@ class user extends CI_Model {
         return $query;
     }
 
-    public function getUserRef($user_id) {
-        $this->db->where('user_ref', $user_id);
+    public function getUserRef($user_id = null) {
+        if ($user_id <> NULL) {
+            $this->db->where('user_ref', $user_id);
+        }
+
         $this->db->where_not_in('status', "-1");
         $query = $this->db->get('user_ref');
         return $query;
@@ -79,24 +82,33 @@ class user extends CI_Model {
     }
 
     public function checkDupUser($user) {
+        if ($user == 'admin') {
+            return True;
+        }
         $this->db->where('username', $user);
         $query = $this->db->get('user');
 
         if ($query->num_rows() > 0) {
             return TRUE;
-        } else {
-            return FALSE;
         }
+
+        $this->db->where('username', $user);
+        $query = $this->db->get('ref');
+        if ($query->num_rows() > 0) {
+            return TRUE;
+        }
+
+        return FALSE;
     }
 
     public function getUserRefAll($user_id, $level) {
         $result = null;
-        if($level < 3) {
+        if ($level < 3) {
             $result = $this->getUserRef($user_id)->result();
             foreach ($result as $key => $value) {
-                 $result[$key]->child = $this->getUserRefAll($value->user_id,$value->level);
+                $result[$key]->child = $this->getUserRefAll($value->user_id, $value->level);
             }
-        }else{
+        } else {
             $result = $this->getUserRef($user_id)->result();
         }
         return $result;

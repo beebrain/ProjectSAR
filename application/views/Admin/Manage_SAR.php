@@ -17,21 +17,19 @@
                             <h4 class="panel-title">ชุดการประกันคุณภาพ
                                 <span class="pull-right" data-toggle="modal" data-target="#myModal">
                                     <a href ="#" >
-                                        <i class="fa fa-plus-square fa-lg" title="เพิ่มการประเมิณ"></i>
+                                        <i class="fa fa-plus-square fa-lg" title="เพิ่มชุดการประกันคุณภาพ"></i>
                                     </a>
                                 </span>
                             </h4>
                         </div>
 
-                        <div class="panel-body">
-
-
+                        <div class="panel-body" >
                             <?php
                             $index = 2;
                             foreach ($master_sar as $row) {
                                 $index++;
                                 ?>
-                                <div class="col-md-3 col-lg-3">
+                                <div class="col-md-4 col-lg-4">
                                     <div class="panel <?php echo randomstyle($index); ?>">
 
                                         <div class="panel-heading">

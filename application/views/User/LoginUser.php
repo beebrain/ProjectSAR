@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>SB Admin 2 - Bootstrap Admin Theme</title>
+        <title>Esar</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="<?php echo base_url() ?>/assets/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
                 <div class="col-md-4 col-md-offset-4">
                     <div class="login-panel panel panel-blue">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Login สำหรับผู้รับการประเมิน</h3>
+                            <h3 class="panel-title">Login เข้าสู่ระบบ</h3>
                         </div>
                         <div class="panel-body">
                             <form role="form" action="<?php echo base_url('index.php/UserControl/LoginProcess') ?>" method="post">

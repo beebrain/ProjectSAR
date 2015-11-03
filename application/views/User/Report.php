@@ -52,8 +52,8 @@
                             <thead>
                                 <tr>
                                     <th>หัวข้อประเมิน</th>
-                                    <th style="width: 10%">ผู้ประเมิน</th>
                                     <th style="width: 10%">ตนเอง</th>
+                                    <th style="width: 10%">กรรมการ</th>
                                 </tr>
                             </thead>
                             <?php
@@ -68,17 +68,17 @@
                                     <?php
                                     foreach ($indicator as $value_indicator) {
                                         $score = $value_indicator->score[0];
-                                        // print_r($score);
+                                         //print_r($score);
                                         ?>
                                         <tr class="success">
                                             <td  style="padding-left: 50px">
-                                                <?= $value_indicator->indicator_title; ?>
-                                            </td>
-                                            <td >
-                                                <?= $score->score_ref; ?>
+                                                <?= "<a href='".  base_url('index.php/UserPanel/ShowIndicator/')."/".$value_indicator->indicator_id."/Report/".$user_id_select."/".$master_id_select."'>".$value_indicator->indicator_title."</a>"; ?>
                                             </td>
                                             <td >
                                                 <?= $score->score_user; ?>
+                                            </td>
+                                            <td >
+                                                <?= $score->score_ref; ?>
 
                                             </td>
                                         </tr>

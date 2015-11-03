@@ -14,7 +14,7 @@
             ?>
             <div class="col-md-4">
                 <div class="panel <?php echo randomstyle($index); ?>">
-                    <a href="<?php echo base_url("index.php/RefPanel/ShowUser/")."/".$row->id;?>"> <!-- insert Link -->
+                    <a href="<?php if($row->ref){echo base_url("index.php/RefPanel/ShowUser/") . "/" . $row->id; }else{echo "#";}?>"> <!-- insert Link -->
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-md-3">
@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="panel-footer">
-                            <span class="pull-left"></span>
+                            <span class="pull-left"><?php if(!$row->ref){echo "ระบบปิดรับการประเมินแล้ว";} ?></span>
                             <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                             <div class="clearfix"></div>
                         </div>

@@ -9,9 +9,16 @@ if (!defined('BASEPATH'))
 
 class AdminPanel extends CI_Controller {
 
-    /**
-     * Manage master to level
-     */
+    public function __construct() {
+        parent::__construct();
+        if ($this->session->userdata('Admin_data') == null) {
+            // Prevent infinite loop by checking that this isn't the login controller  
+                redirect("index.php/UserControl/loginPage");
+        } else {
+            $Admin_data = $this->session->userdata('Admin_data');
+        }
+    }
+
     public function MasToLevel($id = NULL) {
 
         $this->load->model("master_sar");
@@ -176,7 +183,7 @@ class AdminPanel extends CI_Controller {
         $this->load->view('template/header');
         $this->load->view('template/navigationbar');
         $this->load->view('template/sidebar');
-        $this->load->view('Admin/ShowDetailIndicator', $data);
+        $this->load->view('Admin/ShowDetailindicator', $data);
         $this->load->view('template/footer');
     }
 

@@ -17,24 +17,20 @@
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li>
-
-
-                    <a href="<?php echo base_url("index.php/refPanel/"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>เลือกชุดการประเมิน</a>
-
-
+                    <a href="<?php echo base_url("index.php/RefPanel/showMaster"); ?>"> <i class="fa fa-calendar-o fa-fw"></i>เลือกชุดการประเมิน</a>
                 </li>
                 <li class="divider"></li>
                 <li>
-                    <a href="<?php echo base_url("index.php/UserManageDoc/ShowManageDoc"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>จัดการเอกสารหลักฐานการประเมิน</a>
+                    <a href="<?php echo base_url("index.php/RefPanel/Report"); ?>"> <i class="fa fa-file-text-o fa-fw"></i>รายงานการประเมิน</a>
+                </li> 
+                <li class="divider"></li>
+                <li>
+                    <a href="<?php echo base_url("index.php/RefPanel/changePass"); ?>"> <i class="fa fa-barcode fa-fw"></i>เปลี่ยนรหัสผ่าน</a>
                 </li>
                 <li class="divider"></li>
                 <li>
-                     <a href="<?php echo base_url("index.php/refPanel/MasToLevel"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>แก้ไขข้อมูลส่วนตัว</a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                     <a href="<?php echo base_url("index.php/refPanel/MasToLevel"); ?>"> <i class="fa fa-bar-chart-o fa-fw"></i>ออกจากระบบ</a>
-                </li>
+                    <a href="<?php echo base_url("index.php/UserControl/logoutProcess"); ?>"> <i class="fa fa-sign-out fa-fw"></i>ออกจากระบบ</a>
+                </li> 
 
             </ul>
             <!-- /.dropdown-tasks -->

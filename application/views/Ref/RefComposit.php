@@ -4,18 +4,26 @@ $user_data_select = $this->session->userdata('user_data_select');
 ?>
 <div id="page-wrapper">
     <div class="row">
+
         <div class="col-lg-12">
             <h1 class="page-header">ชุดการประเมิน  <?php echo $master_sar_select[0]->desc; ?></h1>
             <blockquote>
                 <p>ผู้รับการประเมิน : <?php echo $user_data_select->detail; ?> </p>
             </blockquote>
         </div>
-        <!-- /.col-lg-12 -->
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <button type="button" class="btn btn-warning btn-xs" onclick="window.location.href = '<?php echo base_url('index.php/RefPanel/Composit/')?>';">back</button>
+        </div>
+       
     </div>
     <!-- /.row -->
     <div class="row">
+         <p></p>
         <div class="col-lg-12">
-
+            
             <div >
                 <?php
                 foreach ($data_all as $value) {
@@ -45,7 +53,8 @@ $user_data_select = $this->session->userdata('user_data_select');
 
                                                 <tr>
                                                     <td><?php echo $value2->indicator_num ?></td>
-                                                    <td><a href="<?php echo base_url("index.php/RefPanel/ShowIndicator/") . "/" . $value2->indicator_id ?>"><?php echo $value2->indicator_title ?></a></td>
+                                                    <td><a href="<?php echo base_url("index.php/RefPanel/ShowIndicator/") . "/" . $value2->indicator_id ?>"><?php echo $value2->indicator_title ?></a>
+                                                    </td>
                                                     <td><?php
                                                         if ($value2->score == NULL)
                                                             echo "Not scoring";

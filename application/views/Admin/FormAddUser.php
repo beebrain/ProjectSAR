@@ -131,7 +131,7 @@
                         $('#message').removeClass("alert-danger").addClass("alert-success");
 
                     } else {
-                        $('#info_insert').html("มีชื่อผู้ใช้นี้แล้ว");
+                        $('#info_insert').html("username นี้มีในระบบแล้ว");
 
                         $('#message').removeClass("alert-success").addClass("alert-danger");
                     }

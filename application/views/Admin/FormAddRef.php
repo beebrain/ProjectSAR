@@ -101,8 +101,19 @@
                     formData,
                     function (data, textStatus, jqXHR)
                     {
-                    $('#info_insert').html("บันทึกข้อมูลเรียบร้อยแล้ว");
-                    $('#message').removeClass("alert-danger").addClass("alert-success");
+                    console.log(data);
+                    var data_json = jQuery.parseJSON(data);
+                    console.log(data_json);
+                    if (data_json['message'] == "TRUE") {
+                        $('#info_insert').html("บันทึกข้อมูลเรียบร้อยแล้ว");
+
+                        $('#message').removeClass("alert-danger").addClass("alert-success");
+
+                    } else {
+                        $('#info_insert').html("username นี้มีในระบบแล้ว");
+
+                        $('#message').removeClass("alert-success").addClass("alert-danger");
+                    }
                     $("#message").show();
                     $("#message").fadeOut(3000);
                     }).fail(function (jqXHR, textStatus, errorThrown)

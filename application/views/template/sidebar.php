@@ -8,31 +8,25 @@
                     </div>
                     <!-- /input-group -->
                 </li>
+
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>จัดการองค์ประเมิณ<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="<?php echo base_url("index.php/AdminPanel/ShowMaster");?>"> สร้างหัวข้อองค์ประเมิณ</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url("index.php/AdminPanel/MasToLevel");?>"> กำหนดองค์ประเมิณ</a>
-                        </li> 
-                   </ul>
-                    <!-- /.nav-second-level -->
+                    <a href="<?php echo base_url("index.php/AdminPanel/ShowMaster"); ?>"> <i class="fa fa-calendar-o fa-fw"></i> สร้างหัวข้อองค์ประเมิณ</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> จัดการผู้ใช้<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="<?php echo base_url("index.php/AdminControl/ShowAllUser"); ?>">รายชื่อผู้ถูกประเมิณ</a>
-                        </li>
-                        <li>
-                            <a href="<?php echo base_url("index.php/AdminControl/ShowAllRef"); ?>">รายชื่อผู้ประเมิณ</a>
-                        </li>
-                    </ul>
-                    <!-- /.nav-second-level -->
+                    <a href="<?php echo base_url("index.php/AdminPanel/MasToLevel"); ?>"> <i class="fa fa-list-alt fa-fw"></i> ควบคุมองค์ประเมิณ</a>
+                </li> 
+
+
+                <li>
+                    <a href="<?php echo base_url("index.php/AdminControl/ShowAllUser"); ?>"><i class="fa fa-file-text-o fa-fw"></i> จัดการรายชื่อผู้รับการประเมิณ</a>
                 </li>
-               
+                <li>
+                    <a href="<?php echo base_url("index.php/AdminControl/ShowAllRef"); ?>"><i class="fa fa-file-text-o fa-fw"></i> จัดการรายชื่อผู้ประเมิณ</a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url("index.php/AdminControl/logoutProcess"); ?>"><i class="fa fa-sign-out fa-fw"></i> ออกจากระบบ</a>
+                </li>
+
             </ul>
         </div>
         <!-- /.sidebar-collapse -->

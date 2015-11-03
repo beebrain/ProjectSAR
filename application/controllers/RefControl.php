@@ -5,11 +5,7 @@ class RefControl extends CI_Controller {
     public function __construct() {
         parent::__construct();
         if ($this->session->userdata('ref_data') == null) {
-            // Prevent infinite loop by checking that this isn't the login controller  
-
-            if ($this->router->class != 'RefControl') {
-                redirect("index.php/RefControl/loginPage");
-            }
+            redirect("index.php/UserControl/loginPage");
         }
     }
 
@@ -35,8 +31,28 @@ class RefControl extends CI_Controller {
     }
 
     public function logoutProcess() {
-        $this->session->unset_refdata('ref_data');
-        redirect("index.php/RefControl/loginPage");
+        $this->session->sess_destroy();
+        redirect("index.php/UserControl/loginPage");
+    }
+
+    public function changePass() {
+        $ref_data = $this->session->userdata('ref_data');
+        $this->load->model('ref');
+        $result = $this->ref->getRef($ref_data['ref_id'])->result();
+        $result = $result[0];
+        $id = $ref_data["ref_id"];
+        $data = $this->input->post();
+        $data['nn'] = md5($data['password']);
+        // $data['old'] = $result->password;
+        $data['message'] = "True";
+        if (md5($data['password']) == $result->password) {
+            $datainsert['ref_id'] = $id;
+            $datainsert['password'] = md5($data['newpassword']);
+            $this->ref->UpdateRef($datainsert);
+        } else {
+            $data['message'] = "False";
+        }
+        echo json_encode($data);
     }
 
 }
