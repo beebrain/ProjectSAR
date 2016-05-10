@@ -50,7 +50,9 @@ class document extends CI_Model {
         }
 
         // $str = $this->db->last_query();
+        // echo $str;
         return $this->db->query($sqlcommand);
+         
     }
 
     public function getDetailDocWithID($doc_id) {

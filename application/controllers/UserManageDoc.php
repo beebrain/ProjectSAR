@@ -35,7 +35,6 @@ class UserManageDoc extends CI_Controller {
         $user_data = $this->session->userdata('user_data');
         $user_id = $user_data['user_id'];
         
-        
         $this->load->model('user');
         $result = $this->user->getUserRef($user_id);
         $result = $result->result();

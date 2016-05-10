@@ -252,7 +252,7 @@
                                                                     });
 
                                                                     // draw table
-                                                                    drawTable('2'); // send Null data
+                                                                    drawTable('<?php echo $this->session->userdata('master_id'); ?>'); // send Null data
                                                                 }
                                                                 );
 
