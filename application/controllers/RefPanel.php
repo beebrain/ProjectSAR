@@ -132,7 +132,7 @@ class RefPanel extends CI_Controller {
             $this->load->view('ref_template/header');
             $this->load->view('ref_template/navigationbar');
             $this->load->view('ref_template/sidebar');
-            $this->load->view('ref/RefComposit', $data);
+            $this->load->view('Ref/RefComposit', $data);
             $this->load->view('ref_template/footer');
         }
     }

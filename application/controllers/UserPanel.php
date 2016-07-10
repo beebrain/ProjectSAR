@@ -509,7 +509,7 @@ class UserPanel extends CI_Controller {
         $this->load->view('user_template/header');
         $this->load->view('user_template/navigationbar');
         $this->load->view('user_template/sidebar');
-        $this->load->view('user/report', $data);
+        $this->load->view('User/Report', $data);
         $this->load->view('user_template/footer');
     }
 
