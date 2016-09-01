@@ -10,38 +10,40 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Dumping structure for table research1.composition
+-- Dumping database structure for sar
+CREATE DATABASE IF NOT EXISTS `sar` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
+USE `sar`;
+
+
+-- Dumping structure for table sar.composition
 CREATE TABLE IF NOT EXISTS `composition` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'For Id Composition',
   `maintitle` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `principle` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `standard` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `indicate` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `year` int(4) NOT NULL,
   `master_id` int(3) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table research1.composition: 11 rows
+-- Dumping data for table sar.composition: 11 rows
 DELETE FROM `composition`;
 /*!40000 ALTER TABLE `composition` DISABLE KEYS */;
-INSERT INTO `composition` (`id`, `maintitle`, `title`, `principle`, `standard`, `indicate`, `year`, `master_id`) VALUES
-	(10, 'องค์ประกอบที่ F2', 'การวิจัย', '', '', '', 0, 3),
-	(9, 'องค์ประกอบที่ F1', 'การผลิตบัณฑิต', '', '', '', 0, 3),
-	(14, 'องค์ประกอบที่ C1', 'การกำกับมาตรฐาน', '', '', '', 0, 3),
-	(11, 'องค์ประกอบที่ F3', 'การบริการวิชาการ', '', '', '', 0, 3),
-	(12, 'องค์ประกอบที่ F4', 'การทำนุบำรุงศิลปะและวัฒนธรรม', '', '', '', 0, 3),
-	(13, 'องค์ประกอบที่ F5', 'การบริหารจัดการ', '', '', '', 0, 3),
-	(15, 'องค์ประกอบที่ C2', 'บัณฑิต', '', '', '', 0, 3),
-	(16, 'องค์ประกอบที่ C3', 'นักศึกษา', '', '', '', 0, 3),
-	(17, 'องค์ประกอบที่ C4', 'อาจารย์', '', '', '', 0, 3),
-	(18, 'องค์ประกอบที่ C5 ', 'หลักสูตร การเรียนการสอน การประเมินผู้เรียน', '', '', '', 0, 3),
-	(19, 'องค์ประกอบที่ C6', 'สิ่งสนับสนุนการเรียนรู้', '', '', '', 0, 3);
+INSERT INTO `composition` (`id`, `maintitle`, `title`, `year`, `master_id`) VALUES
+	(10, 'องค์ประกอบที่ F2', 'การวิจัย', 0, 3),
+	(9, 'องค์ประกอบที่ F1', 'การผลิตบัณฑิต', 0, 3),
+	(14, 'องค์ประกอบที่ C1', 'การกำกับมาตรฐาน', 0, 3),
+	(11, 'องค์ประกอบที่ F3', 'การบริการวิชาการ', 0, 3),
+	(12, 'องค์ประกอบที่ F4', 'การทำนุบำรุงศิลปะและวัฒนธรรม', 0, 3),
+	(13, 'องค์ประกอบที่ F5', 'การบริหารจัดการ', 0, 3),
+	(15, 'องค์ประกอบที่ C2', 'บัณฑิต', 0, 3),
+	(16, 'องค์ประกอบที่ C3', 'นักศึกษา', 0, 3),
+	(17, 'องค์ประกอบที่ C4', 'อาจารย์', 0, 3),
+	(18, 'องค์ประกอบที่ C5 ', 'หลักสูตร การเรียนการสอน การประเมินผู้เรียน', 0, 3),
+	(19, 'องค์ประกอบที่ C6', 'สิ่งสนับสนุนการเรียนรู้', 0, 3);
 /*!40000 ALTER TABLE `composition` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.control_sar
+-- Dumping structure for table sar.control_sar
 CREATE TABLE IF NOT EXISTS `control_sar` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `master_sar_id` int(3) NOT NULL,
@@ -54,13 +56,13 @@ CREATE TABLE IF NOT EXISTS `control_sar` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table research1.control_sar: ~0 rows (approximately)
+-- Dumping data for table sar.control_sar: ~0 rows (approximately)
 DELETE FROM `control_sar`;
 /*!40000 ALTER TABLE `control_sar` DISABLE KEYS */;
 /*!40000 ALTER TABLE `control_sar` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.document
+-- Dumping structure for table sar.document
 CREATE TABLE IF NOT EXISTS `document` (
   `doc_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0',
@@ -72,39 +74,18 @@ CREATE TABLE IF NOT EXISTS `document` (
   `type` varchar(5) COLLATE utf8_bin DEFAULT NULL,
   `full_path` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   KEY `id` (`doc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table research1.document: ~23 rows (approximately)
+-- Dumping data for table sar.document: ~2 rows (approximately)
 DELETE FROM `document`;
 /*!40000 ALTER TABLE `document` DISABLE KEYS */;
 INSERT INTO `document` (`doc_id`, `user_id`, `master_id`, `create`, `docname`, `link_path`, `size`, `type`, `full_path`) VALUES
-	(91, 69, 2, '2015-09-14 15:34:48', 'adfasdf', 'http://localhost/SAR/upload/cb7a383ba2e06035a8986f62480eff27.docx', '70.41', 'FILE', 'C:/xampp/htdocs/SAR/upload/cb7a383ba2e06035a8986f62480eff27.docx'),
-	(92, 69, 2, '2015-09-21 11:17:29', 'จดหมายเวียน', 'http://localhost/SAR/upload/801a8ee3ded73a6a326fc183f97d6c8c.docx', '11.52', 'FILE', 'C:/xampp/htdocs/SAR/upload/801a8ee3ded73a6a326fc183f97d6c8c.docx'),
-	(93, 69, 2, '2015-09-22 11:38:02', 'หลักฐาน', 'http://localhost/SAR/upload/b13d9975aa22faf61a78c1df95ad11fd.pdf', '637.37', 'FILE', 'C:/xampp/htdocs/SAR/upload/b13d9975aa22faf61a78c1df95ad11fd.pdf'),
-	(94, 69, 2, '2015-09-22 11:38:25', 'หลักฐาน 2', 'http://localhost/SAR/upload/5f24239edda39a4afe3df8e3a2d64fe4.pdf', '637.37', 'FILE', 'C:/xampp/htdocs/SAR/upload/5f24239edda39a4afe3df8e3a2d64fe4.pdf'),
-	(95, 69, 2, '2015-09-22 14:34:01', 'ฟกหดฟกด', 'http://localhost/SAR/upload/72da8968012731601522100708cce98f.pdf', '637.37', 'FILE', 'C:/xampp/htdocs/SAR/upload/72da8968012731601522100708cce98f.pdf'),
-	(97, 69, 2, '2015-09-22 14:52:37', 'ฟเเฟเฟกหเกหเฟหเฟหกเฟหกดฟหกด', 'http://localhost/SAR/upload/6eeb901de0f8c0214d28402180562d57.docx', '11.52', 'FILE', 'C:/xampp/htdocs/SAR/upload/6eeb901de0f8c0214d28402180562d57.docx'),
-	(98, 69, 2, '2015-09-25 13:27:17', 'ทดสอบ Google', 'http://www.googlecom', '0', 'URL', 'http://www.googlecom'),
-	(99, 69, 2, '2015-09-25 15:37:28', 'ฟหกเฟหกเฟหกเ', 'http://localhost/SAR/upload/fff81e69447a347def28b343055171fe.docx', '70.41', 'FILE', 'C:/xampp/htdocs/SAR/upload/fff81e69447a347def28b343055171fe.docx'),
-	(100, 69, 2, '2015-09-25 22:08:13', 'gaaykhjkglghjk', 'http://localhost/SAR/upload/6c8a8af04eb476667a0fac728f1057c0.docx', '70.41', 'FILE', 'C:/xampp/htdocs/SAR/upload/6c8a8af04eb476667a0fac728f1057c0.docx'),
-	(101, 69, 2, '2015-09-25 22:08:22', 'fghsdfgsdfgsdhfdfg', 'http://localhost/SAR/upload/8bd2054830d9041e5ce60113154308ef.docx', '70.41', 'FILE', 'C:/xampp/htdocs/SAR/upload/8bd2054830d9041e5ce60113154308ef.docx'),
-	(102, 69, 2, '2015-09-25 22:08:38', 'ahsdgashasdgahasdg', 'http://localhost/SAR/upload/05df522b17fe3f064b6d7fb0ab0313af.doc', '103.5', 'FILE', 'C:/xampp/htdocs/SAR/upload/05df522b17fe3f064b6d7fb0ab0313af.doc'),
-	(103, 69, 2, '2015-09-25 22:13:29', 'sadgsdfasgasdf', 'http://localhost/SAR/upload/09156994417c9da21273d980baafc529.doc', '35', 'FILE', 'C:/xampp/htdocs/SAR/upload/09156994417c9da21273d980baafc529.doc'),
-	(104, 69, 2, '2015-09-25 22:15:31', 'dfsdfsa', 'http://www.google.com', '0', 'URL', 'http://www.google.com'),
-	(105, 4, 3, '2015-09-26 10:30:48', 'aaaa', 'http://localhost/SAR/upload/44e74b78e21741278c0abc18282a75b5.docx', '70.41', 'FILE', 'C:/xampp/htdocs/SAR/upload/44e74b78e21741278c0abc18282a75b5.docx'),
-	(106, 4, 3, '2015-09-26 10:35:26', 'sdasdfasdf', 'http://localhost/SAR/upload/ce089bb0a722ffbee4539093449c2c1c.docx', '70.41', 'FILE', 'C:/xampp/htdocs/SAR/upload/ce089bb0a722ffbee4539093449c2c1c.docx'),
-	(107, 4, 2, '2015-09-26 10:35:38', 'asdgasgasdgasg', 'http://localhost/SAR/upload/f301c6611099b9a4d256947327028838.doc', '35', 'FILE', 'C:/xampp/htdocs/SAR/upload/f301c6611099b9a4d256947327028838.doc'),
-	(108, 4, 3, '2015-09-26 10:36:18', 'asdgasdg', 'http://localhost/SAR/upload/0a6c38d7efb5c17f9a79c504eed97e6c.doc', '35', 'FILE', 'C:/xampp/htdocs/SAR/upload/0a6c38d7efb5c17f9a79c504eed97e6c.doc'),
-	(109, 13, 3, '2015-09-26 10:37:36', 'Comsci1', 'http://localhost/SAR/upload/2eb76b117da2f2d8a3496e1c215666bc.docx', '70.41', 'FILE', 'C:/xampp/htdocs/SAR/upload/2eb76b117da2f2d8a3496e1c215666bc.docx'),
-	(110, 13, 3, '2015-09-26 10:37:58', 'Comsci2', 'http://localhost/SAR/upload/e7af6d53016fb0c7b0be45eefcd607ba.docx', '70.41', 'FILE', 'C:/xampp/htdocs/SAR/upload/e7af6d53016fb0c7b0be45eefcd607ba.docx'),
-	(113, 12, 3, '2015-09-28 16:53:59', 'asdgasdgasdg', 'http://localhost/SAR/upload/5417c28af18653e32b21b9d2fe645bee.jpg', '44.46', 'FILE', 'C:/xampp/htdocs/SAR/upload/5417c28af18653e32b21b9d2fe645bee.jpg'),
-	(114, 12, 3, '2015-09-28 16:55:23', 'ฟหกเฟหกเฟหกเ', 'http://www.google.com', '0', 'URL', 'http://www.google.com'),
-	(115, 12, 2, '2015-09-28 16:56:37', 'asdgasdgasdgasdg', 'http://localhost/SAR/upload/ed1a14ad39d3d5e51bb4b0feeb7cfcc5.pdf', '575.84', 'FILE', 'C:/xampp/htdocs/SAR/upload/ed1a14ad39d3d5e51bb4b0feeb7cfcc5.pdf'),
-	(116, 12, 3, '2016-05-02 10:51:42', 'AAAAAA', 'http://localhost/SAR/upload/eef43d4319e92e80bd7f761ebeb28316.pdf', '691.64', 'FILE', 'C:/xampp/htdocs/SAR/upload/eef43d4319e92e80bd7f761ebeb28316.pdf');
+	(117, 12, 3, '2016-05-02 17:00:25', 'Doc1', 'http://localhost/SAR/upload/479a65187bf52d38a8e692f0708f10fa.pdf', '691.64', 'FILE', 'C:/xampp/htdocs/SAR/upload/479a65187bf52d38a8e692f0708f10fa.pdf'),
+	(118, 12, 3, '2016-05-02 17:03:05', 'เอกสาร2', 'http://localhost/SAR/upload/e084935107a7783332c47aae4af2d502.pdf', '691.64', 'FILE', 'C:/xampp/htdocs/SAR/upload/e084935107a7783332c47aae4af2d502.pdf');
 /*!40000 ALTER TABLE `document` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.doc_syn_indicator
+-- Dumping structure for table sar.doc_syn_indicator
 CREATE TABLE IF NOT EXISTS `doc_syn_indicator` (
   `doc_syn_id` int(11) NOT NULL AUTO_INCREMENT,
   `doc_id` int(11) DEFAULT '0',
@@ -115,34 +96,18 @@ CREATE TABLE IF NOT EXISTS `doc_syn_indicator` (
   `master_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`doc_syn_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table research1.doc_syn_indicator: ~18 rows (approximately)
+-- Dumping data for table sar.doc_syn_indicator: ~2 rows (approximately)
 DELETE FROM `doc_syn_indicator`;
 /*!40000 ALTER TABLE `doc_syn_indicator` DISABLE KEYS */;
 INSERT INTO `doc_syn_indicator` (`doc_syn_id`, `doc_id`, `docname`, `link_path`, `order`, `subindicator_id`, `master_id`, `user_id`) VALUES
-	(24, 94, 'asdgasdfagdasdgasdf', 'http://localhost/SAR/upload/5f24239edda39a4afe3df8e3a2d64fe4.pdf', 0, 1, 2, 69),
-	(25, 98, 'dgsasdgasdg', 'http://www.googlecom', 0, 1, 2, 69),
-	(26, 94, 'asdgasdgasdg', 'http://localhost/SAR/upload/5f24239edda39a4afe3df8e3a2d64fe4.pdf', 0, 1, 2, 69),
-	(41, 107, 'asdgasdgasdf', 'http://localhost/SAR/upload/f301c6611099b9a4d256947327028838.doc', 0, 5, 2, 12),
-	(43, 115, 'ฟหกเฟหกเฟหกเ', 'http://localhost/SAR/upload/ed1a14ad39d3d5e51bb4b0feeb7cfcc5.pdf', 0, 5, 2, 12),
-	(44, 104, 'adsgasdgasdg', 'http://www.google.com', 0, 20, 2, 69),
-	(45, 104, 'agagasdgasdasdf', 'http://www.google.com', 0, 20, 2, 69),
-	(46, 104, 'sdasdfasdfasd', 'http://www.google.com', 0, 20, 2, 69),
-	(47, 97, 'adgsasdgdsg', 'http://localhost/SAR/upload/6eeb901de0f8c0214d28402180562d57.docx', 0, 2, 2, 69),
-	(48, 107, 'adsgasdgasdfadgasdg', 'http://localhost/SAR/upload/f301c6611099b9a4d256947327028838.doc', 0, 2, 2, 12),
-	(49, 115, 'asdgasdfadgasdfasdf', 'http://localhost/SAR/upload/ed1a14ad39d3d5e51bb4b0feeb7cfcc5.pdf', 0, 2, 2, 12),
-	(50, 107, 'asfasdf', 'http://localhost/SAR/upload/f301c6611099b9a4d256947327028838.doc', 0, 2, 2, 12),
-	(51, 115, 'asdgasdg', 'http://localhost/SAR/upload/ed1a14ad39d3d5e51bb4b0feeb7cfcc5.pdf', 0, 2, 2, 12),
-	(52, 115, 'ฟหกเฟหกเ', 'http://localhost/SAR/upload/ed1a14ad39d3d5e51bb4b0feeb7cfcc5.pdf', 0, 2, 2, 12),
-	(53, 107, 'เอกสาร 1', 'http://localhost/SAR/upload/f301c6611099b9a4d256947327028838.doc', 0, 18, 2, 12),
-	(54, 107, 'adgasdgasdgasdf', 'http://localhost/SAR/upload/f301c6611099b9a4d256947327028838.doc', 0, 3, 3, 1),
-	(55, 107, 'aaa', 'http://localhost/SAR/upload/f301c6611099b9a4d256947327028838.doc', 0, 75, 0, 12),
-	(56, 107, 'asdadsf', 'http://localhost/SAR/upload/f301c6611099b9a4d256947327028838.doc', 0, 75, 3, 12);
+	(59, 117, 'Doc1', 'http://localhost/SAR/upload/479a65187bf52d38a8e692f0708f10fa.pdf', 0, 75, 3, 12),
+	(60, 118, 'เอกสาร2', 'http://localhost/SAR/upload/e084935107a7783332c47aae4af2d502.pdf', 0, 75, 3, 12);
 /*!40000 ALTER TABLE `doc_syn_indicator` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.indicator
+-- Dumping structure for table sar.indicator
 CREATE TABLE IF NOT EXISTS `indicator` (
   `indicator_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `indicator_num` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -159,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `indicator` (
   PRIMARY KEY (`indicator_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table research1.indicator: 47 rows
+-- Dumping data for table sar.indicator: 47 rows
 DELETE FROM `indicator`;
 /*!40000 ALTER TABLE `indicator` DISABLE KEYS */;
 INSERT INTO `indicator` (`indicator_id`, `indicator_num`, `indicator_title`, `indicator_type`, `year`, `data_use`, `citeria`, `composition_id`, `detail`, `lv3`, `lv2`, `lv1`) VALUES
@@ -213,13 +178,13 @@ INSERT INTO `indicator` (`indicator_id`, `indicator_num`, `indicator_title`, `in
 /*!40000 ALTER TABLE `indicator` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.map_user_to_ref
+-- Dumping structure for table sar.map_user_to_ref
 CREATE TABLE IF NOT EXISTS `map_user_to_ref` (
   `user_id` int(11) DEFAULT NULL,
   `ref_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table research1.map_user_to_ref: ~85 rows (approximately)
+-- Dumping data for table sar.map_user_to_ref: ~85 rows (approximately)
 DELETE FROM `map_user_to_ref`;
 /*!40000 ALTER TABLE `map_user_to_ref` DISABLE KEYS */;
 INSERT INTO `map_user_to_ref` (`user_id`, `ref_id`) VALUES
@@ -311,7 +276,7 @@ INSERT INTO `map_user_to_ref` (`user_id`, `ref_id`) VALUES
 /*!40000 ALTER TABLE `map_user_to_ref` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.master_sar
+-- Dumping structure for table sar.master_sar
 CREATE TABLE IF NOT EXISTS `master_sar` (
   `id` int(3) NOT NULL AUTO_INCREMENT,
   `desc` varchar(255) COLLATE utf8_bin NOT NULL,
@@ -323,7 +288,7 @@ CREATE TABLE IF NOT EXISTS `master_sar` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table research1.master_sar: ~1 rows (approximately)
+-- Dumping data for table sar.master_sar: ~1 rows (approximately)
 DELETE FROM `master_sar`;
 /*!40000 ALTER TABLE `master_sar` DISABLE KEYS */;
 INSERT INTO `master_sar` (`id`, `desc`, `c_date`, `institution`, `faculty`, `department`, `ref`) VALUES
@@ -331,7 +296,7 @@ INSERT INTO `master_sar` (`id`, `desc`, `c_date`, `institution`, `faculty`, `dep
 /*!40000 ALTER TABLE `master_sar` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.ref
+-- Dumping structure for table sar.ref
 CREATE TABLE IF NOT EXISTS `ref` (
   `ref_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
@@ -342,7 +307,7 @@ CREATE TABLE IF NOT EXISTS `ref` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
--- Dumping data for table research1.ref: ~6 rows (approximately)
+-- Dumping data for table sar.ref: ~6 rows (approximately)
 DELETE FROM `ref`;
 /*!40000 ALTER TABLE `ref` DISABLE KEYS */;
 INSERT INTO `ref` (`ref_id`, `username`, `password`, `status`, `detail`) VALUES
@@ -355,7 +320,7 @@ INSERT INTO `ref` (`ref_id`, `username`, `password`, `status`, `detail`) VALUES
 /*!40000 ALTER TABLE `ref` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.resultuser
+-- Dumping structure for table sar.resultuser
 CREATE TABLE IF NOT EXISTS `resultuser` (
   `result_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -369,7 +334,7 @@ CREATE TABLE IF NOT EXISTS `resultuser` (
   UNIQUE KEY `result_id` (`result_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
--- Dumping data for table research1.resultuser: 4 rows
+-- Dumping data for table sar.resultuser: 4 rows
 DELETE FROM `resultuser`;
 /*!40000 ALTER TABLE `resultuser` DISABLE KEYS */;
 INSERT INTO `resultuser` (`result_id`, `user_id`, `indicator_id`, `ref_id`, `score_user`, `comment_user`, `score_ref`, `comment_ref`) VALUES
@@ -380,7 +345,7 @@ INSERT INTO `resultuser` (`result_id`, `user_id`, `indicator_id`, `ref_id`, `sco
 /*!40000 ALTER TABLE `resultuser` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.subindicator
+-- Dumping structure for table sar.subindicator
 CREATE TABLE IF NOT EXISTS `subindicator` (
   `subindicator_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `indicator_id` int(11) DEFAULT NULL,
@@ -388,7 +353,7 @@ CREATE TABLE IF NOT EXISTS `subindicator` (
   PRIMARY KEY (`subindicator_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=142 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table research1.subindicator: 141 rows
+-- Dumping data for table sar.subindicator: 141 rows
 DELETE FROM `subindicator`;
 /*!40000 ALTER TABLE `subindicator` DISABLE KEYS */;
 INSERT INTO `subindicator` (`subindicator_id`, `indicator_id`, `detail`) VALUES
@@ -536,7 +501,7 @@ INSERT INTO `subindicator` (`subindicator_id`, `indicator_id`, `detail`) VALUES
 /*!40000 ALTER TABLE `subindicator` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.subindicator_doc
+-- Dumping structure for table sar.subindicator_doc
 CREATE TABLE IF NOT EXISTS `subindicator_doc` (
   `subindicator_doc_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
@@ -546,48 +511,15 @@ CREATE TABLE IF NOT EXISTS `subindicator_doc` (
   `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`,`subindicator_id`),
   UNIQUE KEY `subindicator_doc_id` (`subindicator_doc_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
--- Dumping data for table research1.subindicator_doc: ~32 rows (approximately)
+-- Dumping data for table sar.subindicator_doc: ~0 rows (approximately)
 DELETE FROM `subindicator_doc`;
 /*!40000 ALTER TABLE `subindicator_doc` DISABLE KEYS */;
-INSERT INTO `subindicator_doc` (`subindicator_doc_id`, `user_id`, `indicator_id`, `subindicator_id`, `document`, `create_date`) VALUES
-	(1, 1, 1, 2, 'ฤฤฤฤ', '2015-07-16 11:50:25'),
-	(31, 1, 5, 3, 'wgasdfasdgasdg', '2015-10-19 21:17:58'),
-	(2, 1, 9, 5, 'gGaASasdASD', '2015-07-17 11:37:16'),
-	(3, 1, 12, 6, 'asdglasdglaksdjghalksdfasdf\nasdg;asldklgjasd\ngasjdg;asldkgj;asdg\nasdgas;dlgkjasd;laksdjf', '2015-06-30 14:27:04'),
-	(4, 1, 14, 7, 'a', '2015-06-30 15:52:55'),
-	(5, 1, 14, 8, 'aa', '2015-06-30 15:53:02'),
-	(6, 1, 14, 9, 'aa', '2015-06-30 15:50:19'),
-	(7, 1, 14, 12, 'gFFDSGASDGASDG', '2015-06-30 16:15:11'),
-	(13, 1, 15, 13, 'asdgasdgasdgasdg', '2015-07-20 10:38:08'),
-	(14, 1, 15, 14, 'asdfasdf', '2015-07-20 10:38:19'),
-	(15, 1, 15, 15, 'asdgasdg', '2015-07-20 10:45:17'),
-	(16, 1, 15, 16, 'asdgasdgasdg', '2015-07-20 10:45:22'),
-	(17, 1, 15, 17, 'adsgsadgasdg', '2015-07-20 10:45:27'),
-	(18, 1, 15, 18, 'adsgasdgasdgasdg', '2015-07-22 11:47:43'),
-	(8, 1, 2, 19, 'วสาฟ่กดวฟาก่ดฟวเกาฟ่หกสเฟหา่สดาฟห่กสดฟ่หากดฟ\nหกเฟวหสาก่เฟวหกสา่ดฟหก\nเ่ฟหกวดสา่ฟหกวสฟา่หกด', '2015-07-16 22:18:41'),
-	(9, 1, 2, 20, 'BBBBBBBB', '2015-07-16 16:52:52'),
-	(10, 1, 2, 21, 'CCCCCCCC', '2015-07-16 16:52:56'),
-	(11, 1, 2, 23, 'DDDDDDDDDDDDDDDD', '2015-07-16 16:53:00'),
-	(12, 1, 2, 24, 'EEEEEEEEEEEEEEEEEEE', '2015-07-16 16:53:03'),
-	(26, 12, 1, 2, 'asdgasdgasdgasdgasdgasdgasdgasdgasdgasdgasdgasdg', '2015-10-02 13:47:22'),
-	(24, 12, 9, 5, 'asdgasdgasdasdasdfฟกเฟหกเฟหกเ', '2015-10-02 13:48:27'),
-	(27, 12, 15, 13, 'ทดสอบ', '2015-10-10 12:38:19'),
-	(28, 12, 15, 14, 'ทดสอบ', '2015-10-10 12:38:22'),
-	(29, 12, 15, 15, 'ทดสอบ', '2015-10-10 12:38:25'),
-	(30, 12, 15, 18, 'ทดสอบ', '2015-10-10 12:38:30'),
-	(32, 12, 34, 75, '10 คน', '2015-10-22 11:27:52'),
-	(22, 69, 4, 1, 'asdgasdgasdgasdg', '2015-08-30 15:17:47'),
-	(20, 69, 1, 2, 'adsgasdasdgagหกเฟหกเฟหกเฟหก\nฟหกเฟหกเฟหกเฟเฟหกดฟหกดก', '2015-09-25 15:50:17'),
-	(21, 69, 5, 3, 'zdafAasfASF', '2015-08-30 15:10:36'),
-	(19, 69, 9, 5, 'ทดสอบ', '2015-07-31 22:42:23'),
-	(23, 69, 2, 19, 'agsdgasdfasdfasdfadsgasdgasdg', '2015-09-29 10:58:59'),
-	(25, 69, 2, 20, 'asdgasdgasdfagdasdgad', '2015-09-29 10:59:09');
 /*!40000 ALTER TABLE `subindicator_doc` ENABLE KEYS */;
 
 
--- Dumping structure for table research1.user
+-- Dumping structure for table sar.user
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
@@ -600,7 +532,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8;
 
--- Dumping data for table research1.user: ~27 rows (approximately)
+-- Dumping data for table sar.user: ~27 rows (approximately)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `username`, `password`, `detail`, `level`, `status`, `user_ref`) VALUES
@@ -634,7 +566,7 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `detail`, `level`, `statu
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 
--- Dumping structure for view research1.user_ref
+-- Dumping structure for view sar.user_ref
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `user_ref` (
 	`user_id` INT(11) NOT NULL,
@@ -648,7 +580,7 @@ CREATE TABLE `user_ref` (
 ) ENGINE=MyISAM;
 
 
--- Dumping structure for view research1.user_ref
+-- Dumping structure for view sar.user_ref
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `user_ref`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `user_ref` AS select users.*, parent.detail as parrent_detail
